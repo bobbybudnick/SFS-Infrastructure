@@ -5,7 +5,7 @@ Tenets of Resilient Ethernet Micro Networks
 -----
 
 **Laying the Fabric**  
-This is the basic groundwork for the network.  it was clear early on that
+This is the basic groundwork for the network.  It was clear early on that
 mutiple Internet gateways were required for high availability. Personal
 experience has also shown that during digital and real world disasters it is
 advantageous to have more than one Internet connection.
