@@ -88,7 +88,7 @@ server relevant information.  Allows for file upload and upload status
 monitoring.  This also uses a small amount of external calls and implements a
 basic security scheme.  Like everything else presented here this is a no
 javascript solution.  
-Index.html - html component that displays data  
+Index.html.UPLOAD - example html component that displays data  
 UPLOADER.py - python component that handles upload  
 HELPER_UPLOADER - bash component that does status updates  
 6. Server Redundancy  
