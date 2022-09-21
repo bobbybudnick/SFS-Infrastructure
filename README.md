@@ -42,7 +42,7 @@ On a non dedicated management network overlaid on main network vlans could be us
 Interference avoidance and ddos avoidance is an advantage with dedicated.  
 Management computers having redundant switch connections is an advantage with dedicated.
 
-4. prevent routing through the cellular network  
+4. Prevent routing through the cellular network  
 This is for outbound.  
 It should not route through cellular by default but instead use cable default gateway.  
 Fundamentally the problem is one of needing multiple gateways.  
