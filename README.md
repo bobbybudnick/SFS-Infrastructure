@@ -61,6 +61,7 @@ rc.local.VIRTUALIZATIONSERVER - auto start multi wan
 rc.local.BACKUPINTERNETSERVER - auto start multi wan and redundancy and status  
 rc.local.INTERNETSERVER - auto start multi wan  
 rc.local.RAS - auto start simple multi wan and container  
+SMS.py - sends administrative alerts through VOIP.ms to an SMS number  
 3. Streaming  
 The result of an effort to obtain a modernized website with multimedia features.
 Data and power usage from a modest streaming system does not have to be excessive.
