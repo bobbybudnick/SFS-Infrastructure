@@ -43,23 +43,23 @@ several flights of stairs during tornado conditions with emergency lighting only
 You do not want to be wondering if your last 2 computers will keep running when
 most of your power sources have failed and there is a twister outside.  
 Switch layout document showing ports and roles  
-Map document showing hosts ip and hostname  
-WAN info document such as static ip and netmask  
+Map document showing host IP and hostname  
+WAN info document such as static IP and netmask  
 Credentials document with service login details
 
 **Forbidden Tomes**  
 There are certain documents that for reasons of security and practicality will
 be unique for every network.  Some listed here will be sanitized examples that
 absolutely must be edited with custom credentials.  Some examples displayed here
-will be unique to the network but non-confidential.
-1.recorder
-2.server redundancy 3
-3.sms.py
-4.streamconfig
-5.streamlauncher
-6.vnc server
-7.worker 1
-8.worker 2
+will be unique to the network but non-confidential.  
+1.recorder  
+2.server redundancy 3  
+3.sms.py  
+4.streamconfig  
+5.streamlauncher  
+6.vnc server  
+7.worker 1  
+8.worker 2  
 Remember to edit the passcodes in these files.
 
 **Fruits of the Quiltmaker**  
