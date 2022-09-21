@@ -54,7 +54,7 @@ Apparently modern browsers work with this pretty well.
 There is misinformation but it should be fine compared to load balancing solutions.  
 Load balancing solutions are a single point of failure themselves if improperly setup.
 
-6. Seamless failover capability in theory  
+6. Failover capability in theory  
 Internal - duel weighted gateways and always on cellular.  
 Internal example - cable internet fails and computer selects alternate gateway.  
 External - round robin/failover dns + cellular bandwidth and response solution.  
