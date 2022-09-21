@@ -159,11 +159,12 @@ absolutely must be edited with custom credentials.  Some examples displayed here
 will be unique to the network but non-confidential.  
 1.Recorder  
 2.Server redundancy 3  
-3.SMS  
+3.SMS python script  
 4.Streamconfig  
 5.Streamlauncher  
 6.VNC server  
 7.Worker 1  
+8.Uploader python script  
 Remember to edit the passcodes in these files.
 
 **Fruits of the Quiltmaker**  
