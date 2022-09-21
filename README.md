@@ -100,9 +100,9 @@ scripting.  While this does work a solution like this would not scale well to a
 large organization.  This scripting involves a complex chain that all needs to
 be implemented correctly to work.  
 SFS server redundancy 1 - Proxmox hook script that starts pre and post script  
-SFS server redundancy 2 - run on virtualization server pre vm boot  
+SFS server redundancy 2 - run on virtualization server pre VM boot  
 SFS server redundancy 3 - runs on backup internet server  
-Persistent - runs on virtualization server post vm boot  
+Persistent - runs on virtualization server post VM boot  
 Worker 1 - launches netcat for redundancy 2 and persistent to backup server  
 7. Remote Access Server  
 While not strictly required versus forwarding ports this seems like an
@@ -131,7 +131,7 @@ support a server like this one with relevant archival servers.  SAMBA allows
 for easy networking and file exchange with clients of different operating
 systems.  
 SMB configuration - samba configuration for easy access and no login dialogs  
-config.txt.STAGINGSERVER - raspberry pi specific power saving boot options  
+config.txt.STAGINGSERVER - Raspberry pi specific power saving boot options  
 10. Power Control  
 It is advantageous to have fine tuned centralized energy management for a
 number of reasons.  The network can be moved to a moderate energy state when
