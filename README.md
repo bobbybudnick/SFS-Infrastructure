@@ -10,7 +10,7 @@ Tenets of Resilient Ethernet Micro Networks
 
 **Troubles in the Tapestry**
 
-**The Maker's Knowledge"
+**The Maker's Knowledge**
 
 **Instructions for Incantations**
 
