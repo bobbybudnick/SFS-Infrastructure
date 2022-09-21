@@ -267,11 +267,535 @@ focus on getting power usage and battery life under control.  A small
 reorganization was needed with the addition of extra gateways resulting in the
 network2point0 initiative.
 
+1. Cellular configuration  
+Both cellular gateways should be on the 192.168.1.0 network and have separate addresses.  
+192.168.5.1 will remain as the alternate cable gateway.  
+Small amount of redundancy lost because if main switch down all cellular down to NOC.  
+Redundancy was regained with emergency routing capability of monitor 1 Bluetooth PAN.  
+However cellular will still be up in both computer cores because of their switches.  
+Redundancy gained by datacenters having their own Internet connections if needed.
+
+2. VIP gateways - all other devices still only use cable gateway 1  
+Three Linux multi WAN scripts.  
+One FreeBSD multi WAN script.  
+Cable gateway 1 is favored first for VIP.  
+Cable gateway 2 is favored second for VIP.  
+Cellular gateway with static IP is favored third or fourth for VIP.  
+Cellular gateway with dynamic IP is favored third or fourth for VIP.  
+Servers will favor the static cellular first while consumption devices favor CGNAT.
+
+3. VIP devices - these are the only devices with high battery life and dual ethernet  
+Workstation has 2 adapters with one on each network.  
+Media has 2 adapters with one on each network.  
+Virtualization server has 2 adapters with one on each network.  
+Backup internet server has 2 adapters with one on each network.
+
+4. The concept of sole computers among each group with high battery life
+Only the backup internet server needs high battery life.  
+This would match the idea that the main internet server has high battery life.  
+Each cellular router also needs high battery life.  
+Cable router does not need high battery life because it usually fails when power is out.
+
+5. Central power administration  
+The idea being that most devices could be shutdown when away from the network.  
+Would work similar to apcupsd but have more features.  
+Could listen with netcat.  
+Wake on LAN could be used for most traditional computers.  
+Scripting for shutdowns could be used on all computers.  
+Ethernet controlled power switches could be used for basic single board computers.  
+The network power switches seem to add more complexity than they are worth.  
+Kdialog windows with buttons with a separate window showing status changes.
+
+6. Concept of physical disaster isolation  
+This is what the network 2point0 initiative is partially based on.  
+Forward independent SSH port to a device in CC Independence.  
+Independence will be an "independent CC" with a dedicated inbound Internet connection.  
+With Liberty in closer proximity to the NOC it uses the NOC for inbound Internet.  
+Devices at CC liberty could send an email or text when they are outbound only.
+
+7. Power reduction initiative system 1  
+Was 5 amps and dropped to 4 amps by unplugging MID charger for 25 hours.  
+Turning off custom laptop monitor with button on back would save further power.  
+Could potentially drop to 1 amp for 100 hours.
+
+8. Power reduction initiative system 2  
+Turn receiver off to go from 58w to 18w and 5 amps to 2 amps for 50 hours.  
+Setting laptop monitor to power off would save further power.  
+Could potentially drop to 1 amp for 100 hours.
+
+9. Power reduction initiative system 3  
+Can not change due to server draw but currently 17 hours.  
+Replacing server with newer more efficient system would be save further power.  
+Could potentially drop to 1 amp for 100 hours.
+
+10. Power reduction initiative system 4  
+.55a at 13.8v nothing connected except switch and stepdown with nothing connected.  
+.65a at 13.8v switch and stepdown with backup internet server.  
+.95a at 13.8v switch and stepdowns with backup internet server and router for 100 hours.
+
+11. Switch power usage list  
+name - voltage - watts used  
+Netgear 8 port unmanaged 4 devices connected - 1.8w  
+Netgear 8 port smart managed pro gs108t 7 devices connected - 4w  
+Netgear 5 port smart managed plus gs105e 5 devices connected - 2w  
+Netgear 16 port smart managed plus - fairly low  
+Dell powerconnect 2708 7 devices connected - 9w
+
+12. Main UPS power survey list  
+Main switch  
+Management switch  
+Workstation  
+HD Homerun  
+Antenna amplifier
+
+13. Media UPS power survey list  
+Media laptop  
+Receiver  
+Fire stick
+
+14. Server UPS survey list  
+Virtualization server processing unit only  
+Subsidiary switch
+
+15. CC Liberty device survey list  
+2 GUI  
+2 console  
+2 headless
+
+16. CC Independence device survey list  
+2 GUI  
+2 console  
+2 headless
+
+17. Master networking list  
+Dell switch - 192.168.2.1 default IP - admin user name - no password  
+Netgear switch - 192.168.0.239 default IP - no user name - password password  
+ZTE mf861 - 192.168.1.1 default IP - no user name - no password  
+VSVABEFV device - 192.168.1.1 default IP - admin user name - no password
+
+18. Network2point0 practical steps list  
+NOC Freedom - Odroid c0 makeshift tablet becomes monitor 1  
+CC Liberty - install switch  
+CC Liberty - move cold spare cellular router and android phone from NOC freedom  
+CC Liberty - Pi 4 of old backup internet server becomes headless staging server  
+CC Independence - install switch  
+CC Independence - Pi 3 device with 5" screen becomes backup internet server  
+CC Independence - move kitchen laptop to monitor position  
+CC Independence - Lattepanda of old monitor 1 becomes backup storage server  
+II Alpha - setup Toshiba laptop companion  
+II Bravo - shutdown staging server on Lenovo companion laptop
+
+19. MID router unsuitability list  
+Complex design wasted as router  
+Fairly unstable USB  
+Small screen for GUI interactivity in the data center  
+Makes both data centers have 2 console 2 GUI 2 headless  
+May need as spare MID  
+May need for demonstration purposes  
+Battery difficult to charge from larger battery
+
+20. Redundancy vs responsivesness in multi WAN configurations  
+Multi WAN redundancy is only needed for VIP devices.  
+Multi WAN responsiveness is needed for servers on both static IP addresses.  
+Redundancy reqires an elaborate script to detect network failures and take action.  
+Responsiveness hopefully only requires the 2 default static gateways set up.  
+In testing the behavior with 2 gateways was poor and or unpredictable.  
+This is similar to testing from the initial multi WAN scripts.  
+So a compromise script was made to be not as complicated as the multi WAN scripts.  
+This script checks for the primary gateway having an internet connection.  
+From that information it decides whether to use cellular or cable.
+
+21. Cellular static IP routing  
+Bridging was a red herring and unnecessary and was causing duplicate packets.  
+Anything going to the cellular device will go to the DMZ address instead.  
+Any items that need to go from the DMZ address will need to be sent using NAT.  
+Need to have an IP for the ethernet interface which will be the gateway for other hosts.  
+Need to have the correct ip of the DMZ address set on the WAN interface.  
+Need to have the default gateway of 192.168.1.1 set out of the WAN interface.  
+Need to have ipv4 forwarding turned on.  
+Need to have masquerading set for WAN interface.  
+Need to have destination or outbound NAT aka DNAT for the forwarded IP addresses.
+
+22. Outside network troubleshooting  
+For the case when the administrator is away from the network.  
+Try all services at domain name and rely on round robin to work.  
+Try direct to cable IP SSL.  
+Try direct to cellular IP SSH.  
+Wait on administrative backdoor request to dynamic DNS address/admin email/admin SMS.
+
+23. Texting from the command line
+Use textbelt for free or paid SMS or use voip.ms SMS API.  
+Set IP permission to 0.0.0.0 in voip.ms API settings.  
+Set password in voip.ms API settings.  
+Turn on API in voip.ms API settings.  
+Install python pip on freebsd by installing py39-pip-22.1.2.  
+Install requests library on freebsd with pip install --user requests.  
+Use custom python script that interfaces with API.  
+Call program with python3.9.  
+Edit python script with did number that will be originating the text from voip.ms.  
+Edit python script with destination number.  
+Edit python script with SIP user name and API password at bottom.  
+Do not edit anything further.
+
+24. Multi WAN survey list  
+Workstation needs complex script  
+Media needs complex script  
+Internet server VM needs complex script  
+Reencoder VM does not need script  
+RAS has simple multi WAN  
+Cable router SSL does not need script  
+Static cellular router SSH does not need script  
+CCTV does not need script  
+Backup internet server needs complex script  
+Virtualization server needs complex script
+
+25. Administrative backdoor  
+Script could text/email when one CGNAT gateway left.  
+Script could make outbound connection to some server.  
+Script could make connections to a dynamic DNS address.  
+Dynamic address connections are still useful but limited due to cellular CGNAT.  
+Meaning a MID or phone could not make a meaningful connection for troubleshooting.
+
+26. Power systems variety  
+There are various systems set up now that need a battery backup.  
+These are not attached to any larger UPS and lack an internal battery.  
+DZS 5v stepdown was not enough for Lattepanda/7" screen/USB SSD.  
+1 - Medium lead acid/pololu stepupdown/auto or marine trickle charger  
+2 - 2 parallel 26650 lion/adafruit powerboost 1000c for power supply and charging  
+3 - Abenic 12v lion blue/dzs 5v stepdown/12v brick charger
+
+27. Good old screen  
+Screen runs like a new virtual terminal.  
+A good alternative to nohup and disown.  
+Exit with exit and detach with ctrl-a-d and resume with screen -r.
+
+28. Internet server forwarding situation  
+Backup replaces main dynamically.  
+The problem here is that you can only forward one port to one IP.  
+Subdomains may be a solution.  
+Failing that the redundant switch is going to have to just to be for outbound.  
+So cellular and cable router will just forward to 192.168.1.8.  
+In case of main switch failure due to failure/power supply/hack the following occurs.  
+Main internet server will not SMS because it still has management gateway.  
+Backup internet server will not see main and take over via subsidiary switch.  
+Core switch ping indicates core switch or main switch could be down.
+
+29. Etherape view optimization  
+The view gets blown out or washed out when LAN transfers take place.
+Switch size mode to square root and link width to 1.0 and multiplier to the middle.
+
+30. Website relaunch aka transition to production aka going live list  
+Check passwords  
+Log into Cloudflare for telemetry  
+Start both virtual machines and verify server redundancy transition  
+Start streamconfig on monitor 2 or monitor 3  
+Open ports on cable router
+
+31. Round Robin results  
+Enter an a or aaaa record for each round robin IP address all on the same domain.  
+A ping will continue to one address until stopped.  
+Then a ping will continue to the other address until stopped.  
+As expected the browser caches DNS records itself so behavior is good.  
+In otherwords every other page does not fail to load.
+
+32. The path of a contingency packet  
+What should happen is as follows.  
+Cable connection goes down.  
+Multi WAN script on servers will eventually decide to switch gateway to static cellular.  
+A round robin DNS request will eventually arrive at the cellular router.  
+Because server gateway matches cellular router which sends request with DNAT a connection is made.
+
+33. Streamconfig and 2 way web communication list  
+HTML chat submission form  
+Auto refreshing iframe to show chat  
+Bash script to handle form submission instead of Python this time  
+Should show busy before timeout is reached to prevent spam  
+Clear text file when it gets too large  
+Clear text file after 1 week  
+Add connection number feature to streamconfig - use netstat  
+Add split results feature to streamconfig - optimize grep  
+Add chat view feature of last 5 lines to streamconfig - use curl  
+Run streamconfig on II bravo companion
+
+34. VLAN commentary   
+Only VIP hosts will have server VLAN guest access.  
+In otherwords they will be on the main VLAN and the server VLAN.  
+Independence switch will need to stay on server VLAN 1 because it is a dumb switch.  
+Liberty switch is using a shared simple VLAN scenario with main switch.  
+A very simple scenario would be separating web server from other host on switch.  
+This case is doing this on one switch but leading to another with similar segregation.  
+This does expose VIP hosts on the network to possible attacks from hacked servers.  
+However it allows VIP hosts access to 4 gateways and full administration access.  
+In true need of protection are innocent guest clients and internal storage servers.  
+It is a tradeoff between security and utility.  
+However as explained there is still some segmentation to the network.  
+Another hardened area of the network could be a VLAN on management switch.  
+Clients there could access the internet through gateway 2 but be heavily shielded.  
+Should be no loops because each VLAN will act like an independent switch.  
+Loops start when devices share VLANs with multiple connections to router.
+
 **Troubles in the Tapestry**  
 This is a catalog of glitches encountered during development.  Some with
 networking equipment and some with hosts.  By far the longest time was spent
 stuck on these problems so bypassing these will speed up the production of any
 networking project.
+
+1. Display manager failures on Pi 2 Devuan  
+sddm does not start at all  
+lightdm starts with black screen  
+use /etc/inittab to automate login  
+use bashrc to run startx with a message and a delay
+ 
+2. Boot failure on Lattepanda FreeBSD  
+drop to boot loader  
+set hint.uart.0.disabled="1"  
+set hint.uart.1.disabled="1"  
+setup in /boot/device.hints
+
+3. Bluetooth adapter failures  
+hcitool or bluetoothctl or kde no devices found in scan  
+faulty device confirmed in another computer  
+device replaced
+   
+4. Pi 4 display output failure  
+no picture on large tv by default  
+use output 0 and turn safe mode on
+
+5. ZFS mount failure on Lattepanda FreeBSD  
+unique disk ids are not used so usb install is da0 and usb target is da1  
+when installer is removed then da1 becomes da0 but fstab references da1  
+recovery can be done without the installer  
+at failed boot shell - mount -u /  
+at failed boot shell - zfs mount -a  
+edit fstab with vi changing da1 to da0
+
+6. xorg start failure on Lattepanda Freebsd  
+/dev/dri/card0: No such file or directory errors  
+install drm-kmod and edit rc.conf to load i915kms
+
+7. KDE start failure on Lattepanda FreeBSD  
+only a black screen with mouse cursor appears  
+onestart dbus to create /var/lib/dbus/machine-id  
+now dbus can be stopped permanently and kde will start
+
+8. FreeBSD KDE favorites failure  
+delete kactivitymanager stuff in config and local  
+switch launchers with show alternatives to have changes take effect
+
+9. Logitech wireless keyboard failure  
+left click was being held down and left click did not work and many os features broken  
+remove keyboard and reinstall  
+unknown failure mode
+
+10. ZTE mf861 management failure  
+192.168.1.1 is unreachable with falkon  
+use firefox to manage device
+
+11. Static IP failures  
+needs apn modifications for 14476.mcs APN  
+sierra 340 mbim mode - no dhcp and no connection at first - then sim mep locked error  
+sierra 340 at mode - sim mep locked error  
+sierra 313 - flashing orange light and no dhcp and no response to at commands  
+zte mf861 - success - choose add at bottom of apn settings page for custom apn  
+VSVABEFV - does not connect by default or with 14476.mcs APN
+
+12. FreeBSD KDE failures  
+log out glitches mouse/kde hyper slow/screen flicker worse/usb drive access errors  
+disable baloo in /usr/local/etc/xdg/autostart
+
+13. Freebsd CPU speed unpredictability  
+cpu speed jumps around even when set to 480 mhz with sysctl dev.cpu.0.freq  
+disable powerd from starting in rc.conf
+
+14. FreeBSD network monitoring failure with 1366x768  
+knemo does not work anymore  
+ksysguard shows network but all widgets except netspeed widget do not work  
+a very roundabout way can be used to show a decent network monitor  
+add a spacer in the panel in the position the monitor will go  
+add a tab in kysguard with 1 column and 2 rows and add re0 download and upload  
+turn off status bar  
+the tab can be named network  
+force position to 975x700  
+force size to 125x75 - this will not fully shrink the window yet  
+force no titlebar and frame  
+force keep above other windows  
+force skip taskbar  
+cycle between no menubar and menubar with ctrl-m - this should fully shrink the window
+
+15. FreeBSD network monitoring 2 failure with 1024x600  
+same as before but with 125x65 size and 690 x 530 position  
+no cycling menu on and off tricks this time either  
+simply turn menu bar off along with status bar
+
+16. Linux network monitoring failure  
+knemo does not work anymore  
+simply install the old 0.1 version of network monitor  
+it looks different and more classic but it works
+
+17. Pi 4 slow media write failure  
+usb 3 flash drive - as low as 13 MB per second - had samba file copy errors also  
+high end micro SD - as low as 34 MB per second  
+apparently the peformance of a usb 3 ssd is much greater with the pi 4  
+this would present usb power problems with the current configuration  
+this is somewhat more costly  
+this would mean finding the exact model that would work properly  
+also not convinced it would be perfectly without errors  
+the micro sd speed now is good enough for a staging server
+
+18. Pi 2 CPU speed failure  
+by default the later firmware/kernel packaged with devuan run this at 1200 mhz  
+this is way too high and it used to be run around 700 to 900 mhz  
+use the "overclock" function in config.txt to set it around 800 mhz  
+900 mhz was too high to avoid the lightning bolt appearing with a decent power setup  
+also disable wifi and bluetooth in config.txt  
+devices were running stable before but the red light flash is annoying
+
+19. Pi 4 power workaround failures  
+pi 4 devices are setup in unorthodox situations with limited power  
+such as attached to a laptop computer  
+disable wifi and bluetooth in config.txt  
+set cpu to 1300 mhz from default of 1500 mhz on staging server  
+no cpu modifications on remote access server  
+devices were running stable before but the red light flash is annoying
+
+20. 192.168.1.1 nightmare failure  
+there is a conflict here between the zte mf861 device and the core switch  
+the zte mf861 always must have 192.168.1.1  
+so change core switch to easy to remember 192.168.1.100 and have dhcp start at 101  
+change all host default gateway to 192.168.1.100
+
+21. FreeBSD ethernet trickery failure  
+sometimes after a switch goes offline ethernet will get confused  
+physically disconnect interface  
+bring up interface and set ip manually  
+physically reconnect and set gateway if necessary
+
+22. MID HDMI failure  
+the mobile internet devices are being used to test from outside the network  
+fpv hdmi cables are giving consistent issues  
+these have given a lot of trouble in the past  
+monoprice short slim cables are almost as small anyway and much more reliable  
+the strain relief on the monoprice cables can be trimmed for more flexibility
+
+23. EFI setup for troublesome computers failure  
+For Lattepanda original and Windows tablets and things like that.  
+/////  
+ways to enter bios  
+use windows to reboot into firmware setup if all else fails  
+use devuan usb recovery grub console with c at boot and fwsetup at grub command line  
+use installed devuan grub console with c at boot and fwsetup at grub command line  
+use reboot to firmware setup grub menu option  
+use bios quiet boot off to have prompt for del key to enter firmware setup  
+/////   
+to enter freebsd  
+disk configuration is devuan and windows on emmc and freebsd zfs on micro sd and usb 3  
+probably best to use these steps  
+enter firmware setup using one of 5 methods  
+choose boot override option for usb 3 instead of micro sd  
+/////  
+boot fix 1  
+grub is bugged after messing around with operating systems  
+bootup in rescue mode from usb installer and mount system root  
+mount and or create efi partition as first partition  
+run grub-install now that the system is automatically chrooted  
+/////  
+boot fix 2  
+after a fresh install grub still fails with a command line  
+grub prefix is looking for a debian folder which does not exist  
+this prefix appears to be hardcoded into the grub efi files  
+copy the /boot/efi/devuan folder to debian to fix  
+/////  
+boot fix 3  
+after a fresh install windows still boots and the bios boot order is not respected  
+the bios has no respect for you so delete or move the Microsoft folder in efi partition  
+anything can be chosen in bios but it does not matter  
+essentially a multi boot through bios is not possible  
+the operating system loader must enable a multi boot situation
+
+24. High power 5v output paradox failure  
+no batteries output around 5v  
+almost no usb chargers output around 5.2v for sbc/7inch screen/ssd  
+almost no fixed voltage power supplies output around 5.2v for sbc/7 inch screen/ssd  
+a rare adjustable power supply is required along with battery and charger  
+or a rare 5.2v usb charger and commercial ups combo  
+a charging power supply is required that turns back on after a power outage  
+a charging power supply is required that outputs well above 12v at 12.6v or 13.8v  
+use pololu adjustable/medium lead acid/trickle charger  
+alternatively use canakit 5.2v charger and apc ups
+
+26. Netgear smart managed pro failure  
+types of vlans  
+802.1x/q layer 2  
+standard layer 3  
+port based  
+/////  
+definitely did not want to do 802.1x  
+/////  
+did not want to do layer 3 vlan because it requires changing up ip addresses  
+it may not even work  
+this is how dd wrt handles vlans  
+in dd wrt this works well if you understand and are willing to change ip addresses  
+it requires that each vlan have a corresponding subnet  
+/////  
+port based unavailable with gs108t  
+netgear says that smart managed pro provides same features as plus with more options  
+this is a conflict  
+port based works perfect with the smart managed plus switches
+
+27. KDE start failure on AMD Ryzen Pro 2400GE on FreeBSD  
+gpu-firmware-kmod-somethingsomethingsomething was installed  
+xf86-video-amdgpu-somethingsomethingsomething was installed  
+xorg.conf specified modesetting as driver with no busid field  
+rc.conf specified kld_list="/boot/modules/amdgpu.ko"  
+xinitrc specified exec ck-launch-session startplasma-x11
+
+28. Cloudflare proxy failures  
+was working before proxy  
+most things seem broken due to proxy  
+channels page html largely broken  
+all streams on page and through vlc broken  
+working again after disabling proxy  
+may have something to do with time to live
+
+29. Ping failure in virtualization and internet server multi WAN script  
+gateway ping is sometimes taking a large delay with these devices now  
+this happens after putting the virtualization server on a vlan  
+after rebooting core switch still seeing similar failures  
+after rebooting virtualization server still seeing similar failures  
+increase timeout on both scripts  
+now failures in media script  
+latency culprit is definitely second gs116ev2 since reconfiguring vlans
+
+30. Dell switch limitations and failures  
+monitor mode works fine  
+there is no qos mode  
+however vlan mode is quite useless  
+the switch has no internal layer 3 features  
+managed switches sold as layer 2 like netgear have an internal layer 3 "bridge"  
+on the netgear it is as simple as assigning a port to more than one vlan  
+on the dell that is impossible due to the strict layer 2 nature  
+dd wrt makes this possible because it is a true layer 3 switch
+
+31. Switch web monitoring failure  
+the dell switch automatically refreshes the monitoring page  
+the netgear switch does not  
+automatically refreshing normally returns to the main page  
+set firefox auto refresh page extension to auto click #monitoringSecNav element
+
+32. Cellular device alternate configuration failures  
+test going back to wvdial style connection  
+lsusb -t shows driver  
+disablembimglobal option set to 0 in usb_modeswitch.conf  
+this allows /dev/ttyUSBX to appear on mbim devices  
+will always be an unblocked connection if no carrier grade nat is enabled  
+zte mf861 - ssim - broken (works with cdc) - disablembim irrelevant with cdc_ether  
+VSVABEFV - msim - broken (terrible!!!) - disablembim irrelevant with cdc_ether  
+sierra 340 - lsim - ttyUSB1 works well but screen does not show - cdc_mbim  
+sierra 313 - lsim - ttyUSB3 is perfect - disablembim irrelevant with sierra  
+so this mode is only relevant to making sierra 340 work better  
+however sierra 313 does work dial up style with sierra driver  
+zte mf861 just works well in general and may expose all ports anyway  
+VSVABEFV is trash
 
 **The Seer's Knowledge**  
 This is networking information organized in a cheat sheet fashion.  For
