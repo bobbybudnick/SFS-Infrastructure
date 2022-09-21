@@ -41,11 +41,11 @@ when you smell smoke and the wind is howling outside is too late to be
 researching information.  You do not want to be hauling heavy batteries up
 several flights of stairs during tornado conditions with emergency lighting only.
 You do not want to be wondering if your last 2 computers will keep running when
-most of your power sources have failed and there is a twister outside.
-switch layout document showing ports and roles
-map document showing hosts ip and hostname
-wan info document such as static ip and netmask
-credentials document with service login details
+most of your power sources have failed and there is a twister outside.  
+Switch layout document showing ports and roles  
+Map document showing hosts ip and hostname  
+WAN info document such as static ip and netmask  
+Credentials document with service login details
 
 **Forbidden Tomes**  
 There are certain documents that for reasons of security and practicality will
