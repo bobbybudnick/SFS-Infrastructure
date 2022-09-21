@@ -88,11 +88,9 @@ server relevant information.  Allows for file upload and upload status
 monitoring.  This also uses a small amount of external calls and implements a
 basic security scheme.  Like everything else presented here this is a no
 javascript solution.  
-???  
-???  
-???  
-???  
-???  
+Index.html - html component that displays data
+UPLOADER.py - python component that handles upload
+HELPER_UPLOADER - bash component that does status updates
 6. Server Redundancy  
 Typically CARP is used in the enterprise to enable the takeover and replacement
 of one server to another.  This can be crudely simulated with some thoughtful
