@@ -33,7 +33,7 @@ The amount of scripts needed to enable the required functionality was a
 suprise.  In a certain way these scripts are replacing typical enterprise
 hardware networking options.  Scripts are sorted into a folder according to
 associated features.  After copying make these executable.
-1. Architecture
+1. Architecture  
 This may include scripts that are expected to run during contingency events.
 It is important to have a disaster response plan for your IT department to 
 immediately respond to certain emergencies.  In the dark with alarms beeping
