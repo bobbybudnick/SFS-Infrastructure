@@ -10,7 +10,7 @@ mutiple Internet gateways were required for high availability. Personal
 experience has also shown that during digital and real world disasters it is
 advantageous to have more than one Internet connection.
 
-1.Approaches to multi WAN  
+1. Approaches to multi WAN  
 The first piece of the network fabric must be the ability to switch Internet providers.  
 Handling at main router is complicated/stresses pfsense/single router point of failure.  
 So handling the changeover with routing and scripting is a must.  
@@ -22,7 +22,7 @@ Name.com is great but they do not support dynamic DNS/failover/client API.
 However they do support basic round robin as most DNS providers do.  
 To give this project the most options it was decided early on to move to Cloudflare.
 
-2.Cellular bandwidth and response solution  
+2. Cellular bandwidth and response solution  
 This is the outline of the initial idea for multi WAN.  
 Favor cable connection over cellular to keep user experience fast and cellular data low.  
 Cellular router http port closed by default which causes clients or failover to skip.  
@@ -32,7 +32,7 @@ Could check every 30 minutes and open port for 30 minutes.
 This would possibly allow for seamless internal and external failover.  
 This instead has to be done at the server level because servers can have 1 gateway only.  
 There is unpredictability with multiple gateways which the multi wan scripts address.  
-Tt is unclear how to use routing alone to get a reliable result in all situations.  
+It is unclear how to use routing alone to get a reliable result in all situations.  
 Could still be done at router but would be redundant.
 
 3. Management network  
