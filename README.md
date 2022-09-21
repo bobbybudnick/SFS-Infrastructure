@@ -923,9 +923,9 @@ communications by way of KDE Connect and tied into the network courtesy of
 Etherape.  A basic ethernet hub or a managed switch is a must to use this.  This 
 is a continuation of an earlier effort to add a voice assistant to the
 MID project.  
-???  
-???  
-???
+SFS AI - main logic  
+AI connection dialog - present a dialog for phone reconnection  
+AI persistence dialog - present a dialog to dismiss persistent notifications
 
 **Forbidden Tomes**  
 There are certain documents that for reasons of security and practicality will
