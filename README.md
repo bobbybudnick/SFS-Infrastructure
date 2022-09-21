@@ -10,6 +10,257 @@ mutiple Internet gateways were required for high availability. Personal
 experience has also shown that during digital and real world disasters it is
 advantageous to have more than one Internet connection.
 
+1.Approaches to multi WAN  
+The first piece of the network fabric must be the ability to switch Internet providers.  
+Handling at main router is complicated/stresses pfsense/single router point of failure.  
+So handling the changeover with routing and scripting is a must.  
+Some terms need to be clarified first.  
+Roundrobin is having multiple A records for the same hostname.  
+DNS failover is changing a single A record to different IP.  
+Dynamic DNS or a client DNS update API is needed.  
+Name.com is great but they do not support dynamic DNS/failover/client API.  
+However they do support basic round robin as most DNS providers do.  
+To give this project the most options it was decided early on to move to Cloudflare.
+
+2.Cellular bandwidth and response solution  
+This is the outline of the initial idea for multi WAN.  
+Favor cable connection over cellular to keep user experience fast and cellular data low.  
+Cellular router http port closed by default which causes clients or failover to skip.  
+Script on cellular router monitors site at cable static IP.  
+Script on cellular router opens local http port for a time if down.  
+Could check every 30 minutes and open port for 30 minutes.  
+This would possibly allow for seamless internal and external failover.  
+This instead has to be done at the server level because servers can have 1 gateway only.  
+There is unpredictability with multiple gateways which the multi wan scripts address.  
+Tt is unclear how to use routing alone to get a reliable result in all situations.  
+Could still be done at router but would be redundant.
+
+3. Management network  
+Workstation/media/proxmox server are the most important candidates for dual ethernet.  
+In this case the management network is dedicated.  
+On a non dedicated management network overlaid on main network vlans could be used.  
+Interference avoidance and ddos avoidance is an advantage with dedicated.  
+Management computers having redundant switch connections is an advantage with dedicated.
+
+4. prevent routing through the cellular network  
+This is for outbound.  
+It should not route through cellular by default but instead use cable default gateway.  
+Fundamentally the problem is one of needing multiple gateways.  
+A weight needs to be assigned to the gateways favoring the cable connection.  
+To prevent inbound routing see cellular bandwidth and response solution.
+
+5. Adequacy of round robin  
+Apparently modern browsers work with this pretty well.  
+There is misinformation but it should be fine compared to load balancing solutions.  
+Load balancing solutions are a single point of failure themselves if improperly setup.
+
+6. Seamless failover capability in theory  
+Internal - duel weighted gateways and always on cellular.  
+Internal example - cable internet fails and computer selects alternate gateway.  
+External - round robin/failover dns + cellular bandwidth and response solution.  
+External example - cable fails and Cloudflare uses alternate dynamic IP entry for dns.
+
+7. Dual gateway setup concerns  
+Configuring all hosts on network for dual gateway would be tedious.  
+The management devices should be the only ones configured.  
+Management/vip devices are workstation/media/virtualization server.  
+A dual link is only needed for cable to both switches.  
+Still allows for main switch to fail and management devices still have cable connection.  
+Remember it is easier but far less flexible when using dual wan with a single router.
+
+8. Implementing a core switch  
+A managed core could create new VLANs for isolation of main and management.  
+This approach has redundancy and security.  
+A VLAN between cable and management only.  
+A VLAN between cable and main only.  
+If main switch fails then VIP retain cable on second interface.  
+If management switch fails then VIP retain cable and cellular on first interface.  
+The specifics involve several tradeoffs here between redundancy and security.
+
+9. DD WRT VLAN implementation  
+iptables -nvL lists all rules.  
+For DD WRT an important thing to know is a port can not be on more than one VLAN.  
+This means some bridging has to be used.
+
+10. Making an open source ethernet hub/switch  
+By now it should start to be clear that bridging is the basic of switching.  
+Clever use of ethernet adapters and bridging would allow for making a switch.  
+All bridged devices are like they are on the same network.  
+Perhaps there could be a control to make it more like a hub or more like a switch.
+
+11. Core switch troubleshooting  
+If the core switch can ping devices in question itself it is a firewall problem.  
+If the core switch can not ping devices in question itself it is a route problem.
+
+12. Power outages effect on WAN  
+Often times neighborhood ups systems for cable will be poorly managed.  
+Municipal power is needed to run things like switchboxes and repeaters.  
+Their battery backup may be nonexistent or only last a few minutes.  
+This leads to situations where power being out can lead to internet failures.  
+Do not plan or rely on wired providers for high availability in a disaster.
+
+13. Pfsense cable router config  
+Static route of 192.168.1.0/24 out of 192.168.4.1 on LAN  
+Static route of 192.168.5.0/24 out of 192.168.4.1 on LAN  
+Outbound NAT for 192.168.1.0  
+LAN access anything rules for 192.168.4.0/24  
+LAN access anything rules for 192.168.5.0/24  
+LAN access anything rules for 192.168.1.0/24  
+Gateway for WAN set to default at cable IP gateway  
+Gateway for LAN at 192.168.4.1
+
+14. DD WRT core switch config for wrt54gl  
+Block vlan 2 and vlan 0 connection - iptables -I FORWARD -i vlan2 -o br0 -j DROP  
+VLAN 0 - main network/subnet/switch/LAN and administration  
+VLAN 2 - management network/subnet/switch/LAN  
+VLAN 3 - cable  
+LAN address set to 192.168.1.1 in LAN settings  
+VLAN 0 - port 1 / port 4 - assigned to LAN  
+VLAN 1 - WAN - assigned to none  
+VLAN 2 - port 2 - assigned to none  
+VLAN 3 - port 3 - assigned to none  
+gateway set to 192.168.4.2 in LAN settings  
+VLAN 0 - default bridging  
+VLAN 2 - unbridged at 192.168.5.1 - multicast forwarding on - (new) NAT off  
+VLAN 3 - unbridged at 192.168.4.1 - multicast forwarding on - (new) NAT off  
+Operating mode set to router in advanced routing - is this even needed???  
+Set DNS servers in DHCP static DNS fields.  
+Uncheck use dnsmasq for dnsmasq.  
+Do not set a DNS server for DD WRT itself or it will serve that one also.  
+Needed if default route is getting lost - route add default gw 192.168.4.2.  
+Enable turning off radio in services.
+
+15. Dynamic DNS  
+Should be integrated into cellular bandwidth and response solution script.  
+Update a dynamic DNS record for alternate gateway every 30 minutes.  
+A scripted approach or manually updating the dynamic DNS website would work.  
+The manual method may be ok for devices that do not change IP often.  
+Unfortunately this will not work with CGNAT and would require tunneling.  
+But for a basic backup hardline this should do.
+
+16. Outbound routing for VIP  
+Assumes a main switch and a management switch.  
+Primary interface - default gw (whichever ip this is) - low metric - cable  
+Secondary interface - default gw (whichever ip this is) - medium metric - cable  
+Primary interface - default gw (whichever ip this is) - high metric - cellular
+
+17. Carrier grade NAT nightmare  
+Cellular providers are really giving paying consumers half of a connection.  
+A business connection required is required to fully use a cellular connection.  
+Due to nat being used at the carrier level with no user forwarding controls.  
+ATT/Tmobile/Verizon all require credit/business checks for business connection.  
+Fixed by ordering an att static ip sim card from protectli.  
+Cellular business data is expensive.  
+Will need a way cut off after exceeding cellular data usage limit.
+
+18. Avoiding switching loops  
+Also called a "layer 2 storm" or "frame storm" or something like that.  
+When making a connection and all the switches light up that is the problem.  
+Switches cannot connect in a way that they have more than one link to each other.  
+A typical switch network should look like a tree with branches coming from main.  
+Typically link aggregation technologies in advanced switches prevent this.  
+Possible to have high reliability without link aggregation but takes thought.  
+Multiple network adapters are the only good solution without link aggregation.  
+These allow for a total switch failure with still existent connectivity.
+
+19. Terminology and interchangeability of concepts  
+Network/subnet/switch/LAN  
+These are all referring to the same thing in this case.
+
+20. Network status  
+The backup internet server will host apache with network status page.  
+This page can be updated during emergency events.  
+This will display updated content even when other dynamic content is offline.
+
+21. Content control  
+Serve dynamic/static content/network status over cable connection.  
+Serve static content and network status over cellular connection.  
+Cut connection to reencoder to stop dynamic content.  
+Cut connection to web server at 500 MB usage.
+
+22. Explaining metrics  
+Metrics still work to direct traffic when there is more than one good gateway.  
+Metrics do not work as expected when a bad gateway of low metric (high priority) exists.  
+Metrics are only used because it is a good way for route del default to knock a gateway off table.
+
+23. Layer 3 switching  
+This is the point that the device would traditionally be configured further for layer 3 segmentation.  
+This is the true job of a core switch.  
+The blocking of certain IP addresses and networks would be done here.  
+But the existing layer 2 segmentation seems way more than enough already.
+
+24. FreeBSD initial working multi WAN implementation  
+Primary interface - static route to first network with /24 - first gateway to cable - on FIB 0 default  
+Secondary interface - static route to second network with /24 - second gateway to cable - on FIB 1  
+Secondary interface - static route to second network with /24 - gateway to cellular - on FIB 2  
+Ping gateways with setfib and the corresponding FIB number.  
+Ping hosts without specifying FIB number.  
+In otherwords only use FIB for Internet connections.  
+User applications have to be started with a FIB to use the right gateway.  
+Servers can start and listen on a certain FIB.  
+net.add_addr_allfibs=0 - not sure of the ramifications or whether it would work with setting 1.  
+Sometimes the ethernet should be unplugged and the IP set then plugged back.
+
+25. FreeBSD proposed broken multi WAN implementation  
+Do not use FIB system.  
+netstat -nr -f inet - show FreeBSD routing table.  
+Test current gateway with test route.  
+If test works then delete test and move on to next section.  
+If test fails then remove gateway.  
+Signal that the next section should be ran.  
+Sleep for a time.  
+Only run next sections if signaled by earlier section.  
+Try to add test routes 0 to 2 inside connected network with a timeout.  
+If a test works then delete test and add gateway.  
+This is not going to work without a redesign due to the wrong assumptions made above.  
+Would need to be written like the reimplementation above but without metrics.  
+Probably not going to work without FIB regardless.
+
+26. Linux proposed broken multi WAN implementation  
+Link local works because a route is not added unless there is a connection.  
+Because of this connection check routes can be added and removed dynamically.  
+Test routes 0 to 2 inside connected network with a timeout.  
+If a test works then move to next test.  
+If a test fails then remove gateway and message that gateway is removed.  
+Then try to add all gateways with a timeout.  
+Only good gateways will be readded.  
+Sleep for a time.
+
+27. Linux multi WAN reimplementation  
+route does not block from adding bad hosts as expected.  
+route also does not check that gateways are good before adding them.  
+However a combination of ip show and ping worked as expected.
+
+28. DD WRT core switch config for ac1750 r6400v2-3  
+VLAN 0 seems bugged on this device so we use VLAN 1 instead and shift others up by 1.  
+VLAN 1 - main network/subnet/switch/LAN and administration  
+VLAN 2 - management network/subnet/switch/LAN  
+VLAN 4 - cable  
+LAN address set to 192.168.1.1 in LAN settings  
+VLAN 1 - port 1 / port 4 - assigned to LAN  
+VLAN 2 - WAN - assigned to none  
+VLAN 3 - port 2 - assigned to none  
+VLAN 4 - port 3 - assigned to none  
+gateway set to 192.168.4.2 in LAN settings  
+VLAN 1 - default bridging  
+VLAN 3 - unbridged at 192.168.5.1 - multicast forwarding on - (new) NAT off  
+VLAN 4 - unbridged at 192.168.4.1 - multicast forwarding on - (new) NAT off  
+Operating mode set to router in advanced routing - is this even needed???  
+Set DNS servers in DHCP static DNS fields  
+Uncheck use dnsmasq for dnsmasq.  
+Do not set a dns server for DD WRT itself or it will serve that one also.  
+If default route is getting lost - route add default gw 192.168.4.2 - not needed now???  
+Shifted up one like before so VLAN 2 is now VLAN 3.  
+Block vlan 2 and vlan 0 connection - iptables -I FORWARD -i vlan3 -o br0 -j DROP  
+Stayed on old initial firmware so not to push luck.  
+Turning off radio enable in services
+
+29. Copy from DD WRT  
+Enable USB/enable USB storage/enable automatic drive mount.  
+Enable sshd and use scp like scp root@192.168.1.1:/mnt/sda1/TEST /home/jason/TEST  
+Also ftp and samba are available from the nas page but maybe ssh will use less ram.  
+Sadly rsync does not work by default.
+
 **Sewing the Servers**  
 This is merging the network together in a coherent way.  There was more of a
 focus on getting power usage and battery life under control.  A small
