@@ -49,7 +49,7 @@ Credentials document with service login details
 2. Multi WAN  
 A reliable network starts with reliable Internet connections.  However, consider
 if all network computers truly need backup gateways or only a subset.  This is
-another tradeoff between hardware features in network devices and scripting.
+another tradeoff between hardware features in network devices and scripting.  
 Linux Multi WAN - several script examples for different Linux computer roles  
 FreeBSD Multi WAN - uses the unique FreeBSD fibs system  
 Router cgnat - continuation of mid script now streamlined  
@@ -75,7 +75,7 @@ There was a need identified for 2 way website communication.  This is useful
 for fan feedback during streams or for business messaging or even just a
 visitor's sign in area.  The amount of external calls has been kept to a
 minimum to keep the potential attack surface low.  Like everything else
-presented here this is a no javascript solution.
+presented here this is a no javascript solution.  
 CHAT - handler bash script  
 CHAT.txt - example text file shown in iframe  
 CHAT.html - example html meant as iframe  
