@@ -145,8 +145,8 @@ Listener - example client
 Star Trek has inspired the creation of this currently passive "AI".  It only
 talks and does not listen.  This voice assistant is tied into phone
 communications by way of KDE Connect and tied into the network courtesy of
-Etherape.  A basic ethernet hub or a managed switch is a must to use this.  
-This is a continuation of an earlier effort to add a voice assistant to the
+Etherape.  A basic ethernet hub or a managed switch is a must to use this.  This 
+is a continuation of an earlier effort to add a voice assistant to the
 MID project.  
 ???  
 ???  
