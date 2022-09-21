@@ -423,7 +423,7 @@ Try direct to cable IP SSL.
 Try direct to cellular IP SSH.  
 Wait on administrative backdoor request to dynamic DNS address/admin email/admin SMS.
 
-23. Texting from the command line
+23. Texting from the command line  
 Use textbelt for free or paid SMS or use voip.ms SMS API.  
 Set IP permission to 0.0.0.0 in voip.ms API settings.  
 Set password in voip.ms API settings.  
