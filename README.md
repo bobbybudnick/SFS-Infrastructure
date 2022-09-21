@@ -141,7 +141,7 @@ voltage monitoring and could be tailored for battery voltage monitoring.  Other
 future applications include IOT electric switch control/POE control/WOL control.  
 Central power administration - server script running in workstation background  
 Listener - example client
-11. Network AI
+11. Network AI  
 Star Trek has inspired the creation of this currently passive "AI".  It only
 talks and does not listen.  This voice assistant is tied into phone
 communications by way of KDE Connect and tied into the network courtesy of
