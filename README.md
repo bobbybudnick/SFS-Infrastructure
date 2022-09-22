@@ -290,7 +290,7 @@ Media has 2 adapters with one on each network.
 Virtualization server has 2 adapters with one on each network.  
 Backup internet server has 2 adapters with one on each network.
 
-4. The concept of sole computers among each group with high battery life
+4. The concept of sole computers among each group with high battery life  
 Only the backup internet server needs high battery life.  
 This would match the idea that the main internet server has high battery life.  
 Each cellular router also needs high battery life.  
