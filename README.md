@@ -394,7 +394,7 @@ May need as spare MID
 May need for demonstration purposes  
 Battery difficult to charge from larger battery
 
-20. Redundancy vs responsivesness in multi WAN configurations  
+20. Redundancy vs responsiveness in multi WAN configurations  
 Multi WAN redundancy is only needed for VIP devices.  
 Multi WAN responsiveness is needed for servers on both static IP addresses.  
 Redundancy reqires an elaborate script to detect network failures and take action.  
@@ -512,10 +512,10 @@ Bash script to handle form submission instead of Python this time
 Should show busy before timeout is reached to prevent spam  
 Clear text file when it gets too large  
 Clear text file after 1 week  
-Add connection number feature to streamconfig - use netstat  
-Add split results feature to streamconfig - optimize grep  
+Add connection number feature to Streamconfig - use netstat  
+Add split results feature to Streamconfig - optimize grep  
 Add chat view feature of last 5 lines to streamconfig - use curl  
-Run streamconfig on II bravo companion
+Run Streamconfig on II Bravo companion
 
 34. VLAN commentary   
 Only VIP hosts will have server VLAN guest access.  
