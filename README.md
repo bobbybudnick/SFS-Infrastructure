@@ -1112,7 +1112,7 @@ Configs and the databases are created here on the host
 Apparently the container scripting looks for the folder name and responds  
 This causes settings to save properly and the database to stop being recreated  
 Red herring - FATAL: role "root" does not exist  
-Solution - dedicate a local VM to viewing VNC and capture with VLC - terrible performance and waste of CPU core  
+Solution - dedicate a local VM to viewing VNC and capture with VLC - bad performance and waste of CPU core  
 Solution - pipe x11vnc to VLC - piping-vnc-web might work but there is no RDP solution  
 Solution - Guacamole uses VNC for same or different connection as remote - probably best  
 Not quite sure where we were going with the solutions above but keeping it in there anyway  
