@@ -637,8 +637,8 @@ It looks different and more classic but it works
 17. Pi 4 slow media write failure  
 USB 3 flash drive - as low as 13 MB per second - had samba file copy errors also  
 High end micro SD - as low as 34 MB per second  
-Apparently the peformance of a usb 3 ssd is much greater with the pi 4  
-This would present usb power problems with the current configuration  
+Apparently the peformance of a USB 3 SSD is much greater with the Pi 4  
+This would present USB power problems with the current configuration  
 This is somewhat more costly  
 This would mean finding the exact model that would work properly  
 Also not convinced it would be perfectly without errors  
@@ -684,7 +684,7 @@ For Lattepanda original and Windows tablets and things like that
 /////  
 Ways to enter bios  
 Use Windows to reboot into firmware setup if all else fails  
-Use Devuan usb recovery grub console with c at boot and fwsetup at Grub command line  
+Use Devuan USB recovery grub console with c at boot and fwsetup at Grub command line  
 Use installed Devuan Grub console with c at boot and fwsetup at Grub command line  
 Use reboot to firmware setup Grub menu option  
 Use BIOS quiet boot off to have prompt for del key to enter firmware setup  
