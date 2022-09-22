@@ -961,10 +961,9 @@ will be unique to the network but non-confidential.
 Remember to edit the passcodes in these files.
 
 **Fruits of the Quiltmaker**  
-This is a list of hosts showing what can be expected with a typical end result.  
-A product of the struggle to get the network under control.  There is enough
-here to build on and fill the switch ports further than they already are or
-stop building and just enjoy what has been created.
+This is a list of hosts showing what can be expected with a typical end result.  A product of the 
+struggle to get the network under control.  There is enough here to build on and fill the switch
+ports further than they already are or stop building and just enjoy what has been created.
 
 1. Devuan Pi 2 network monitor - installed  
 TCP mode of Etherape was crashing with Lattepanda but seems to work with Pi 2  
