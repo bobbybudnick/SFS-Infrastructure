@@ -961,8 +961,273 @@ will be unique to the network but non-confidential.
 Remember to edit the passcodes in these files.
 
 **Fruits of the Quiltmaker**  
-This is a list of what can be expected with a typical end result.  A product of
-the struggle to get the network under control.  There is enough here to build
-on and fill the switch ports further than they already are or stop building and
-just enjoy what has been created.
+This is a list of hosts showing what can be expected with a typical end result.  
+A product of the struggle to get the network under control.  There is enough
+here to build on and fill the switch ports further than they already are or
+stop building and just enjoy what has been created.
 
+Devuan Pi 2 network monitor - installed  
+TCP mode of Etherape was crashing with Lattepanda but seems to work with Pi 2  
+Needs port mirroring turned on in switch and all ports fed to the monitor port  
+Internal VNC server started with KDE startup control panel  
+Runs Network AI
+
+Devuan laptop network monitor 3 - installed  
+Shows the weather  
+Runs business email  
+Hosts phone  
+Assists with development  
+Does backend 3d models work  
+The following describes operations but also shows how to use stunnel  
+Runs cctv stream - install stunnel 4 - move key to /etc/stunnel - create stunnel.conf  
+Generate key - openssl req -new -x509 -nodes -out ~/STUNNEL.pem -keyout ~/STUNNEL.pem  
+stunnel.conf - client - client = yes/accept=8080/connect=serveraddress:7777  
+stunnel.conf - server - accept=7777/connect=127.0.0.1:8080  
+Run stunnel4 on server/run stunnel 4 on client/client connects to http://localhost:8080  
+Do not forget the http on the front for VLC or it will not connect
+
+Devuan reencoder server - virtual machine  
+Take h264 HD input OTA with hdhomerun and reencode  
+Use simple encoding like MPEG TS for sending from webcam server  
+Reencode for web friendly output with mobile support and low bandwidth  
+Reencoding will begin automatically at virtual machine startup  
+Streamconfig script will allow for turning streams on and off and labeling  
+Monitor 2 can run streamconfig over SSH - may be better for kitchen to run Streamconfig  
+This allows for clients to deal only with the reencoder and not subsidiary devices  
+This also allows for absolute control over the streams  
+This also allows for better monitoring of server performance  
+theora with ogg on windows slave - causing reencoder transcoding errors  
+mp4v with mpeg ts on windows slave - pretty good and also what the webcam slaves use  
+h264 with mp4 on windows slave - less network but maybe less reliable  
+Required software - SSH/VLC/psmisc
+
+Devuan Internet server - virtual machine  
+Hosts web and SSH  
+At startup signals are sent to to backup internet server to move to parking IP
+
+Devuan Pi 2 cellular router/MID - installed  
+For router usage with metered static IP business cellular device  
+Script type is router static  
+Further network specific information is in dual WAN notes - SSH on 1001 same as cable webgui
+
+FreeBSD Lattepanda custom convertible tablet backup storage server - installed  
+Provides a clone of data on main storage server  
+Is physically and logically separated from main storage server  
+2 Lattepanda original died during production of this device  
+Important to boost incoming 5v to around 5.25v for stability with heavy USB load
+
+Windows tablet switch administration device 1 and 2 - installed  
+Attached to different subnet that is the same as switch  
+Available for real time switch administration with monitoring/stats/QOS/VLAN
+
+Devuan media laptop - installed  
+Attached to Fire Stick with HDMI capture and VLAN  
+Connected to home theater
+
+Devuan gaming custom laptop - installed  
+Takes games on the go  
+Cable router administration device
+
+Devuan pi 4 headless staging server - installed  
+Holds only data that is yet to be sorted and archived  
+No redundancy but the copying computers keep until stored
+
+Freedbsd storage server custom laptop - installed  
+Holds 2 copies of network files  
+Also exports 1 or 2 copies and 1 gen back copies kept
+
+Freebsd workstation custom laptop - installed  
+Holds 2 copies of files  
+Exports to various secure means  
+Does frontend 3d models work  
+Core switch administration device  
+Runs Central Power Administration
+
+Proxmox luggable virtualization server - installed  
+With web/SSH - dedicate 2 cores  
+With reencoder - dedicate 2 cores  
+With development and testing environments - 2 cores left over  
+net-tools package needed for Linux Multi WAN  
+Cannot setuid root scripts - use sudo locally or /etc/rc.local at boot  
+Create /etc/rc.local with exit 0 at end and #!/bin/sh -e at beginning  
+Edit linux multi WAN interface names and metric priorities  
+Reference Linux Multi WAN with rc.local  
+Import VMWare - qm importovf 100 /tmp/exported-vm.ovf local-zfs  
+Create bridge and assign IP and gateway of primary interface and gateway  
+Create second bridge and assign IP and gateway of primary interface and no gateway  
+Assign guests 2 interfaces linked to these bridges  
+This means guests need the dual WAN scripts for maximum redundancy  
+USB 3 failed after shutdown and restart - unplug/shutdown/restart/replug/restart  
+92w at bios - probably near worst case  
+64w at proxmox console - probably near idle  
+Currently using 5a adjustable power supply with 300w true sine inverter and battery  
+Other options - going dc to dc with a picopsu or similar  
+Other options - replacing power supply with large switch based adjustable  
+Other options - replacing power supply with existing backup and ordering another  
+The DC to DC option would need a solar charge controller or large voltmeter for current  
+The replacement power supply options both include a screen for showing current
+
+Devuan Pi 3 headless camera server - installed  
+Pi 4 nearly freezes but fixed with setpci -s 01:00.0 0xD4.B=0x41  
+Need a pure HDMI connection for Pi 4 without too many adapters  
+Pi 4 not working with multiple webcams as USB 2 bus which is on all ports and is shared  
+Pi 3 not working with multiple webcams - slower HD capture than Pi 4 but could use 2 SD  
+Odroid c0 works ok - USB hub ports are limited and slightly temperamental  
+Pi Zero is too slow and has limited USB ports  
+Lattepanda original is not going to work as expected  
+Lattepanda Alpha died while preparing for testing  
+Development laptop has bandwidth error for 2 streams despite separate busses  
+Pi 3 will do printer camera only since odroid c0 was stable with it  
+Development laptop will do CCTV only  
+View with mplayer - mplayer http://address -fps 15 -demuxer lavf -noaspect  
+View with VLC - use GUI which will prompt for password if needed  
+Increasing threads will take more cpu time if vlc is overloaded  
+Increasing threads will take less cpu time if vlc is underloaded  
+Performance can mislead when above 100% usage but more threads always help  
+Install v4l-utils and VLC  
+Add user to video group
+
+Debian Odroid C2 headless camera server - installed  
+One Odroid c2 has broken micro USB and requires barrel connector  
+Odroid c2 has shared USB 2 bus and thus has bandwidth issues and cannot use 2 cameras  
+Odroid c2 will do workspace camera only
+
+Devuan Pi 4 headless guacamole remote access server - installed  
+Install docker - sudo apt-get install docker.io  
+Install one click docker image for guacamole - sudo docker pull jwetzell/guacamole:arm64  
+sudo docker run -p 8080:8080 -v /home/docker/guacamole:/config jwetzell/guacamole:arm64  
+Before the colon is the host directory and after the colon is the guest folder name  
+Much faster to start up and to use gaming computer with arm64  
+User and password and security mode any and ignore server certificate for RDP  
+Just password and port 5900 for VNC with x11vnc  
+Ctrl alt shift for Guacamole menu  
+Required x11vnc startup script for monitor 1 and turning on RDP for gaming desktop  
+x11vnc script starts with KDE  
+Docker is auto started in /etc/rc.local with a small sleep in front  
+Open shell in container - docker exec -it container-name sh - debug only  
+Login as postgres not guacamole - psql -d guacamole_db -U postgres - debug only  
+Create root account in database - CREATE USER root; - debug only  
+Docker containers are non persistent by default  
+docker run v switch is important for persistence  
+Configs and the databases are created here on the host  
+Apparently the container scripting looks for the folder name and responds  
+This causes settings to save properly and the database to stop being recreated  
+Red herring - FATAL: role "root" does not exist  
+Solution - dedicate a local VM to viewing VNC and capture with VLC - terrible performance and waste of CPU core  
+Solution - pipe x11vnc to VLC - piping-vnc-web might work but there is no RDP solution  
+Solution - Guacamole uses VNC for same or different connection as remote - probably best  
+Not quite sure where we were going with the solutions above but keeping it in there anyway  
+Ideally there should be no host interaction required  
+There is no option for connection encryption so a proxy must be set up  
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout guacamole-selfsigned.key -out guacamole-selfsigned.crt  
+Copy SFS-SSL.conf to sites-available/a2ensite SFS-SSL/a2enmod ssl proxy proxy_http proxy_wstunnel  
+SFS-SSL.conf basically references the certificate and key just created and internal site and port being proxied  
+Edit ports.conf to add 3001 below 443 for SSL and TLS
+
+Windows gaming desktop - installed  
+Gaming in a very fixed location  
+Acts as wintendo with no web browsers or productivity software installed  
+One way is allowing web a Guacamole view only login but that is dangerous and dirty  
+Ultimately the idea was to use the RDP server on gaming desktop for streams and remote  
+Seems like RDP cannot use simultaneous connections so screen recording is out  
+This also means that when guacamole is logged in the user is logged out and the reverse  
+RDP can still be used for remote access  
+Third party program needs to be installed to view the screen simultaneously on Windows  
+Guacamole screen recording seems awkward for live streaming anyway  
+Recording records first then would need guacenc to convert the recording to a m4v  
+guacenc is not even installed in the container  
+Piping VNC - complicated/requires work to automate/same thing but worse than Guacamole  
+VLC desktop streaming is the way forward  
+Have to transcode or there would be no practical way to transfer such data on network  
+h264/ogg/mpeg4 are similar in performance and .25 scale is better speed than 1  
+Set commandline shortcut for VLC and place in Windows startup folder  
+Reencoder will do final transcoding for mobile friendly to save power and centralize  
+vlc screen:// :screen-fps=10.000000 :live-caching=300 :sout=#transcode{vcodec=theo,vb=800,scale=0.25,scodec=none}:http{mux=ogg,dst=:8080/} :no-sout-all :sout-keep
+Thus VLC and RDP run on the gaming desktop
+
+Devuan convertible laptop companion - installed  
+Assists the gaming computer  
+Connected to secondary audio system
+
+Windows convertible laptop companion - installed  
+Assists the media computer  
+Another windows computer for general usage
+
+Devuan Pi 2 backup internet server - installed  
+Idea 1 - carp or something similar would be able to do this also  
+Idea 2 - use manual ethernet switch - flawed - primary has no access to cellular  
+Idea 3 - start on demand device - flawed - primary has no access to cellular  
+Idea 4 - auto determine best IP - flawed - have to be on correct physical network  
+Idea 5 - connect each switch with manual switch - flawed - can only forward 1 IP on 80  
+Idea 6 - use internetwork messaging to signal backup server to change to parking IP  
+Parking IP is used for network status when main server is running  
+Server IP is used for server replacement when main server is down  
+Show timestamp  
+Show current IP  
+Show ping to 192.168.5.1(is core up?)  
+Show apcaccess  
+Set to 192.168.1.125  
+ping for 192.168.1.1  - if no 192.168.1.1 then set to 192.168.5.125  
+ping for 192.168.5.8  - if no 192.168.5.8 then set 192.168.5.8  
+Wait for shutdown signal and set to 192.168.5.125 - best option - use netcat  
+ping for 192.168.5.8??? - would not be reliable because we would often ping ourselves  
+ping for 192.168.5.9 - detect reencoder VM??? - would not allow work on just reencoder  
+If yes 192.168.1.1 then set 192.168.1.125  
+ping for 192.168.1.9  - if no 192.168.1.8 then set 192.168.1.8  
+Wait for shutdown signal and set to 192.168.1.125 - best option - use netcat  
+ping for 192.168.1.8??? - would not be reliable because we would often ping ourselves  
+ping for 192.168.1.13 - detect reencoder VM??? - would not allow work on just reencoder  
+This is a slightly older pseudocode overview but still generally applies  
+Setup for listening with nc instead of pinging to switch back to parking  
+Still uses ping for switch to server  
+LoadModule cgi_module /usr/lib/apache2/modules/mod_cgi.so - allow scripts- not needed - script independent  
+HttpProtocolOptions Unsafe - fix python error handling - not needed - script independent  
+ports.conf add Listen 8080 behind Listen 80 - listen on port 8080 also  
+Packages - ntp/apache2/apcupsd
+
+Pi 2 cellular router/retired MID - installed  
+For router usage connected to 1 of 2 unlimited CGNAT phones  
+Runs console only for better performance with Pi 3 and easy management  
+Script type is router CGNAT  
+Connect with USB/turn on USB tethering/dhclient on computer  
+LG - presents USB ACM device at /dev/ttyACM0 that uses cdc_ether driver  
+Blackberry - same but uses cdc_ncm/cdc_wdm/cdc_mbim  
+Addendum - cdc_ncm bind failure with android phone  
+Only happens with Blackberry not LG  
+Works with old x86 debian live environment  
+Does not work on any newer environment  
+Switch sim between LG and Blackerry - impractical due to wear and tear  
+Use live environment in isolation - impractical due to increasingly older software  
+Finding the exact kernel when the failure happens is important for 2 reasons  
+For bug fixing reasons  
+The file will hopefully be new enough to install on a newer OS  
+2015-02-02 release date with kernel 3.18 works correctly - too old for packages  
+2016-2-29 release date with kernel 4.1 fails with bind error - too old for packages  
+2020-2-14 release date with kernel 4.19 fails with bind error - packages work  
+Thus the problem started with kernel 4.1 at least for the raspberry Pi  
+The case of modifying Devuan Chimaera pi 2 32 bit with old kernel  
+Just copying old kernels to new Pi 2 image does not boot  
+The entire boot folder was copied over including kernels  
+Now the old kernel boots on new Devuan on Pi 2 but no kernel modules available  
+/lib/modules needs to be copied over  
+Not working on pi 3 which makes sense because there is no kernel support at that time  
+Pi 3 router replaced with Pi 2 router
+
+Haiku OS laptop network monitor 2 - installed  
+Runs Proxmox web interface - console login through web does not work - use SSH  
+Falkon is available but is worse than the system default Webpositive browser  
+Proxmox console can be minimized and interface set for 3 columns for better view  
+pkgman full-sync updates system  
+pkgman install falkon installs Falkon for instance  
+qemu is actually available from haiku depot if a browser is really needed  
+Troubleshooting Haiku  
+Current problem is freeze of all input with OS still working  
+All except safe mode with hda disabled - instant lock at VM server  
+All except safe mode and apm with hda disabled - instant lock at VM server  
+All except safe mode and apm/acpi with hda disabled - instant lock at VM server  
+Only apm/acpi/hda disabled - works ok initially  
+All except safe mode and don't call with hda disabled - instant lock at VM server  
+All except safe mode and disable local apic with hda disabled - works ok initially  
+Did crash after several days - trying the same without local io apic or whatever  
+Was forced to replace old Asus laptop with old Gateway Laptop that works better  
+There are still issues with memory leaks in the Webpositive Browser however
