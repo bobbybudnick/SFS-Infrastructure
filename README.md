@@ -534,6 +534,19 @@ Clients there could access the internet through gateway 2 but be heavily shielde
 Should be no loops because each VLAN will act like an independent switch.  
 Loops start when devices share VLANs with multiple connections to router.
 
+35. Further switch improvements  
+More network segmentation is ideally needed against internet intruders.  
+Smart managed plus 8 port gs108e is a good choice.  
+3 switches are needed with initial thoughts.  
+CC Independence/management/backup with decomissioned administration for CC Liberty.  
+A managed switch is not strictly required for CC Independence.  
+Most independence hosts can use dumb switch connected to server VLAN port on main.  
+The backup storage server can use a dedicated connection to the management switch.  
+In this way main storage server should also be directly connected to management.  
+Only 2 switches are needed now with this approach.  
+Management/backup with added or decomissioned administration.  
+Setup VLAN on management switch with workstation/main storage/backup storage.
+
 **Troubles in the Tapestry**  
 This is a catalog of glitches encountered during development.  Some with
 networking equipment and some with hosts.  By far the longest time was spent
