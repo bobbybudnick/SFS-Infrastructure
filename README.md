@@ -38,7 +38,7 @@ Could still be done at router but would be redundant.
 3. Management network  
 Workstation/media/proxmox server are the most important candidates for dual ethernet.  
 In this case the management network is dedicated.  
-On a non dedicated management network overlaid on main network vlans could be used.  
+On a non dedicated management network overlaid on main network VLANs could be used.  
 Interference avoidance and ddos avoidance is an advantage with dedicated.  
 Management computers having redundant switch connections is an advantage with dedicated.
 
@@ -63,7 +63,7 @@ External example - cable fails and Cloudflare uses alternate dynamic IP entry fo
 7. Dual gateway setup concerns  
 Configuring all hosts on network for dual gateway would be tedious.  
 The management devices should be the only ones configured.  
-Management/vip devices are workstation/media/virtualization server.  
+Management/VIP devices are workstation/media/virtualization server.  
 A dual link is only needed for cable to both switches.  
 Still allows for main switch to fail and management devices still have cable connection.  
 Remember it is easier but far less flexible when using dual wan with a single router.
@@ -258,7 +258,7 @@ Turning off radio enable in services
 29. Copy from DD WRT  
 Enable USB/enable USB storage/enable automatic drive mount.  
 Enable sshd and use scp like scp root@192.168.1.1:/mnt/sda1/TEST /home/jason/TEST  
-Also ftp and samba are available from the nas page but maybe ssh will use less ram.  
+Also FTP and samba are available from the NAS page but maybe SSH will use less RAM.  
 Sadly rsync does not work by default.
 
 **Sewing the Servers**  
