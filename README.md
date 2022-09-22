@@ -793,7 +793,7 @@ VSVABEFV - msim - broken (terrible!!!) - disablembim irrelevant with cdc_ether
 Sierra 340 - lsim - ttyUSB1 works well but screen does not show - cdc_mbim  
 Sierra 313 - lsim - ttyUSB3 is perfect - disablembim irrelevant with sierra  
 So this mode is only relevant to making Sierra 340 work better  
-However sierra 313 does work dial up style with sierra driver  
+However Sierra 313 does work dial up style with sierra driver  
 ZTE mf861 just works well in general and may expose all ports anyway  
 VSVABEFV is trash
 
