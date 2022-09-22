@@ -535,7 +535,7 @@ Should be no loops because each VLAN will act like an independent switch.
 Loops start when devices share VLANs with multiple connections to router.
 
 35. Further switch improvements  
-More network segmentation is ideally needed against internet intruders.  
+More network segmentation is ideally needed against Internet intruders.  
 Smart managed plus 8 port gs108e is a good choice.  
 3 switches are needed with initial thoughts.  
 CC Independence/management/backup with decomissioned administration for CC Liberty.  
