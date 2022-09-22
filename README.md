@@ -1015,7 +1015,7 @@ Is physically and logically separated from main storage server
 2 Lattepanda original died during production of this device  
 Important to boost incoming 5v to around 5.25v for stability with heavy USB load
 
-7. Windows tablet switch administration device 1 and 2 - installed  
+7. Windows tablet switch administration device 1 - installed  
 Attached to different subnet that is the same as switch  
 Available for real time switch administration with monitoring/stats/QOS/VLAN
 
@@ -1230,4 +1230,8 @@ All except safe mode and disable local apic with hda disabled - works ok initial
 Did crash after several days - trying the same without local io apic or whatever  
 Was forced to replace old Asus laptop with old Gateway Laptop that works better  
 There are still issues with memory leaks in the Webpositive browser however
+
+23. Windows tablet switch administration device 2 - installed  
+Attached to different subnet that is the same as switch  
+Available for real time switch administration with monitoring/stats/QOS/VLAN
 
