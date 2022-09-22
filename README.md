@@ -822,6 +822,76 @@ deploying ever more advanced installations.  It can be added to and probably
 will be added to here also.  It is important to take complex information and
 word it in a way that is more understandable.
 
+1. Futility of switch redundancy  
+A failover at the ethernet port level is extremely impractical for a small network.  
+It is also very complicated to think about and implement.  
+An enterprise grade switch with redundant internal logic and power supplies are one way.  
+The use of dual ethernet and second switch for critical equipment is another way.
+
+2. Load balancers compared to round robin DNS  
+Both technologies can be used to provide access to multiple servers.  
+The load balancer can check that certain servers are up and can be on or off network.  
+Round robin is DNS based and can be on or off network and is not intelligent.
+
+3. Load balancers compared to reverse proxy  
+Reverse proxy allows for different servers for subdomains.  
+Load balancer allows for multiple servers for the same resource and can bounce between.
+
+4. Reverse proxy compared to port forwarding  
+This is new complex technology vs old simple technology.  
+Instead of port forwarding subdomains are used.
+
+5. Load balancer disadvantages  
+The load balancer itself is a single point of failure.  
+Available off the shelf load balancers look very proprietary.  
+The real availability problem is one of electrical and internet connection not servers.
+
+6. Possible things to show on monitor devices  
+iftop over SSH of web or virtualization server.  
+Proxmox status in the web browser.  
+Etherape IDS with perhaps a text based output to accompany it.  
+The output from RDP/VNC sessions.
+
+7. Multi server availability  
+This is the case of needing redundant servers.  
+Load balancer on internal network would be good here.  
+CARP protocol can allow 2 servers to share an IP and load balance between them.  
+Another idea is not to have server redundancy but break the load into smaller servers.  
+Also see our custom CARP replacement solution provided here.
+
+8. NAT vs routing  
+They are kind of like opposites of each other.  
+NAT is multiple IP adddresses on one MAC address.  
+Routing is multiple MAC addresses and IP addresses on one interface.
+
+9. VLAN vs subnet  
+VLANs are layer 2 network segmentation.  
+Subnets are layer 3 network segmentation.
+
+10. Software defined WAN  
+Mostly concerns connection between remote sites within a company.  
+Going away from switched circuits to using business cable/DSL/fiber.  
+Comes from DMVPN/IWAN traditionally.  
+Performance issues can be challenging with these older solutions.  
+Takes logic away from processors in the routers and moves it to other computers.  
+The logic referred to is also called the control plane.  
+The other computers are sometimes running as a VM on a server in a datacenter.  
+Seems like corporate version of replacing home routers with a PFsense computer.  
+Can use really high performance hardware with routing now and also scale easily.  
+Routing in a sense is static because it is specified beforehand with Vsmart.  
+The routing protocol between routers is called OMP and is somewhat like BGP.  
+IPsec is used for the data channels between routers but no routing is exchanged.  
+Most interestingly it can be used to deal with dual WAN concerns.  
+The failover problem with slower backup internet being used is the concern.  
+Vsmart appaware can automatically switch connections to the best WAN link.  
+Vsmart can do user profiling and auto switch routes for best performance.  
+This auto route switching indeed does make the network routing dynamic.  
+The network routing is dynamic but in a different way.  
+IPsec between routers adds a layer of encryption for extra security.  
+App encryption isolation is another feature that keeps channels separate.  
+Naturally there are many firewall options available with this technology.  
+Obviously no advanced technologies like these in use here but good to know.
+
 **Instructions for Incantations**  
 The amount of scripts needed to enable the required functionality was a
 suprise.  In a certain way these scripts are replacing typical enterprise
