@@ -1083,7 +1083,7 @@ Hosts phone
 Assists with development  
 Does backend 3d models work  
 The following describes operations but also shows how to use stunnel  
-Runs cctv stream - install stunnel 4 - move key to /etc/stunnel - create stunnel.conf  
+Runs CCTV stream - install stunnel 4 - move key to /etc/stunnel - create stunnel.conf  
 Generate key - openssl req -new -x509 -nodes -out ~/STUNNEL.pem -keyout ~/STUNNEL.pem  
 stunnel.conf - client - client = yes/accept=8080/connect=serveraddress:7777  
 stunnel.conf - server - accept=7777/connect=127.0.0.1:8080  
