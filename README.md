@@ -848,9 +848,9 @@ allow for at home streaming.
 RECORDER - webcam slave script  
 STREAMCONFIG - easy to use and informative stream front end  
 STREAMLAUNCHER - daemon to handle stream startup and restarts  
-Windows VLC shortcut - 2 clicks to start network streaming a windows display
-config.txt.CAMERA - low level system configuration for Pi 3 camera server
-boot.ini.CAMERA - low level system configuration for Odroid C2 camera server
+Windows VLC shortcut - 2 clicks to start network streaming a windows display  
+config.txt.CAMERA - low level system configuration for Pi 3 camera server  
+boot.ini.CAMERA - low level system configuration for Odroid C2 camera server  
 4. Chat  
 There was a need identified for 2 way website communication.  This is useful
 for fan feedback during streams or for business messaging or even just a
@@ -891,7 +891,7 @@ on the Internet.  A computer with moderate power is useful here for better remot
 desktop smoothness.  Setup Windows hosts for RDP manually.  
 ports.conf.RAS - open ports for SSL proxy  
 SFS-SSL.conf.RAS - setup SSL proxy  
-VNC_SERVER - auto start VNC for Linux host 
+VNC_SERVER - auto start VNC for Linux host  
 config.txt.RAS - low level system configuration for Pi 2  
 8. Backup Internet Server  
 A more simple non virtualized backup internet server can take over while the main
