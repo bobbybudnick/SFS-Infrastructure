@@ -966,13 +966,13 @@ A product of the struggle to get the network under control.  There is enough
 here to build on and fill the switch ports further than they already are or
 stop building and just enjoy what has been created.
 
-Devuan Pi 2 network monitor - installed  
+1. Devuan Pi 2 network monitor - installed  
 TCP mode of Etherape was crashing with Lattepanda but seems to work with Pi 2  
 Needs port mirroring turned on in switch and all ports fed to the monitor port  
 Internal VNC server started with KDE startup control panel  
 Runs Network AI
 
-Devuan laptop network monitor 3 - installed  
+2. Devuan laptop network monitor 3 - installed  
 Shows the weather  
 Runs business email  
 Hosts phone  
@@ -986,7 +986,7 @@ stunnel.conf - server - accept=7777/connect=127.0.0.1:8080
 Run stunnel4 on server/run stunnel 4 on client/client connects to http://localhost:8080  
 Do not forget the http on the front for VLC or it will not connect
 
-Devuan reencoder server - virtual machine  
+3. Devuan reencoder server - virtual machine  
 Take h264 HD input OTA with hdhomerun and reencode  
 Use simple encoding like MPEG TS for sending from webcam server  
 Reencode for web friendly output with mobile support and low bandwidth  
@@ -1001,49 +1001,49 @@ mp4v with mpeg ts on windows slave - pretty good and also what the webcam slaves
 h264 with mp4 on windows slave - less network but maybe less reliable  
 Required software - SSH/VLC/psmisc
 
-Devuan Internet server - virtual machine  
+4. Devuan Internet server - virtual machine  
 Hosts web and SSH  
 At startup signals are sent to to backup internet server to move to parking IP
 
-Devuan Pi 2 cellular router/MID - installed  
+5. Devuan Pi 2 cellular router/MID - installed  
 For router usage with metered static IP business cellular device  
 Script type is router static  
 Further network specific information is in dual WAN notes - SSH on 1001 same as cable webgui
 
-FreeBSD Lattepanda custom convertible tablet backup storage server - installed  
+6. FreeBSD Lattepanda custom convertible tablet backup storage server - installed  
 Provides a clone of data on main storage server  
 Is physically and logically separated from main storage server  
 2 Lattepanda original died during production of this device  
 Important to boost incoming 5v to around 5.25v for stability with heavy USB load
 
-Windows tablet switch administration device 1 and 2 - installed  
+7. Windows tablet switch administration device 1 and 2 - installed  
 Attached to different subnet that is the same as switch  
 Available for real time switch administration with monitoring/stats/QOS/VLAN
 
-Devuan media laptop - installed  
+8. Devuan media laptop - installed  
 Attached to Fire Stick with HDMI capture and VLAN  
 Connected to home theater
 
-Devuan gaming custom laptop - installed  
+9. Devuan gaming custom laptop - installed  
 Takes games on the go  
 Cable router administration device
 
-Devuan pi 4 headless staging server - installed  
+10. Devuan pi 4 headless staging server - installed  
 Holds only data that is yet to be sorted and archived  
 No redundancy but the copying computers keep until stored
 
-Freedbsd storage server custom laptop - installed  
+11. FreedBSD storage server custom laptop - installed  
 Holds 2 copies of network files  
 Also exports 1 or 2 copies and 1 gen back copies kept
 
-Freebsd workstation custom laptop - installed  
+12. FreeBSD workstation custom laptop - installed  
 Holds 2 copies of files  
 Exports to various secure means  
 Does frontend 3d models work  
 Core switch administration device  
 Runs Central Power Administration
 
-Proxmox luggable virtualization server - installed  
+13. Proxmox luggable virtualization server - installed  
 With web/SSH - dedicate 2 cores  
 With reencoder - dedicate 2 cores  
 With development and testing environments - 2 cores left over  
@@ -1067,7 +1067,7 @@ Other options - replacing power supply with existing backup and ordering another
 The DC to DC option would need a solar charge controller or large voltmeter for current  
 The replacement power supply options both include a screen for showing current
 
-Devuan Pi 3 headless camera server - installed  
+14. Devuan Pi 3 headless camera server - installed  
 Pi 4 nearly freezes but fixed with setpci -s 01:00.0 0xD4.B=0x41  
 Need a pure HDMI connection for Pi 4 without too many adapters  
 Pi 4 not working with multiple webcams as USB 2 bus which is on all ports and is shared  
@@ -1087,12 +1087,12 @@ Performance can mislead when above 100% usage but more threads always help
 Install v4l-utils and VLC  
 Add user to video group
 
-Debian Odroid C2 headless camera server - installed  
+15. Debian Odroid C2 headless camera server - installed  
 One Odroid c2 has broken micro USB and requires barrel connector  
 Odroid c2 has shared USB 2 bus and thus has bandwidth issues and cannot use 2 cameras  
 Odroid c2 will do workspace camera only
 
-Devuan Pi 4 headless guacamole remote access server - installed  
+16. Devuan Pi 4 headless guacamole remote access server - installed  
 Install docker - sudo apt-get install docker.io  
 Install one click docker image for guacamole - sudo docker pull jwetzell/guacamole:arm64  
 sudo docker run -p 8080:8080 -v /home/docker/guacamole:/config jwetzell/guacamole:arm64  
@@ -1124,7 +1124,7 @@ Copy SFS-SSL.conf to sites-available/a2ensite SFS-SSL/a2enmod ssl proxy proxy_ht
 SFS-SSL.conf basically references the certificate and key just created and internal site and port being proxied  
 Edit ports.conf to add 3001 below 443 for SSL and TLS
 
-Windows gaming desktop - installed  
+17. Windows gaming desktop - installed  
 Gaming in a very fixed location  
 Acts as wintendo with no web browsers or productivity software installed  
 One way is allowing web a Guacamole view only login but that is dangerous and dirty  
@@ -1145,15 +1145,15 @@ Reencoder will do final transcoding for mobile friendly to save power and centra
 vlc screen:// :screen-fps=10.000000 :live-caching=300 :sout=#transcode{vcodec=theo,vb=800,scale=0.25,scodec=none}:http{mux=ogg,dst=:8080/} :no-sout-all :sout-keep
 Thus VLC and RDP run on the gaming desktop
 
-Devuan convertible laptop companion - installed  
+18. Devuan convertible laptop companion - installed  
 Assists the gaming computer  
 Connected to secondary audio system
 
-Windows convertible laptop companion - installed  
+19. Windows convertible laptop companion - installed  
 Assists the media computer  
 Another windows computer for general usage
 
-Devuan Pi 2 backup internet server - installed  
+20. Devuan Pi 2 backup internet server - installed  
 Idea 1 - carp or something similar would be able to do this also  
 Idea 2 - use manual ethernet switch - flawed - primary has no access to cellular  
 Idea 3 - start on demand device - flawed - primary has no access to cellular  
@@ -1185,7 +1185,7 @@ HttpProtocolOptions Unsafe - fix python error handling - not needed - script ind
 ports.conf add Listen 8080 behind Listen 80 - listen on port 8080 also  
 Packages - ntp/apache2/apcupsd
 
-Pi 2 cellular router/retired MID - installed  
+21. Pi 2 cellular router/retired MID - installed  
 For router usage connected to 1 of 2 unlimited CGNAT phones  
 Runs console only for better performance with Pi 3 and easy management  
 Script type is router CGNAT  
@@ -1213,7 +1213,7 @@ Now the old kernel boots on new Devuan on Pi 2 but no kernel modules available
 Not working on pi 3 which makes sense because there is no kernel support at that time  
 Pi 3 router replaced with Pi 2 router
 
-Haiku OS laptop network monitor 2 - installed  
+22. Haiku OS laptop network monitor 2 - installed  
 Runs Proxmox web interface - console login through web does not work - use SSH  
 Falkon is available but is worse than the system default Webpositive browser  
 Proxmox console can be minimized and interface set for 3 columns for better view  
@@ -1231,3 +1231,4 @@ All except safe mode and disable local apic with hda disabled - works ok initial
 Did crash after several days - trying the same without local io apic or whatever  
 Was forced to replace old Asus laptop with old Gateway Laptop that works better  
 There are still issues with memory leaks in the Webpositive Browser however
+
