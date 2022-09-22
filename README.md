@@ -810,6 +810,12 @@ However Sierra 313 does work dial up style with sierra driver
 ZTE mf861 just works well in general and may expose all ports anyway  
 VSVABEFV is trash
 
+33. Camera server 2 failures  
+Try changing ports - all failed  
+Try replacing camera - fixed  
+Try replacing with thicker USB extension - not tried  
+Try relocating to remove USB extension - not tried
+
 **The Seer's Knowledge**  
 This is networking information organized in a cheat sheet fashion.  For
 deploying ever more advanced installations.  It can be added to and probably
