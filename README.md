@@ -753,7 +753,7 @@ xinitrc specified exec ck-launch-session startplasma-x11
 Was working before proxy  
 Most things seem broken due to proxy  
 Channels page html largely broken  
-All streams on page and through vlc broken  
+All streams on page and through VLC broken  
 Working again after disabling proxy  
 May have something to do with time to live
 
