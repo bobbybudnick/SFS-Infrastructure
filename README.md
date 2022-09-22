@@ -826,27 +826,31 @@ Credentials document showing service login details
 A reliable network starts with reliable Internet connections.  However, consider
 if all network computers truly need backup gateways or only a subset.  This is
 another tradeoff between hardware features in network devices and scripting.  
-Linux Multi WAN - several script examples for different Linux computer roles  
-FreeBSD Multi WAN - uses the unique FreeBSD fibs system  
-Router cgnat - continuation of mid script now streamlined  
-Router static - continuation of mid script with several extra features  
-Router worker - needed to assist the static router for data usage computation  
-DD WRT fixup 1 and 2 - handles network segmentation among other things  
+LINUX_MULTI_WAN - several script examples for different Linux computer roles  
+FREEBSD_MULTI_WAN - uses the unique FreeBSD fibs system  
+ROUTER_CGNAT - continuation of mid script now streamlined  
+ROUTER_STATIC - continuation of mid script with several extra features  
+ROUTER_WORKER - needed to assist the static router for data usage computation  
+DD_WRT_FIXUP 1 and 2 - handles network segmentation among other things  
 rc.local.VIRTUALIZATIONSERVER - auto start multi wan  
 rc.local.BACKUPINTERNETSERVER - auto start multi wan and redundancy and status  
 rc.local.INTERNETSERVER - auto start multi wan  
 rc.local.RAS - auto start simple multi wan and container  
 SMS.py - sends administrative alerts through VOIP.ms to an SMS number  
+config.txt.STATIC - low level system configuration for Pi 2  
+config.txt.CGNAT - low level system configuration for Pi 2  
 3. Streaming  
 The result of an effort to obtain a modernized website with multimedia features.
 Data and power usage from a modest streaming system does not have to be excessive.
 Websites like Youtube are giving creators ever more control of their streams
 while simulateneously exerting control on those same creators.  These tools
 allow for at home streaming.  
-Recorder - webcam slave script  
-Streamconfig - easy to use and informative stream front end  
-Streamlauncher - daemon to handle stream startup and restarts  
+RECORDER - webcam slave script  
+STREAMCONFIG - easy to use and informative stream front end  
+STREAMLAUNCHER - daemon to handle stream startup and restarts  
 Windows VLC shortcut - 2 clicks to start network streaming a windows display
+config.txt.CAMERA - low level system configuration for Pi 3 camera server
+boot.ini.CAMERA - low level system configuration for Odroid C2 camera server
 4. Chat  
 There was a need identified for 2 way website communication.  This is useful
 for fan feedback during streams or for business messaging or even just a
@@ -856,16 +860,16 @@ presented here this is a no javascript solution.
 CHAT - handler bash script  
 CHAT.txt - example text file shown in iframe  
 CHAT.html - example html meant as iframe  
-Index.html.CHAT - example html main page  
-Abuse timestamp - helps to prevent spamming  
-Reset timestamp - helps to prevent spamming and over large files  
+index.html.CHAT - example html main page  
+ABUSE_TIMESTAMP - helps to prevent spamming  
+RESET_TIMESTAMP - helps to prevent spamming and over large files  
 5. Upload  
 The existing SFS uploader has been moved here to be with the other internet
 server relevant information.  Allows for file upload and upload status
 monitoring.  This also uses a small amount of external calls and implements a
 basic security scheme.  Like everything else presented here this is a no
 javascript solution.  
-Index.html.UPLOAD - example html component that displays data  
+index.html.UPLOAD - example html component that displays data  
 UPLOADER.py - python component that handles upload  
 HELPER_UPLOADER - bash component that does status updates  
 6. Server Redundancy  
@@ -874,30 +878,31 @@ of one server to another.  This can be crudely simulated with some thoughtful
 scripting.  While this does work a solution like this would not scale well to a
 large organization.  This scripting involves a complex chain that all needs to
 be implemented correctly to work.  
-SFS server redundancy 1 - Proxmox hook script that starts pre and post script  
-SFS server redundancy 2 - run on virtualization server pre VM boot  
-SFS server redundancy 3 - runs on backup internet server  
-Persistent - runs on virtualization server post VM boot  
-Worker 1 - launches netcat for redundancy 2 and persistent to backup server  
+SFS_SERVER_REDUNDANCY_1 - Proxmox hook script that starts pre and post script  
+SFS_SERVER_REDUNDANCY_2 - run on virtualization server pre VM boot  
+SFS_SERVER_REDUNDANCY_3 - runs on backup internet server  
+SFS_SERVER_REDUNDANCY_PERSISTENT - runs on virtualization server post VM boot  
+WORKER_1 - launches netcat for redundancy 2 and persistent to backup server  
 7. Remote Access Server  
 While not strictly required versus forwarding ports this seems like an
 interesting alternative.  It allows for things like putting computers with
 questionable security status behind another system rather than being directly
 on the Internet.  A computer with moderate power is useful here for better remote
 desktop smoothness.  Setup Windows hosts for RDP manually.  
-Ports configuration RAS - open ports for SSL proxy  
+ports.conf.RAS - open ports for SSL proxy  
 SFS-SSL.conf.RAS - setup SSL proxy  
-VNC server - auto start VNC for Linux host  
+VNC_SERVER - auto start VNC for Linux host 
+config.txt.RAS - low level system configuration for Pi 2  
 8. Backup Internet Server  
 A more simple non virtualized backup internet server can take over while the main
 server undergoes maintenance.  Another idea is to use the backup as a network
 status server while the main server is operational.  This server can reside on
 a different IP with appropriate forwarding or a more complex redundant
 arrangement can be used like the server redundancy scripts.  
-Index html example - arranges status page to be displayed in iframe  
-Status html - displayed in iframe and updated dynamically by network agent  
-Network agent - handles the backend status work and updates html  
-config.txt.BACKUPINTERNERSERVER - raspberry pi specific power saving boot options  
+index.html.STATUS.EXAMPLE - arranges status page to be displayed in iframe  
+STATUS.html.TEMPLATE - displayed in iframe and updated dynamically by network agent  
+NETWORK_AGENT - handles the backend status work and updates html  
+config.txt.BACKUPINTERNERSERVER - low level system configuration for Pi 2  
 9. Staging Server  
 Acting as a kind of network scratchpad the staging server is a miscellaneous
 bin for files.  It can use minimal security as it is a temporary file holding
@@ -905,8 +910,8 @@ point only and is meant for internal use only.  Of chief importance is to
 support a server like this one with relevant archival servers.  SAMBA allows
 for easy networking and file exchange with clients of different operating
 systems.  
-SMB configuration - samba configuration for easy access and no login dialogs  
-config.txt.STAGINGSERVER - Raspberry pi specific power saving boot options  
+smb.conf - samba configuration for easy access and no login dialogs  
+config.txt.STAGINGSERVER - low level system configuration for Pi 4  
 10. Power Control  
 It is advantageous to have fine tuned centralized energy management for a
 number of reasons.  The network can be moved to a moderate energy state when
@@ -914,8 +919,8 @@ the network administrator is absent.  Additionally a low overall energy state
 can be quickly achieved during an adverse power event.  Enables remote mains
 voltage monitoring and could be tailored for battery voltage monitoring.  Other
 future applications include IOT electric switch control/POE control/WOL control.  
-Central power administration - server script running in workstation background  
-Listener - example client
+CENTRAL_POWER_ADMINISTRATION - server script running in workstation background  
+LISTENER - example client  
 11. Network AI  
 Star Trek has inspired the creation of this currently passive "AI".  It only
 talks and does not listen.  This voice assistant is tied into phone
@@ -923,9 +928,9 @@ communications by way of KDE Connect and tied into the network courtesy of
 Etherape.  A basic ethernet hub or a managed switch is a must to use this.  This 
 is a continuation of an earlier effort to add a voice assistant to the
 MID project.  
-SFS AI - main logic  
-AI connection dialog - present a dialog for phone reconnection  
-AI persistence dialog - present a dialog to dismiss persistent notifications
+SFS_AI - main logic  
+AI_CONNECTION_DIALOG - present a dialog for phone reconnection  
+AI_PERSISTENCE_DIALOG - present a dialog to dismiss persistent notifications
 
 **Forbidden Tomes**  
 There are certain documents that for reasons of security and practicality will
