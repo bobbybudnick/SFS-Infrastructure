@@ -481,7 +481,7 @@ Backup internet server will not see main and take over via subsidiary switch.
 Core switch ping indicates core switch or main switch could be down.
 
 29. Etherape view optimization  
-The view gets blown out or washed out when LAN transfers take place.
+The view gets blown out or washed out when LAN transfers take place.  
 Switch size mode to square root and link width to 1.0 and multiplier to the middle.
 
 30. Website relaunch aka transition to production aka going live list  
