@@ -514,7 +514,7 @@ Clear text file when it gets too large
 Clear text file after 1 week  
 Add connection number feature to Streamconfig - use netstat  
 Add split results feature to Streamconfig - optimize grep  
-Add chat view feature of last 5 lines to streamconfig - use curl  
+Add chat view feature of last 5 lines to Streamconfig - use curl  
 Run Streamconfig on II Bravo companion
 
 34. VLAN commentary   
