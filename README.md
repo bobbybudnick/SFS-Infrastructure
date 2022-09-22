@@ -1235,3 +1235,27 @@ There are still issues with memory leaks in the Webpositive browser however
 Attached to different subnet that is the same as switch  
 Available for real time switch administration with monitoring/stats/QOS/VLAN
 
+24. DD WRT core switch  
+Has gigabit switch integrated  
+Could in theory be used as a wireless access point also
+
+25. Pfsense cable router  
+The cable gateway and main Internet connection  
+Set for relatively short battery life due to unreliability of hard lines in outages
+
+26. MID  
+The Mobile Internet Device has emergency Internet sharing capability  
+SIM cards for alternative MIDs are in use elsewhere
+
+27. Fire Stick  
+Quarantined by VLAN  
+Lives in II Alpha and is connected by HDMI to media computer
+
+28. HDHomerun  
+Reliably takes ATSC OTA and displays it in a convenient webpage  
+Also works pretty well interfacing with VLC
+
+29. HP Color Laser Printer  
+This has been working well for over a decade  
+Has only needed a toner replacement one time and was not expensive
+
