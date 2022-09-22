@@ -311,7 +311,7 @@ This is what the network 2point0 initiative is partially based on.
 Forward independent SSH port to a device in CC Independence.  
 Independence will be an "independent CC" with a dedicated inbound Internet connection.  
 With Liberty in closer proximity to the NOC it uses the NOC for inbound Internet.  
-Devices at CC liberty could send an email or text when they are outbound only.
+Devices at CC liberty could message when they are reduced to outbound only CGNAT.
 
 7. Power reduction initiative system 1  
 Was 5 amps and dropped to 4 amps by unplugging MID charger for 25 hours.  
