@@ -1230,5 +1230,5 @@ All except safe mode and don't call with hda disabled - instant lock at VM serve
 All except safe mode and disable local apic with hda disabled - works ok initially  
 Did crash after several days - trying the same without local io apic or whatever  
 Was forced to replace old Asus laptop with old Gateway Laptop that works better  
-There are still issues with memory leaks in the Webpositive Browser however
+There are still issues with memory leaks in the Webpositive browser however
 
