@@ -816,6 +816,35 @@ Try replacing camera - fixed
 Try replacing with thicker USB extension - not tried  
 Try relocating to remove USB extension - not tried
 
+34. VLC reliability failures  
+Audio dropouts are untenable and CPU usage is high  
+Disabling mitigation - would never be done on VM server in professional setting  
+Overclocking up to 3.6 ghz - uses more power on an overloaded charger and battery  
+Adding more cores to VM - not sure this will fix because load is single threaded  
+Use Firefox on phone for more efficient codec usage - would like to stay with default  
+cpufreq on VM server runs CPU at higher than design speed between 3.15 and 3.4 ghz  
+It only overclocks to around 3.6 ghz and it is a shock that it is overclocking at all  
+It may be the motherboard that is somehow doing the overclocking or an error  
+Seems that Proxmox CPU type set to host in VM config helps a large amount  
+Before stream 1 without audio was 50% CPU and with audio was 100% CPU  
+After CPU type tweaking stream 1 with audio is about 60% CPU  
+Still getting TS discontinuity errors even with lower CPU usage  
+Still getting audio cutouts even with lower CPU usage  
+Still errors after some time with 2 cores  
+Still errors even with 3 cores so switched back to 2 cores  
+Still audio fails again with an error that says audio codec cannot be found  
+Errors do not seem directly performance related so performance fixes may not help  
+The only alternatives include forced restarts/codec change/VLC source code fixes  
+Need to restart anyway due to the amount of errors bugging up Streamconfig  
+Stream 1 is so bugged it does not even play after 10 hours  
+Stream 4 still functions after 10 hours  
+There is a problem with restarting over long periods  
+There could be times where it does or does not work depending on when it restarted  
+If at any time it is caught with failed audio then decrease time  
+Restart reimplemented for stream 1  
+Try 4 hours then 2 then 1 while troubleshooting  
+Audio is working with 4 hour restarts
+
 **The Seer's Knowledge**  
 This is networking information organized in a cheat sheet fashion.  For
 deploying ever more advanced installations.  It can be added to and probably
