@@ -541,206 +541,206 @@ stuck on these problems so bypassing these will speed up the production of any
 networking project.
 
 1. Display manager failures on Pi 2 Devuan  
-sddm does not start at all  
-lightdm starts with black screen  
-use /etc/inittab to automate login  
-use bashrc to run startx with a message and a delay
+SDDM does not start at all  
+Lightdm starts with black screen  
+Use /etc/inittab to automate login  
+Use bashrc to run startx with a message and a delay
  
 2. Boot failure on Lattepanda FreeBSD  
-drop to boot loader  
-set hint.uart.0.disabled="1"  
-set hint.uart.1.disabled="1"  
-setup in /boot/device.hints
+Drop to boot loader  
+Set hint.uart.0.disabled="1"  
+Set hint.uart.1.disabled="1"  
+Setup in /boot/device.hints
 
 3. Bluetooth adapter failures  
 hcitool or bluetoothctl or kde no devices found in scan  
-faulty device confirmed in another computer  
-device replaced
+Faulty device confirmed in another computer  
+Device replaced
    
 4. Pi 4 display output failure  
-no picture on large tv by default  
-use output 0 and turn safe mode on
+No picture on large tv by default  
+Use output 0 and turn safe mode on
 
 5. ZFS mount failure on Lattepanda FreeBSD  
-unique disk ids are not used so usb install is da0 and usb target is da1  
-when installer is removed then da1 becomes da0 but fstab references da1  
-recovery can be done without the installer  
-at failed boot shell - mount -u /  
-at failed boot shell - zfs mount -a  
-edit fstab with vi changing da1 to da0
+Unique disk ids are not used so usb install is da0 and usb target is da1  
+When installer is removed then da1 becomes da0 but fstab references da1  
+Recovery can be done without the installer  
+At failed boot shell - mount -u /  
+At failed boot shell - zfs mount -a  
+Edit fstab with vi changing da1 to da0
 
 6. xorg start failure on Lattepanda Freebsd  
 /dev/dri/card0: No such file or directory errors  
-install drm-kmod and edit rc.conf to load i915kms
+Install drm-kmod and edit rc.conf to load i915kms
 
 7. KDE start failure on Lattepanda FreeBSD  
-only a black screen with mouse cursor appears  
+Only a black screen with mouse cursor appears  
 onestart dbus to create /var/lib/dbus/machine-id  
-now dbus can be stopped permanently and kde will start
+Now dbus can be stopped permanently and KDE will start  
+This used to be the way it works but sadly now dbus must always run
 
 8. FreeBSD KDE favorites failure  
-delete kactivitymanager stuff in config and local  
-switch launchers with show alternatives to have changes take effect
+Delete kactivitymanager stuff in config and local  
+Switch launchers with show alternatives to have changes take effect
 
 9. Logitech wireless keyboard failure  
-left click was being held down and left click did not work and many os features broken  
-remove keyboard and reinstall  
-unknown failure mode
+Left click was being held down and left click did not work and many os features broken  
+Remove keyboard and reinstall  
+Unknown failure mode
 
 10. ZTE mf861 management failure  
 192.168.1.1 is unreachable with falkon  
-use firefox to manage device
+Use Firefox to manage device
 
 11. Static IP failures  
-needs apn modifications for 14476.mcs APN  
-sierra 340 mbim mode - no dhcp and no connection at first - then sim mep locked error  
-sierra 340 at mode - sim mep locked error  
-sierra 313 - flashing orange light and no dhcp and no response to at commands  
-zte mf861 - success - choose add at bottom of apn settings page for custom apn  
+Needs APN modifications for 14476.mcs APN  
+Sierra 340 MBIM mode - no DHCP and no connection at first - then SIM MEP locked error  
+Sierra 340 AT mode - SIM MEP locked error  
+Sierra 313 - flashing orange light and no DHCP and no response to at commands  
+ZTE mf861 - success - choose add at bottom of APN settings page for custom APN  
 VSVABEFV - does not connect by default or with 14476.mcs APN
 
 12. FreeBSD KDE failures  
-log out glitches mouse/kde hyper slow/screen flicker worse/usb drive access errors  
-disable baloo in /usr/local/etc/xdg/autostart
+Log out glitches mouse/KDE hyper slow/screen flicker worse/USB drive access errors  
+Disable baloo in /usr/local/etc/xdg/autostart  
+This was only a workaround and the real problem was low Lattepanda 5v voltage
 
 13. Freebsd CPU speed unpredictability  
-cpu speed jumps around even when set to 480 mhz with sysctl dev.cpu.0.freq  
-disable powerd from starting in rc.conf
+CPU speed jumps around even when set to 480 mhz with sysctl dev.cpu.0.freq  
+Disable powerd from starting in rc.conf
 
 14. FreeBSD network monitoring failure with 1366x768  
-knemo does not work anymore  
-ksysguard shows network but all widgets except netspeed widget do not work  
-a very roundabout way can be used to show a decent network monitor  
-add a spacer in the panel in the position the monitor will go  
-add a tab in kysguard with 1 column and 2 rows and add re0 download and upload  
-turn off status bar  
-the tab can be named network  
-force position to 975x700  
-force size to 125x75 - this will not fully shrink the window yet  
-force no titlebar and frame  
-force keep above other windows  
-force skip taskbar  
-cycle between no menubar and menubar with ctrl-m - this should fully shrink the window
+Knemo does not work anymore  
+Ksysguard shows network but all widgets except netspeed widget do not work  
+A very roundabout way can be used to show a decent network monitor  
+Add a spacer in the panel in the position the monitor will go  
+Add a tab in kysguard with 1 column and 2 rows and add re0 download and upload  
+Turn off status bar  
+The tab can be named network  
+Force position to 975x700  
+Force size to 125x75 - this will not fully shrink the window yet  
+Force no titlebar and frame  
+Force keep above other windows  
+Force skip taskbar  
+Cycle between no menubar and menubar with ctrl-m - this should fully shrink the window
 
 15. FreeBSD network monitoring 2 failure with 1024x600  
-same as before but with 125x65 size and 690 x 530 position  
-no cycling menu on and off tricks this time either  
-simply turn menu bar off along with status bar
+Same as before but with 125x65 size and 690 x 530 position  
+No cycling menu on and off tricks this time either  
+Simply turn menu bar off along with status bar
 
 16. Linux network monitoring failure  
-knemo does not work anymore  
-simply install the old 0.1 version of network monitor  
-it looks different and more classic but it works
+Knemo does not work anymore  
+Simply install the old 0.1 version of network monitor  
+It looks different and more classic but it works
 
 17. Pi 4 slow media write failure  
-usb 3 flash drive - as low as 13 MB per second - had samba file copy errors also  
-high end micro SD - as low as 34 MB per second  
-apparently the peformance of a usb 3 ssd is much greater with the pi 4  
-this would present usb power problems with the current configuration  
-this is somewhat more costly  
-this would mean finding the exact model that would work properly  
-also not convinced it would be perfectly without errors  
-the micro sd speed now is good enough for a staging server
+USB 3 flash drive - as low as 13 MB per second - had samba file copy errors also  
+High end micro SD - as low as 34 MB per second  
+Apparently the peformance of a usb 3 ssd is much greater with the pi 4  
+This would present usb power problems with the current configuration  
+This is somewhat more costly  
+This would mean finding the exact model that would work properly  
+Also not convinced it would be perfectly without errors  
+The micro SD speed now is good enough for a staging server
 
 18. Pi 2 CPU speed failure  
-by default the later firmware/kernel packaged with devuan run this at 1200 mhz  
-this is way too high and it used to be run around 700 to 900 mhz  
-use the "overclock" function in config.txt to set it around 800 mhz  
+By default the later firmware/kernel packaged with Devuan run this at 1200 mhz  
+This is way too high and it used to be run around 700 to 900 mhz  
+Use the "overclock" function in config.txt to set it around 800 mhz  
 900 mhz was too high to avoid the lightning bolt appearing with a decent power setup  
-also disable wifi and bluetooth in config.txt  
-devices were running stable before but the red light flash is annoying
+Also disable wifi and Bluetooth in config.txt  
+Devices were running stable before but the red light flash is annoying
 
 19. Pi 4 power workaround failures  
-pi 4 devices are setup in unorthodox situations with limited power  
-such as attached to a laptop computer  
-disable wifi and bluetooth in config.txt  
-set cpu to 1300 mhz from default of 1500 mhz on staging server  
-no cpu modifications on remote access server  
-devices were running stable before but the red light flash is annoying
+Pi 4 devices are setup in unorthodox situations with limited power  
+Such as attached to a laptop computer  
+Disable wifi and Bluetooth in config.txt  
+Set CPU to 1300 mhz from default of 1500 mhz on staging server  
+No CPU modifications on remote access server for best speed  
+Devices were running stable before but the red light flash is annoying
 
 20. 192.168.1.1 nightmare failure  
-there is a conflict here between the zte mf861 device and the core switch  
-the zte mf861 always must have 192.168.1.1  
-so change core switch to easy to remember 192.168.1.100 and have dhcp start at 101  
-change all host default gateway to 192.168.1.100
+There is a conflict here between the ZTE mf861 device and the core switch  
+The ZTE mf861 always must have 192.168.1.1  
+So change core switch to easy to remember 192.168.1.100 and have DHCP start at 101  
+Change all host default gateway to 192.168.1.100
 
 21. FreeBSD ethernet trickery failure  
-sometimes after a switch goes offline ethernet will get confused  
-physically disconnect interface  
-bring up interface and set ip manually  
-physically reconnect and set gateway if necessary
+Sometimes after a switch goes offline ethernet will get confused  
+Physically disconnect interface  
+Bring up interface and set IP manually  
+Physically reconnect and set gateway if necessary
 
 22. MID HDMI failure  
-the mobile internet devices are being used to test from outside the network  
-fpv hdmi cables are giving consistent issues  
-these have given a lot of trouble in the past  
-monoprice short slim cables are almost as small anyway and much more reliable  
-the strain relief on the monoprice cables can be trimmed for more flexibility
+The mobile internet devices are being used to test from outside the network  
+FPV HDMI cables are giving consistent issues  
+These have given a lot of trouble in the past  
+Monoprice short slim cables are almost as small anyway and much more reliable  
+The strain relief on the Monoprice cables can be trimmed for more flexibility
 
 23. EFI setup for troublesome computers failure  
-For Lattepanda original and Windows tablets and things like that.  
+For Lattepanda original and Windows tablets and things like that  
 /////  
-ways to enter bios  
-use windows to reboot into firmware setup if all else fails  
-use devuan usb recovery grub console with c at boot and fwsetup at grub command line  
-use installed devuan grub console with c at boot and fwsetup at grub command line  
-use reboot to firmware setup grub menu option  
-use bios quiet boot off to have prompt for del key to enter firmware setup  
+Ways to enter bios  
+Use Windows to reboot into firmware setup if all else fails  
+Use Devuan usb recovery grub console with c at boot and fwsetup at Grub command line  
+Use installed Devuan Grub console with c at boot and fwsetup at Grub command line  
+Use reboot to firmware setup Grub menu option  
+Use BIOS quiet boot off to have prompt for del key to enter firmware setup  
 /////   
-to enter freebsd  
-disk configuration is devuan and windows on emmc and freebsd zfs on micro sd and usb 3  
-probably best to use these steps  
-enter firmware setup using one of 5 methods  
-choose boot override option for usb 3 instead of micro sd  
+To enter freebsd  
+Disk configuration is Devuan and Windows on EMMC and FreeBSD ZFS on micro SD and USB 3  
+Probably best to use these steps  
+Enter firmware setup using one of 5 methods  
+Choose boot override option for USB 3 instead of micro SD  
 /////  
-boot fix 1  
-grub is bugged after messing around with operating systems  
-bootup in rescue mode from usb installer and mount system root  
-mount and or create efi partition as first partition  
-run grub-install now that the system is automatically chrooted  
+Boot fix 1  
+Grub is bugged after messing around with operating systems  
+Boot up in rescue mode from USB installer and mount system root  
+Mount and or create EFI partition as first partition  
+Run grub-install now that the system is automatically chrooted  
 /////  
-boot fix 2  
-after a fresh install grub still fails with a command line  
-grub prefix is looking for a debian folder which does not exist  
-this prefix appears to be hardcoded into the grub efi files  
-copy the /boot/efi/devuan folder to debian to fix  
+Boot fix 2  
+After a fresh install grub still fails with a command line  
+Grub prefix is looking for a "debian" folder which does not exist  
+This prefix appears to be hardcoded into the Grub EFI files  
+Copy the /boot/efi/devuan folder to "debian" to fix  
 /////  
-boot fix 3  
-after a fresh install windows still boots and the bios boot order is not respected  
-the bios has no respect for you so delete or move the Microsoft folder in efi partition  
-anything can be chosen in bios but it does not matter  
-essentially a multi boot through bios is not possible  
-the operating system loader must enable a multi boot situation
+Boot fix 3  
+After a fresh install windows still boots and the BIOS boot order is not respected  
+The BIOS has no respect for you so delete or move the Microsoft folder in EFI partition  
+Anything can be chosen in BIOS but it does not matter  
+Essentially a multi boot through BIOS is not possible  
+The operating system loader must enable a multi boot situation
 
 24. High power 5v output paradox failure  
-no batteries output around 5v  
-almost no usb chargers output around 5.2v for sbc/7inch screen/ssd  
-almost no fixed voltage power supplies output around 5.2v for sbc/7 inch screen/ssd  
-a rare adjustable power supply is required along with battery and charger  
-or a rare 5.2v usb charger and commercial ups combo  
-a charging power supply is required that turns back on after a power outage  
-a charging power supply is required that outputs well above 12v at 12.6v or 13.8v  
-use pololu adjustable/medium lead acid/trickle charger  
-alternatively use canakit 5.2v charger and apc ups
+No batteries output around 5v  
+Almost no USB chargers output around 5.2v for SBC/7inch screen/SSD  
+Almost no fixed voltage power supplies output around 5.2v for SBC/7 inch screen/SSD  
+A rare adjustable power supply is required along with battery and charger  
+Or a rare 5.2v USB charger and commercial UPS combo  
+Use Pololu adjustable/medium lead acid/trickle charger  
+Alternatively use Canakit 5.2v charger and APC UPS
 
 26. Netgear smart managed pro failure  
-types of vlans  
+Types of VLANs  
 802.1x/q layer 2  
-standard layer 3  
-port based  
+Standard layer 3  
+Port based  
 /////  
-definitely did not want to do 802.1x  
+Definitely did not want to do 802.1x  
 /////  
-did not want to do layer 3 vlan because it requires changing up ip addresses  
-it may not even work  
-this is how dd wrt handles vlans  
-in dd wrt this works well if you understand and are willing to change ip addresses  
-it requires that each vlan have a corresponding subnet  
+Did not want to do layer 3 VLAN because it requires changing up IP addresses  
+It may not even work  
+This is how DD WRT handles VLANs  
+In DD WRT this works well if you understand and are willing to change IP addresses  
+It requires that each VLAN have a corresponding subnet  
 /////  
-port based unavailable with gs108t  
-netgear says that smart managed pro provides same features as plus with more options  
-this is a conflict  
-port based works perfect with the smart managed plus switches
+Port based unavailable with gs108t  
+Netgear says that smart managed pro provides same features as plus with more options  
+This is a conflict  
+Port based works perfect with the smart managed plus switches
 
 27. KDE start failure on AMD Ryzen Pro 2400GE on FreeBSD  
 gpu-firmware-kmod-somethingsomethingsomething was installed  
@@ -750,51 +750,51 @@ rc.conf specified kld_list="/boot/modules/amdgpu.ko"
 xinitrc specified exec ck-launch-session startplasma-x11
 
 28. Cloudflare proxy failures  
-was working before proxy  
-most things seem broken due to proxy  
-channels page html largely broken  
-all streams on page and through vlc broken  
-working again after disabling proxy  
-may have something to do with time to live
+Was working before proxy  
+Most things seem broken due to proxy  
+Channels page html largely broken  
+All streams on page and through vlc broken  
+Working again after disabling proxy  
+May have something to do with time to live
 
 29. Ping failure in virtualization and internet server multi WAN script  
-gateway ping is sometimes taking a large delay with these devices now  
-this happens after putting the virtualization server on a vlan  
-after rebooting core switch still seeing similar failures  
-after rebooting virtualization server still seeing similar failures  
-increase timeout on both scripts  
-now failures in media script  
-latency culprit is definitely second gs116ev2 since reconfiguring vlans
+Gateway ping is sometimes taking a large delay with these devices now  
+This happens after putting the virtualization server on a VLAN  
+After rebooting core switch still seeing similar failures  
+After rebooting virtualization server still seeing similar failures  
+Increase timeout on both scripts  
+Now failures in media script  
+Latency culprit is definitely second gs116ev2 since reconfiguring VLANs
 
 30. Dell switch limitations and failures  
-monitor mode works fine  
-there is no qos mode  
-however vlan mode is quite useless  
-the switch has no internal layer 3 features  
-managed switches sold as layer 2 like netgear have an internal layer 3 "bridge"  
-on the netgear it is as simple as assigning a port to more than one vlan  
-on the dell that is impossible due to the strict layer 2 nature  
-dd wrt makes this possible because it is a true layer 3 switch
+Monitor mode works fine  
+There is no QOS mode  
+However VLAN mode is quite useless  
+The switch has no internal layer 3 features  
+Managed switches sold as layer 2 like Netgear plus have an internal layer 3 "bridge"  
+On the Netgear it is as simple as assigning a port to more than one VLAN  
+On the Dell that is impossible due to the strict layer 2 nature  
+DD WRT makes this possible because it is a true layer 3 switch
 
 31. Switch web monitoring failure  
-the dell switch automatically refreshes the monitoring page  
-the netgear switch does not  
-automatically refreshing normally returns to the main page  
-set firefox auto refresh page extension to auto click #monitoringSecNav element
+The Dell switch automatically refreshes the monitoring page  
+The Netgear switch does not  
+Automatically refreshing normally returns to the main page  
+Set Firefox auto refresh page extension to auto click #monitoringSecNav element
 
 32. Cellular device alternate configuration failures  
-test going back to wvdial style connection  
+Test going back to wvdial style connection  
 lsusb -t shows driver  
 disablembimglobal option set to 0 in usb_modeswitch.conf  
-this allows /dev/ttyUSBX to appear on mbim devices  
-will always be an unblocked connection if no carrier grade nat is enabled  
-zte mf861 - ssim - broken (works with cdc) - disablembim irrelevant with cdc_ether  
+This allows /dev/ttyUSBX to appear on MBIM devices  
+Will always be an unblocked connection if no carrier grade NAT is enabled  
+ZTE mf861 - ssim - broken (works with cdc) - disablembim irrelevant with cdc_ether  
 VSVABEFV - msim - broken (terrible!!!) - disablembim irrelevant with cdc_ether  
-sierra 340 - lsim - ttyUSB1 works well but screen does not show - cdc_mbim  
-sierra 313 - lsim - ttyUSB3 is perfect - disablembim irrelevant with sierra  
-so this mode is only relevant to making sierra 340 work better  
-however sierra 313 does work dial up style with sierra driver  
-zte mf861 just works well in general and may expose all ports anyway  
+Sierra 340 - lsim - ttyUSB1 works well but screen does not show - cdc_mbim  
+Sierra 313 - lsim - ttyUSB3 is perfect - disablembim irrelevant with sierra  
+So this mode is only relevant to making Sierra 340 work better  
+However sierra 313 does work dial up style with sierra driver  
+ZTE mf861 just works well in general and may expose all ports anyway  
 VSVABEFV is trash
 
 **The Seer's Knowledge**  
