@@ -955,6 +955,7 @@ rc.local.VIRTUALIZATIONSERVER - auto start multi wan
 rc.local.BACKUPINTERNETSERVER - auto start multi wan and redundancy and status  
 rc.local.INTERNETSERVER - auto start multi wan  
 rc.local.RAS - auto start simple multi wan and container  
+rc.local.REENCODER - auto start Streamlauncher  
 SMS.py - sends administrative alerts through VOIP.ms to an SMS number  
 config.txt.STATIC - low level system configuration for Pi 2  
 config.txt.CGNAT - low level system configuration for Pi 2  
