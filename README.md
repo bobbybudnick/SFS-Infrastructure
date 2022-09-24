@@ -566,7 +566,7 @@ Set hint.uart.1.disabled="1"
 Setup in /boot/device.hints
 
 3. Bluetooth adapter failures  
-hcitool or bluetoothctl or kde no devices found in scan  
+hcitool or bluetoothctl or KDE no devices found in scan  
 Faulty device confirmed in another computer  
 Device replaced
    
@@ -695,14 +695,14 @@ The strain relief on the Monoprice cables can be trimmed for more flexibility
 23. EFI setup for troublesome computers failure  
 For Lattepanda original and Windows tablets and things like that  
 /////  
-Ways to enter bios  
+Ways to enter BIOS  
 Use Windows to reboot into firmware setup if all else fails  
 Use Devuan USB recovery grub console with c at boot and fwsetup at Grub command line  
 Use installed Devuan Grub console with c at boot and fwsetup at Grub command line  
 Use reboot to firmware setup Grub menu option  
 Use BIOS quiet boot off to have prompt for del key to enter firmware setup  
 /////   
-To enter freebsd  
+To enter FreeBSD  
 Disk configuration is Devuan and Windows on EMMC and FreeBSD ZFS on micro SD and USB 3  
 Probably best to use these steps  
 Enter firmware setup using one of 5 methods  
@@ -939,7 +939,8 @@ Architecture document showing overview of hosts/remote admin/website/redundancy
 Switch layout document showing ports and roles  
 Map document showing host IP and hostname  
 WAN info document showing details such as static IP and netmask  
-Credentials document showing service login details
+Credentials document showing service login details  
+WEBPOSITIVE_MINDER - this miscellaneous script restarts the browser on a monitor  
 2. Multi WAN  
 A reliable network starts with reliable Internet connections.  However, consider
 if all network computers truly need backup gateways or only a subset.  This is
@@ -1132,7 +1133,7 @@ Connected to home theater
 Takes games on the go  
 Cable router administration device
 
-10. Devuan pi 4 headless staging server - installed  
+10. Devuan Pi 4 headless staging server - installed  
 Holds only data that is yet to be sorted and archived  
 No redundancy but the copying computers keep until stored
 
