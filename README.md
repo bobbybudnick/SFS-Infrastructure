@@ -1338,31 +1338,27 @@ Did crash after several days - trying the same without local io apic or whatever
 Was forced to replace old Asus laptop with old Gateway Laptop that works better  
 There are still issues with memory leaks in the Webpositive browser however
 
-23. Windows tablet switch administration device 2 - installed  
-Attached to different subnet that is the same as switch  
-Available for real time switch administration with monitoring/stats/QOS/VLAN
-
-24. DD WRT core switch  
+23. DD WRT core switch  
 Has gigabit switch integrated  
 Could in theory be used as a wireless access point also
 
-25. Pfsense cable router  
+24. Pfsense cable router  
 The cable gateway and main Internet connection  
 Set for relatively short battery life due to unreliability of hard lines in outages
 
-26. MID  
+25. MID  
 The Mobile Internet Device has emergency Internet sharing capability  
 SIM cards for alternative MIDs are in use elsewhere
 
-27. Fire Stick  
+26. Fire Stick  
 Quarantined by VLAN  
 Lives in II Alpha and is connected by HDMI to media computer
 
-28. HDHomerun  
+27. HDHomerun  
 Reliably takes ATSC OTA and displays it in a convenient webpage  
 Also works pretty well interfacing with VLC
 
-29. HP Color Laser Printer  
+28. HP Color Laser Printer  
 This has been working well for over a decade  
 Has only needed a toner replacement one time and was not expensive
 
