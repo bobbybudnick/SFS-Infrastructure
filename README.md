@@ -949,6 +949,7 @@ Map document showing host IP and hostname
 WAN info document showing details such as static IP and netmask  
 Credentials document showing service login details  
 WEBPOSITIVE_MINDER - this miscellaneous script restarts the browser on a monitor  
+WEATHER - this miscellaneous script runs the weather on a monitor  
 2. Multi WAN  
 A reliable network starts with reliable Internet connections.  However, consider
 if all network computers truly need backup gateways or only a subset.  This is
