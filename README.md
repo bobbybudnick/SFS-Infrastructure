@@ -547,6 +547,14 @@ Only 2 switches are needed now with this approach.
 Management/backup with added or decomissioned administration.  
 Setup VLAN on management switch with workstation/main storage/backup storage.
 
+36. Blackwall concept  
+Somewhere behind the PFSense firewall.  
+And then somewhere behind the core switch firewall and layer 3 VLAN.  
+And then somewhere behind the management switch VLAN.  
+Lies a shadowy place where storage servers are behind the final line of defense.  
+Workstation and main and backup storage are the only denizens of this realm.  
+Rogue AI could perhaps be confined here or kept out of here depending on design.
+
 **Troubles in the Tapestry**  
 This is a catalog of glitches encountered during development.  Some with
 networking equipment and some with hosts.  By far the longest time was spent
