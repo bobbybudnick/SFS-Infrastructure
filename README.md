@@ -853,6 +853,24 @@ Restart reimplemented for stream 1
 Try 4 hours then 2 then 1 while troubleshooting  
 Audio is working with 4 hour restarts
 
+35. Poor Stream Quality Failures - Unsolved  
+Should look into improving stream clarity  
+Hard to tell what is happening in printer and on workspace  
+Compare the output to what top youtubers look like
+
+36. Stream 1 Failures - Unsolved  
+HDHomerun had blinking tuner light 1  
+HDHomerun power disconnect and reconnect did not fix  
+http reconnect did not fix  
+Unknown if scheduled restart would have fixed  
+Fixed by semi manual stream restart through streamconfig
+
+37. Network Mystery Failures - Unsolved  
+netstat hangs too long on reencoder sometimes  
+Redundancy script fails on gateway 1 with vm and internet server sometimes  
+Connection between staging server and workstation hangs sometimes  
+Problems have been worked around but still annoying
+
 **The Seer's Knowledge**  
 This is networking information organized in a cheat sheet fashion.  For
 deploying ever more advanced installations.  It can be added to and probably
@@ -948,6 +966,7 @@ Switch layout document showing ports and roles
 Map document showing host IP and hostname  
 WAN info document showing details such as static IP and netmask  
 Credentials document showing service login details  
+Gateways document that lists internet connections with different info fields  
 WEBPOSITIVE_MINDER - this miscellaneous script restarts the browser on a monitor  
 WEATHER - this miscellaneous script runs the weather on a monitor  
 2. Multi WAN  
@@ -959,6 +978,7 @@ FREEBSD_MULTI_WAN - uses the unique FreeBSD fibs system
 ROUTER_CGNAT - continuation of mid script now streamlined  
 ROUTER_STATIC - continuation of mid script with several extra features  
 ROUTER_WORKER - needed to assist the static router for data usage computation  
+ROUTER_BTPAN - for emergency routing from an Android phone  
 DD_WRT_FIXUP 1 and 2 - handles network segmentation among other things  
 rc.local.VIRTUALIZATIONSERVER - auto start multi wan  
 rc.local.BACKUPINTERNETSERVER - auto start multi wan and redundancy and status  
