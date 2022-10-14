@@ -967,7 +967,9 @@ Map document showing host IP and hostname
 WAN info document showing details such as static IP and netmask  
 Credentials document showing service login details  
 Gateways document that lists internet connections with different info fields  
-WEBPOSITIVE_MINDER - this miscellaneous script restarts the browser on a monitor  
+HAIKU_FIXUP - miscellaneous script deals with Haiku OS as network monitor  
+HAIKU_REMOTE - handles one line SSH login and launches further script  
+HAIKU_REMOTE_WORKER - has job of overlaying text on SSH session  
 WEATHER - this miscellaneous script runs the weather on a monitor  
 2. Multi WAN  
 A reliable network starts with reliable Internet connections.  However, consider
