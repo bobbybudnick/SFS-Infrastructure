@@ -555,6 +555,32 @@ Lies a shadowy place where storage servers are behind the final line of defense.
 Workstation and main and backup storage are the only denizens of this realm.  
 Rogue AI could perhaps be confined here or kept out of here depending on design.
 
+37. The scoop on setuid root  
+This is the way of setting executables to execute as root but run by user  
+FreeBSD and Linux cannot directly execute scripts this way only binaries  
+Can edit sudoers file to bypass this  
+Can write small c executable to bypass this  
+Can call setuid root executables directly instead of scripting to bypass this  
+Tested on FreeBSD  
+Copy shutdown to home folder  
+chown root:wheel /home/jason/shutdown to change ownership on FreeBSD  
+chown root:root /home/jason/shutdown to change ownership on Linux  
+sudo chmod u+s /home/jason/shutdown for setuid root  
+/home/jason/shutdown -r 0001010130 shuts down so late that it errors out  
+This is used for testing the shutdown command without a built in test on FreeBSD  
+shutdown -k now can be used to test shutdown on linux without shutting down  
+Of course shutdown -h now shuts both down
+
+38. Future computer replacements  
+List of all remaining commercial PC devices minus the switch administration tablet  
+Router - replacement in development - consider making luggable with no battery  
+Media - custom laptop needed for performance  
+Monitor 2 - anything could replace  
+Monitor 3 - custom laptop needed for screen size  
+Companion 1 - custom tablet could replace  
+Companion 2 - custom tablet could replace  
+The remaining devices still work fine so they should be replaced as needed
+
 **Troubles in the Tapestry**  
 This is a catalog of glitches encountered during development.  Some with
 networking equipment and some with hosts.  By far the longest time was spent
