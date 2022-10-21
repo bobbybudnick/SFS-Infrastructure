@@ -569,7 +569,10 @@ sudo chmod u+s /home/jason/shutdown for setuid root
 /home/jason/shutdown -r 0001010130 shuts down so late that it errors out  
 This is used for testing the shutdown command without a built in test on FreeBSD  
 shutdown -k now can be used to test shutdown on linux without shutting down  
-Of course shutdown -h now shuts both down
+Of course shutdown -h now shuts both down  
+Sometimes the calling executables directly method does not work  
+This is because some executables call other executables such as with dhclient  
+It is then best to use the sudoers file method in this case
 
 38. Future computer replacements  
 List of all remaining commercial PC devices minus the switch administration tablet  
