@@ -257,7 +257,9 @@ Turning off radio enable in services
 
 29. Copy from DD WRT  
 Enable USB/enable USB storage/enable automatic drive mount.  
-Enable sshd and use scp like scp root@192.168.1.1:/mnt/sda1/TEST /home/jason/TEST  
+Enable sshd and use scp because sftp is not available by default.  
+copy to router - scp -r root@192.168.1.1:/mnt/sda1/TEST /home/jason/TEST  
+copy from router - scp -r jason/ root@192.168.1.1:/mnt/sda1/jason  
 Also FTP and samba are available from the NAS page but maybe SSH will use less RAM.  
 Sadly rsync does not work by default.
 
