@@ -999,8 +999,10 @@ WAN info document showing details such as static IP and netmask
 Credentials document showing service login details  
 Gateways document that lists internet connections with different info fields  
 HAIKU_FIXUP - miscellaneous script deals with Haiku OS as network monitor  
-HAIKU_REMOTE - handles one line SSH login and launches further script  
-HAIKU_REMOTE_WORKER - has job of overlaying text on SSH session  
+HAIKU_REMOTE - handles one line SSH login  
+tmux.conf - dotfile for customizing tmux status bar  
+TMUX_STATUS_HAIKU_BATTERY - script for battery on tmux status bar  
+TMUX_STATUS_HAIKU_MEMORY - script for showing memory on tmux status bar  
 WEATHER - this miscellaneous script runs the weather on a monitor  
 2. Multi WAN  
 A reliable network starts with reliable Internet connections.  However, consider
