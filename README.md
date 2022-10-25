@@ -1129,6 +1129,7 @@ will be unique to the network but non-confidential.
 6.VNC server  
 7.Worker 1  
 8.Uploader python script  
+9.Haiku remote SSH login script  
 Remember to edit the passcodes in these files.
 
 **Fruits of the Quiltmaker**  
