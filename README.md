@@ -1042,7 +1042,6 @@ The Internet connection fallback section of the script did not trigger
 41. sftp failures  
 when bashrc is customized sftp can say received message too long  
 Add this to bashrc:  
-# If not running interactively, don't do anything  
 case $- in  
     *i*) ;;  
       *) return;;  
