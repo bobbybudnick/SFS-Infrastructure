@@ -661,6 +661,7 @@ Even if web is not blocked connections should be rare because this is a fallback
 Looks like a good choice without having to get into something more complicated.  
 Still important for internal SSH blocking even when port forwards have been disabled.  
 Even so it is just too tedious to maintain blocklists for the cellular gateway.  
+However iptables SSH internal connection throttling and logging can be used.  
 /////  
 Solution 2  
 Use port knocking.  
