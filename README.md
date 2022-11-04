@@ -1146,13 +1146,17 @@ if all network computers truly need backup gateways or only a subset.  This is
 another tradeoff between hardware features in network devices and scripting.  
 LINUX_MULTI_WAN - several script examples for different Linux computer roles  
 FREEBSD_MULTI_WAN - uses the unique FreeBSD fibs system  
+/////  
 ROUTER_CGNAT - continuation of mid script now streamlined  
+ROUTER_CGNAT_HELPER - actuate PI status light and write status message over iftop  
+/////  
 ROUTER_STATIC - continuation of mid script with several extra features  
 ROUTER_STATIC_WORKER - controls port forward switching based on network status  
 ROUTER_STATIC_HELPER - chooses program to run in tmux which is iftop in this case  
 tmux.conf - displays extra data useful for cellular routing  
 TMUX_STATUS_DATA - backend script for tmux data usage computation  
 TMUX_STATUS_GATEWAY - backend script for tmux gateway path computation  
+/////  
 ROUTER_BTPAN - for emergency routing from an Android phone  
 DD_WRT_FIXUP 1 and 2 - handles network segmentation among other things  
 rc.local.VIRTUALIZATIONSERVER - auto start multi wan  
