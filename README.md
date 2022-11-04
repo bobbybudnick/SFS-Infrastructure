@@ -956,16 +956,20 @@ Redundancy script fails on gateway 1 with vm and internet server sometimes
 Connection between staging server and workstation hangs sometimes  
 Problems have been worked around but still annoying
 
-38. Proxmox VM shutdown not working  
+38. Proxmox VM shutdown failures  
 Also no virtual console login for vm is a symptom.  
 Kill process of vm.  
 ps aux | grep <VMID>  
 kill processnumber  
 Caused by /etc/rc.local not having & on end of script.
 
-39. Proxmox SSH login not working  
+39. Proxmox SSH login failures  
 permitrootlogin option in ssh config had somehow been changed.  
 Now changed back and it works fine.
+
+40. Multi WAN script potential failures - Unsolved  
+Detected on media and virtualization server.  
+The Internet connection fallback section of the script did not trigger.
 
 **The Seer's Knowledge**  
 This is networking information organized in a cheat sheet fashion.  For
