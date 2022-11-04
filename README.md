@@ -531,7 +531,7 @@ The remaining devices still work fine so they should be replaced as needed
 
 **The Arrowproof Tunic**  
 Focusing on locking down and securing all equipment from outside miscreants.
-More scripts and diligence was required.  A closer eye revealed some cracks
+More scripts and diligence were required.  A closer eye revealed some cracks
 in the armor which were interwoven anew.
 
 1. VLAN commentary   
