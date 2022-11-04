@@ -519,7 +519,22 @@ Add split results feature to Streamconfig - optimize grep
 Add chat view feature of last 5 lines to Streamconfig - use curl  
 Run Streamconfig on II Bravo companion
 
-34. VLAN commentary   
+34. Future computer replacements  
+List of all remaining commercial PC devices minus the switch administration tablet  
+Router - replacement in development - consider making luggable with no battery  
+Media - custom laptop needed for performance  
+Monitor 2 - anything could replace  
+Monitor 3 - custom laptop needed for screen size  
+Companion 1 - custom tablet could replace  
+Companion 2 - custom tablet could replace  
+The remaining devices still work fine so they should be replaced as needed
+
+**The Arrowproof Tunic** 
+Focusing on locking down and securing all equipment from outside miscreants.
+More scripts and diligence was required.  A closer eye revealed some cracks
+in the armor which were interwoven anew.
+
+1. VLAN commentary   
 Only VIP hosts will have server VLAN guest access.  
 In otherwords they will be on the main VLAN and the server VLAN.  
 Independence switch will need to stay on server VLAN 1 because it is a dumb switch.  
@@ -536,7 +551,7 @@ Clients there could access the internet through gateway 2 but be heavily shielde
 Should be no loops because each VLAN will act like an independent switch.  
 Loops start when devices share VLANs with multiple connections to router.
 
-35. Further switch improvements  
+2. Further switch improvements  
 More network segmentation is ideally needed against Internet intruders.  
 Smart managed plus 8 port gs108e is a good choice.  
 3 switches are needed with initial thoughts.  
@@ -549,7 +564,7 @@ Only 2 switches are needed now with this approach.
 Management/backup with added or decomissioned administration.  
 Setup VLAN on management switch with workstation/main storage/backup storage.
 
-36. Blackwall concept  
+3. Blackwall concept  
 Somewhere behind the PFSense firewall.  
 And then somewhere behind the core switch firewall and layer 3 VLAN.  
 And then somewhere behind the management switch VLAN.  
@@ -557,34 +572,73 @@ Lies a shadowy place where storage servers are behind the final line of defense.
 Workstation and main and backup storage are the only denizens of this realm.  
 Rogue AI could perhaps be confined here or kept out of here depending on design.
 
-37. The scoop on setuid root  
-This is the way of setting executables to execute as root but run by user  
-FreeBSD and Linux cannot directly execute scripts this way only binaries  
-Can edit sudoers file to bypass this  
-Can write small c executable to bypass this  
-Can call setuid root executables directly instead of scripting to bypass this  
-Tested on FreeBSD  
-Copy shutdown to home folder  
+4. The scoop on setuid root  
+This is the way of setting executables to execute as root but run by user.  
+FreeBSD and Linux cannot directly execute scripts this way only binaries.  
+Can edit sudoers file to bypass this.  
+Can write small c executable to bypass this.  
+Can call setuid root executables directly instead of scripting to bypass this.  
+Tested on FreeBSD.  
+Copy shutdown to home folder.  
 chown root:wheel /home/jason/shutdown to change ownership on FreeBSD  
 chown root:root /home/jason/shutdown to change ownership on Linux  
 sudo chmod u+s /home/jason/shutdown for setuid root  
-/home/jason/shutdown -r 0001010130 shuts down so late that it errors out  
-This is used for testing the shutdown command without a built in test on FreeBSD  
-shutdown -k now can be used to test shutdown on linux without shutting down  
-Of course shutdown -h now shuts both down  
-Sometimes the calling executables directly method does not work  
-This is because some executables call other executables such as with dhclient  
-It is then best to use the sudoers file method in this case
+/home/jason/shutdown -r 0001010130 shuts down so late that it errors out.  
+This is used for testing the shutdown command without a built in test on FreeBSD.  
+shutdown -k now can be used to test shutdown on linux without shutting down.  
+Of course shutdown -h now shuts both down.  
+Sometimes the calling executables directly method does not work.  
+This is because some executables call other executables such as with dhclient.  
+It is then best to use the sudoers file method in this case.
 
-38. Future computer replacements  
-List of all remaining commercial PC devices minus the switch administration tablet  
-Router - replacement in development - consider making luggable with no battery  
-Media - custom laptop needed for performance  
-Monitor 2 - anything could replace  
-Monitor 3 - custom laptop needed for screen size  
-Companion 1 - custom tablet could replace  
-Companion 2 - custom tablet could replace  
-The remaining devices still work fine so they should be replaced as needed
+5. Creating an RAS security layer  
+Passwords removed for clients within remote access server.  
+This is an extra layer of security in exchange for less convenience.  
+If there is a break in to the ras server they will not get very far.
+
+6. In the event of core switch failure  
+CC Liberty and CC Independence switches connect to main switch  
+So connectivity can happen from main switch > subsidiary switch > fallback gateway
+
+7. Centurion for core switch idea  
+Could check for connections on obscure port.  
+Could check for connections on common but unused ports.  
+Could Block IP with iptables.  
+Or could harvest addresses after a while and add to router block lists.  
+The honeypot port would need to be opened at main gateway to reach core switch.  
+This would largely eliminate bots that portscan.
+
+8. Practical port knocking idea  
+First idea was to use netcat on router to listen for a passcode to open ports.  
+Similar to Centurion could check for connections on obscure ports.  
+Similar to Centurion could check for connections on common but unused ports.  
+Could also use custom ping size as trigger.
+
+9. RAS addendum  
+Restart procedure in case the password is forgotten.  
+This is what would normally be done with docker programs.  
+Show running containers - sudo docker container list  
+Stop running container - sudo docker container stop idofcontainer  
+Show all containers - sudo docker container list -a  
+Remove all stopped containers - dangerous - sudo docker container prune  
+However guacamole keeps configuration in a persistence folder in home directory.  
+This directory is referenced at docker startup and is at /home/docker/guacamole  
+This contains among other things the postgresql database.  
+This would need to be erased or renamed to reset passwords.
+
+10. Looped vs on demand programming  
+Typically SFS does loops for background jobs.  
+But this is not the only way.  
+All tasks can be done all at once by a predefined action.  
+This could be considered an eventhandler.  
+An event happens and processing occurs because of it.  
+With a loop the processing usually happens at predefined time intervals instead.  
+The web scripts are an example of on demand meant to keep the server more idle.
+
+11. List of blacklists  
+Primary - static list from github hosts.deny blocking project  
+Secondary - dynamically generated by captcha mechanism arty  
+Tertiary - dynamically generated by core switch Centurion anti port scanning arty
 
 **Troubles in the Tapestry**  
 This is a catalog of glitches encountered during development.  Some with
@@ -901,6 +955,17 @@ netstat hangs too long on reencoder sometimes
 Redundancy script fails on gateway 1 with vm and internet server sometimes  
 Connection between staging server and workstation hangs sometimes  
 Problems have been worked around but still annoying
+
+38. Proxmox VM shutdown not working  
+Also no virtual console login for vm is a symptom.  
+Kill process of vm.  
+ps aux | grep <VMID>  
+kill processnumber  
+Caused by /etc/rc.local not having & on end of script.
+
+39. Proxmox SSH login not working  
+permitrootlogin option in ssh config had somehow been changed.  
+Now changed back and it works fine.
 
 **The Seer's Knowledge**  
 This is networking information organized in a cheat sheet fashion.  For
