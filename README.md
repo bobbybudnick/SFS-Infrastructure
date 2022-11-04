@@ -1153,7 +1153,7 @@ ROUTER_CGNAT_HELPER - actuate PI status light and write status message over ifto
 ROUTER_STATIC - continuation of mid script with several extra features  
 ROUTER_STATIC_WORKER - controls port forward switching based on network status  
 ROUTER_STATIC_HELPER - chooses program to run in tmux which is iftop in this case  
-tmux.conf - displays extra data useful for cellular routing  
+tmux.conf - displays extra data for cellular routing as dotfile for root folder  
 TMUX_STATUS_DATA - backend script for tmux data usage computation  
 TMUX_STATUS_GATEWAY - backend script for tmux gateway path computation  
 /////  
