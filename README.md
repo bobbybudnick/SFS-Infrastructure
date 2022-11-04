@@ -529,7 +529,7 @@ Companion 1 - custom tablet could replace
 Companion 2 - custom tablet could replace  
 The remaining devices still work fine so they should be replaced as needed
 
-**The Arrowproof Tunic** 
+**The Arrowproof Tunic**  
 Focusing on locking down and securing all equipment from outside miscreants.
 More scripts and diligence was required.  A closer eye revealed some cracks
 in the armor which were interwoven anew.
