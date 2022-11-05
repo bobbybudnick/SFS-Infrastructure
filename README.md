@@ -1235,7 +1235,7 @@ rc.local.REENCODER - auto start Streamlauncher
 SMS.py - sends administrative alerts through VOIP.ms to an SMS number  
 config.txt.STATIC - low level system configuration for Pi 2  
 config.txt.CGNAT - low level system configuration for Pi 2  
-ports.conf - configure primary internet server for administration on port 8080  
+ports.conf - configure primary Internet server for administration on port 8080  
 3. Streaming  
 The result of an effort to obtain a modernized website with multimedia features.
 Data and power usage from a modest streaming system does not have to be excessive.
