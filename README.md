@@ -1064,7 +1064,7 @@ Fixed by semi manual stream restart through streamconfig
 
 37. Network Mystery Failures  
 netstat hangs too long on reencoder sometimes  
-Redundancy script fails on gateway 1 with vm and internet server sometimes  
+Redundancy script fails on gateway 1 with VM and internet server sometimes  
 Connection between staging server and workstation hangs sometimes  
 Initial strategy is removal of routes one by one to see which one causes hang  
 Now route and netstat do not hang after reboot on reencoder at least  
@@ -1080,7 +1080,7 @@ kill processnumber
 Caused by /etc/rc.local not having & on end of script
 
 39. Proxmox SSH login failures  
-permitrootlogin option in ssh config had somehow been changed  
+permitrootlogin option in SSH config had somehow been changed  
 Now changed back and it works fine
 
 40. Multi WAN script potential failures - Unsolved  
@@ -1097,8 +1097,8 @@ esac
 
 42. OpenSSH DNS disable not working  
 Very frequent and unnecessary DNS connections are made during local SSH sessions  
-Dropbear dns disable only seems to be an option in source code  
-lsh login not working with lsh client or open ssh client  
+Dropbear DNS disable only seems to be an option in source code  
+lsh login not working with lsh client or OpenSSH client  
 No guarantee that wolfssh and lsh will not be the same way with DNS requests  
 One solution might be to block port 53 with iptables  
 One solution might be to use regular telnet/telnet with stunnel/telnet-ssl  
