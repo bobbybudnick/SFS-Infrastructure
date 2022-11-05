@@ -708,6 +708,47 @@ In the end all attempts are not blocked because new addresses appear all the tim
 It is also better than nothing.  
 Can be combined with other security methods as part of a greater strategy.
 
+13. Captcha idea  
+New addresses pop up all the time that are associated with botnets.  
+So the block lists do not catch all rogue addresses.  
+Also all addresses are not associated with scans so centurion can not filter them.  
+If bots not on blacklist connect to port 80 without a scan then captcha required.  
+Captcha needs to be on index.html so it is hopefully seen first.  
+Add good hosts that answer captcha correctly to white list.  
+Check connections to server resources except index.html and compare to white list.  
+Host is bad if they fail captcha or access resources without being on whitelist.  
+Simply add bad hosts to local secondary blacklist on web server.  
+This would largely eliminate bots that ddos or attempt to upload exploits.
+
+14. Possible captcha alert levels  
+Could signal threat level low/medium/high/extreme on status page.  
+In practice just level 0 and level 3 are used.  
+Level 3 - basic index.html with no captcha and link to content.html.  
+For high traffic events that we do not want to risk banning anyone important.  
+Level 2 - index.html with nonaggressive captcha.  
+When no other resources are accessed there is no ban.  
+When captcha not correct there is no ban.  
+Banned when - skipped captcha.  
+For standard operation.  
+Level 1 - index.html with aggressive captcha.  
+When no other resources are accessed there is no ban.  
+When captcha not correct there is a ban.  
+Banned when - bad captcha/skipped captcha.  
+For use when under sustained attacks to cull the opposition.  
+Level 0 - index.html with captcha that does not allow navigation away without ban.  
+Regardless of other resources accessed there is a ban if captcha not correct.  
+When captcha not correct there is a ban.  
+Banned when - bad captcha/skipped captcha/no captcha.  
+For a deadly nuclear blow with no regard for the innocent.
+
+15. Serious things to say to deter hackers  
+These items are in addition to the items already on the level 0 captcha HTML page.  
+You were caught better luck next time.  
+Your IP address is...even if not correct.  
+Quote US computer fraud laws.  
+Quote US prison conditions.  
+Quote US extradition agreements.
+
 **Troubles in the Tapestry**  
 This is a catalog of glitches encountered during development.  Some with
 networking equipment and some with hosts.  By far the longest time was spent
