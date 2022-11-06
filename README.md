@@ -1329,7 +1329,7 @@ SFS_AI - main logic
 AI_MESSAGE_DIALOG - present a dialog for incoming messages of various types  
 12. Captcha  
 Bots are a threat on the modern Internet and one of the best ways to deal with
-them is the unfortunate use of a Captcha.  This captcha does not use javascript
+them is the unfortunate use of a captcha.  This captcha does not use javascript
 or anything running client side.  Has the ability to detect bypassing.  Should
 be used as part of a multi-tiered security strategy.  Requires a gateway or
 firewalling device to read the blocklist it generates to be useful.  
