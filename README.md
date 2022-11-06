@@ -1326,24 +1326,54 @@ Etherape.  A basic ethernet hub or a managed switch is a must to use this.  This
 is a continuation of an earlier effort to add a voice assistant to the
 MID project.  
 SFS_AI - main logic  
-AI_CONNECTION_DIALOG - present a dialog for phone reconnection  
-AI_PERSISTENCE_DIALOG - present a dialog to dismiss persistent notifications
+AI_MESSAGE_DIALOG - present a dialog for incoming messages of various types  
+12. Captcha  
+Bots are a threat on the modern Internet and one of the best ways to deal with
+them is the unfortunate use of a Captcha.  This captcha does not use javascript
+or anything running client side.  Has the ability to detect bypassing.  Should
+be used as part of a multi-tiered security strategy.  Requires a gateway or
+firewalling device to read the blocklist it generates to be useful.  
+CAPTCHA - CGI script at the core of the initiative  
+CAPTCHA_AGENT - run the cgi script at internals in case it is not run otherwise  
+index.html - example page  
+WHITELIST - necessary list for comparison  
+BLACKLIST_2 - the list for reading by blocking devices
 
 **Forbidden Tomes**  
 There are certain documents that for reasons of security and practicality will
-be unique for every network.  Some listed here will be sanitized examples that
-absolutely must be edited with custom credentials.  Some examples displayed here
-will be unique to the network but non-confidential.  
-1.Recorder  
-2.Server redundancy 3  
-3.SMS python script  
-4.Streamconfig  
-5.Streamlauncher  
-6.VNC server  
-7.Worker 1  
-8.Uploader python script  
-9.Haiku remote SSH login script  
-Remember to edit the passcodes in these files.
+be unique for every network.  
+
+Legend  
+/////  
+Some listed here will be examples that must be edited with custom credentials.  
+These would be a bad loss but a password change away from being fixed.  
+These are marked as RESTRICTED.  
+/////  
+Some examples displayed here will be unique to the network but non-confidential.  
+Best kept close to the chest because a network design can not be easily changed.  
+These are marked as PROPRIETARY.  
+/////  
+Some even are so secret that they are not posted at all but merely referenced.  
+These are marked as SECRET.  
+These are protected through security through obsecurity whatever that is worth.  
+
+1.Recorder - RESTRICTED  
+2.Server redundancy 3 - RESTRICTED  
+3.SMS python script - RESTRICTED  
+4.Streamconfig - RESTRICTED  
+5.Streamlauncher - RESTRICTED  
+6.VNC server - RESTRICTED  
+7.Worker 1 - RESTRICTED  
+8.Uploader python script - RESTRICTED  
+9.Haiku remote SSH login script - RESTRICTED  
+10.Switch index - PROPRIETARY  
+11.Network map - PROPRIETARY  
+12.Cable IP document - PROPRIETARY  
+13.Numbers and passwords - PROPRIETARY  
+14.PFSense configuration without packages - PROPRIETARY  
+15.PFSense configuration with packages - PROPRIETARY  
+16.Unused hostname ideas - PROPRIETARY  
+17.Captcha CGI script - SECRET
 
 **Fruits of the Quiltmaker**  
 This is a list of hosts showing what can be expected with a typical end result.  A product of the 
