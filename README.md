@@ -1354,8 +1354,8 @@ Best kept close to the chest because a network design can not be easily changed.
 These are marked as PROPRIETARY.  
 /////  
 Some even are so secret that they are not posted at all but merely referenced.  
-These are marked as SECRET.  
-These are protected through security through obsecurity whatever that is worth.  
+These are protected through security through obscurity whatever that is worth.  
+These are marked as SECRET.
 
 1.Recorder - RESTRICTED  
 2.Server redundancy 3 - RESTRICTED  
