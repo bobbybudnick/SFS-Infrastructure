@@ -1181,8 +1181,8 @@ With a loop the processing usually happens at predefined time intervals instead.
 The web scripts are an example of on demand meant to keep the server more idle.
 
 13. In the event of core switch failure  
-CC Liberty and CC Independence switches connect to main switch  
-So connectivity can happen from main switch > subsidiary switch > fallback gateway
+CC Liberty and CC Independence switches connect to main switch.  
+So connectivity can happen from main switch > subsidiary switch > fallback gateway.
 
 14. RAS addendum  
 Restart procedure in case the password is forgotten.   
