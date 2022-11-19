@@ -391,7 +391,7 @@ II Bravo - shutdown staging server on Lenovo companion laptop
 Complex design wasted as router  
 Fairly unstable USB  
 Small screen for GUI interactivity in the data center  
-Makes both data centers have 2 console 2 GUI 2 headless  
+Makes both computer cores have 2 console 2 GUI 2 headless  
 May need as spare MID  
 May need for demonstration purposes  
 Battery difficult to charge from larger battery
