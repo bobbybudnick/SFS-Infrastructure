@@ -519,16 +519,6 @@ Add split results feature to Streamconfig - optimize grep
 Add chat view feature of last 5 lines to Streamconfig - use curl  
 Run Streamconfig on II Bravo companion
 
-34. Future computer replacements  
-List of all remaining commercial PC devices minus the switch administration tablet  
-Router - replacement in development - consider making luggable with no battery  
-Media - custom laptop needed for performance  
-Monitor 2 - anything could replace  
-Monitor 3 - custom laptop needed for screen size  
-Companion 1 - custom tablet could replace  
-Companion 2 - custom tablet could replace  
-The remaining devices still work fine so they should be replaced as needed
-
 **The Arrowproof Tunic**  
 Focusing on locking down and securing all equipment from outside miscreants.
 More scripts and diligence were required.  A closer eye revealed some cracks
@@ -748,54 +738,26 @@ SDDM does not start at all
 Lightdm starts with black screen  
 Use /etc/inittab to automate login  
 Use bashrc to run startx with a message and a delay
- 
-2. Boot failure on Lattepanda FreeBSD  
-Drop to boot loader  
-Set hint.uart.0.disabled="1"  
-Set hint.uart.1.disabled="1"  
-Setup in /boot/device.hints
 
 3. Bluetooth adapter failures  
 hcitool or bluetoothctl or KDE no devices found in scan  
 Faulty device confirmed in another computer  
 Device replaced
    
-4. Pi 4 display output failure  
+3. Pi 4 display output failure  
 No picture on large tv by default  
 Use output 0 and turn safe mode on
 
-5. ZFS mount failure on Lattepanda FreeBSD  
-Unique disk ids are not used so usb install is da0 and usb target is da1  
-When installer is removed then da1 becomes da0 but fstab references da1  
-Recovery can be done without the installer  
-At failed boot shell - mount -u /  
-At failed boot shell - zfs mount -a  
-Edit fstab with vi changing da1 to da0
-
-6. xorg start failure on Lattepanda Freebsd  
-/dev/dri/card0: No such file or directory errors  
-Install drm-kmod and edit rc.conf to load i915kms
-
-7. KDE start failure on Lattepanda FreeBSD  
-Only a black screen with mouse cursor appears  
-onestart dbus to create /var/lib/dbus/machine-id  
-Now dbus can be stopped permanently and KDE will start  
-This used to be the way it works but sadly now dbus must always run
-
-8. FreeBSD KDE favorites failure  
-Delete kactivitymanager stuff in config and local  
-Switch launchers with show alternatives to have changes take effect
-
-9. Logitech wireless keyboard failure  
+4. Logitech wireless keyboard failure  
 Left click was being held down and left click did not work and many os features broken  
 Remove keyboard and reinstall  
 Unknown failure mode
 
-10. ZTE mf861 management failure  
+5. ZTE mf861 management failure  
 192.168.1.1 is unreachable with falkon  
 Use Firefox to manage device
 
-11. Static IP failures  
+6. Static IP failures  
 Needs APN modifications for 14476.mcs APN  
 Sierra 340 MBIM mode - no DHCP and no connection at first - then SIM MEP locked error  
 Sierra 340 AT mode - SIM MEP locked error  
@@ -803,41 +765,12 @@ Sierra 313 - flashing orange light and no DHCP and no response to at commands
 ZTE mf861 - success - choose add at bottom of APN settings page for custom APN  
 VSVABEFV - does not connect by default or with 14476.mcs APN
 
-12. FreeBSD KDE failures  
-Log out glitches mouse/KDE hyper slow/screen flicker worse/USB drive access errors  
-Disable baloo in /usr/local/etc/xdg/autostart  
-This was only a workaround and the real problem was low Lattepanda 5v voltage
-
-13. Freebsd CPU speed unpredictability  
-CPU speed jumps around even when set to 480 mhz with sysctl dev.cpu.0.freq  
-Disable powerd from starting in rc.conf
-
-14. FreeBSD network monitoring failure with 1366x768  
-Knemo does not work anymore  
-Ksysguard shows network but all widgets except netspeed widget do not work  
-A very roundabout way can be used to show a decent network monitor  
-Add a spacer in the panel in the position the monitor will go  
-Add a tab in kysguard with 1 column and 2 rows and add re0 download and upload  
-Turn off status bar  
-The tab can be named network  
-Force position to 975x700  
-Force size to 125x75 - this will not fully shrink the window yet  
-Force no titlebar and frame  
-Force keep above other windows  
-Force skip taskbar  
-Cycle between no menubar and menubar with ctrl-m - this should fully shrink the window
-
-15. FreeBSD network monitoring 2 failure with 1024x600  
-Same as before but with 125x65 size and 690 x 530 position  
-No cycling menu on and off tricks this time either  
-Simply turn menu bar off along with status bar
-
-16. Linux network monitoring failure  
+7. Linux network monitoring failure  
 Knemo does not work anymore  
 Simply install the old 0.1 version of network monitor  
 It looks different and more classic but it works
 
-17. Pi 4 slow media write failure  
+8. Pi 4 slow media write failure  
 USB 3 flash drive - as low as 13 MB per second - had samba file copy errors also  
 High end micro SD - as low as 34 MB per second  
 Apparently the peformance of a USB 3 SSD is much greater with the Pi 4  
@@ -847,7 +780,7 @@ This would mean finding the exact model that would work properly
 Also not convinced it would be perfectly without errors  
 The micro SD speed now is good enough for a staging server
 
-18. Pi 2 CPU speed failure  
+9. Pi 2 CPU speed failure  
 By default the later firmware/kernel packaged with Devuan run this at 1200 mhz  
 This is way too high and it used to be run around 700 to 900 mhz  
 Use the "overclock" function in config.txt to set it around 800 mhz  
@@ -855,7 +788,7 @@ Use the "overclock" function in config.txt to set it around 800 mhz
 Also disable wifi and Bluetooth in config.txt  
 Devices were running stable before but the red light flash is annoying
 
-19. Pi 4 power workaround failures  
+10. Pi 4 power workaround failures  
 Pi 4 devices are setup in unorthodox situations with limited power  
 Such as attached to a laptop computer  
 Disable wifi and Bluetooth in config.txt  
@@ -863,26 +796,20 @@ Set CPU to 1300 mhz from default of 1500 mhz on staging server
 No CPU modifications on remote access server for best speed  
 Devices were running stable before but the red light flash is annoying
 
-20. 192.168.1.1 nightmare failure  
+11. 192.168.1.1 nightmare failure  
 There is a conflict here between the ZTE mf861 device and the core switch  
 The ZTE mf861 always must have 192.168.1.1  
 So change core switch to easy to remember 192.168.1.100 and have DHCP start at 101  
 Change all host default gateway to 192.168.1.100
 
-21. FreeBSD ethernet trickery failure  
-Sometimes after a switch goes offline ethernet will get confused  
-Physically disconnect interface  
-Bring up interface and set IP manually  
-Physically reconnect and set gateway if necessary
-
-22. MID HDMI failure  
+12. MID HDMI failure  
 The mobile internet devices are being used to test from outside the network  
 FPV HDMI cables are giving consistent issues  
 These have given a lot of trouble in the past  
 Monoprice short slim cables are almost as small anyway and much more reliable  
 The strain relief on the Monoprice cables can be trimmed for more flexibility
 
-23. EFI setup for troublesome computers failure  
+13. EFI setup for troublesome computers failure  
 For Lattepanda original and Windows tablets and things like that  
 /////  
 Ways to enter BIOS  
@@ -917,7 +844,7 @@ Anything can be chosen in BIOS but it does not matter
 Essentially a multi boot through BIOS is not possible  
 The operating system loader must enable a multi boot situation
 
-24. High power 5v output paradox failure  
+14. High power 5v output paradox failure  
 No batteries output around 5v  
 Almost no USB chargers output around 5.2v for SBC/7inch screen/SSD  
 Almost no fixed voltage power supplies output around 5.2v for SBC/7 inch screen/SSD  
@@ -926,7 +853,7 @@ Or a rare 5.2v USB charger and commercial UPS combo
 Use Pololu adjustable/medium lead acid/trickle charger  
 Alternatively use Canakit 5.2v charger and APC UPS
 
-26. Netgear smart managed pro failure  
+15. Netgear smart managed pro failure  
 Types of VLANs  
 802.1x/q layer 2  
 Standard layer 3  
@@ -945,14 +872,7 @@ Netgear says that smart managed pro provides same features as plus with more opt
 This is a conflict  
 Port based works perfect with the smart managed plus switches
 
-27. KDE start failure on AMD Ryzen Pro 2400GE on FreeBSD  
-gpu-firmware-kmod-somethingsomethingsomething was installed  
-xf86-video-amdgpu-somethingsomethingsomething was installed  
-xorg.conf specified modesetting as driver with no busid field  
-rc.conf specified kld_list="/boot/modules/amdgpu.ko"  
-xinitrc specified exec ck-launch-session startplasma-x11
-
-28. Cloudflare proxy failures  
+16. Cloudflare proxy failures  
 Was working before proxy  
 Most things seem broken due to proxy  
 Channels page html largely broken  
@@ -960,7 +880,7 @@ All streams on page and through VLC broken
 Working again after disabling proxy  
 May have something to do with time to live
 
-29. Ping failure in virtualization and internet server multi WAN script  
+17. Ping failure in virtualization and internet server multi WAN script  
 Gateway ping is sometimes taking a large delay with these devices now  
 This happens after putting the virtualization server on a VLAN  
 After rebooting core switch still seeing similar failures  
@@ -969,7 +889,7 @@ Increase timeout on both scripts
 Now failures in media script  
 Latency culprit is definitely second gs116ev2 since reconfiguring VLANs
 
-30. Dell switch limitations and failures  
+18. Dell switch limitations and failures  
 Monitor mode works fine  
 There is no QOS mode  
 However VLAN mode is quite useless  
@@ -979,13 +899,13 @@ On the Netgear it is as simple as assigning a port to more than one VLAN
 On the Dell that is impossible due to the strict layer 2 nature  
 DD WRT makes this possible because it is a true layer 3 switch
 
-31. Switch web monitoring failure  
+19. Switch web monitoring failure  
 The Dell switch automatically refreshes the monitoring page  
 The Netgear switch does not  
 Automatically refreshing normally returns to the main page  
 Set Firefox auto refresh page extension to auto click #monitoringSecNav element
 
-32. Cellular device alternate configuration failures  
+20. Cellular device alternate configuration failures  
 Test going back to wvdial style connection  
 lsusb -t shows driver  
 disablembimglobal option set to 0 in usb_modeswitch.conf  
@@ -1000,13 +920,13 @@ However Sierra 313 does work dial up style with sierra driver
 ZTE mf861 just works well in general and may expose all ports anyway  
 VSVABEFV is trash
 
-33. Camera server 2 failures  
+21. Camera server 2 failures  
 Try changing ports - all failed  
 Try replacing camera - fixed  
 Try replacing with thicker USB extension - not tried  
 Try relocating to remove USB extension - not tried
 
-34. VLC reliability failures  
+22. VLC reliability failures  
 Audio dropouts are untenable and CPU usage is high  
 Disabling mitigation - would never be done on VM server in professional setting  
 Overclocking up to 3.6 ghz - uses more power on an overloaded charger and battery  
@@ -1035,19 +955,19 @@ Restart reimplemented for stream 1
 Try 4 hours then 2 then 1 while troubleshooting  
 Audio is working with 4 hour restarts
 
-35. Poor Stream Quality Failures - Unsolved  
+23. Poor Stream Quality Failures - Unsolved  
 Should look into improving stream clarity  
 Hard to tell what is happening in printer and on workspace  
 Compare the output to what top youtubers look like
 
-36. Stream 1 Failures - Unsolved  
+24. Stream 1 Failures - Unsolved  
 HDHomerun had blinking tuner light 1  
 HDHomerun power disconnect and reconnect did not fix  
 http reconnect did not fix  
 Unknown if scheduled restart would have fixed  
 Fixed by semi manual stream restart through streamconfig
 
-37. Network Mystery Failures  
+25. Network Mystery Failures  
 netstat hangs too long on reencoder sometimes  
 Redundancy script fails on gateway 1 with VM and internet server sometimes  
 Connection between staging server and workstation hangs sometimes  
@@ -1057,22 +977,22 @@ Now at the same time route and netstat do not hang on virtualization server
 Maybe had some glitch to do with old reencoder instance or rc.local lack of &  
 Possibly the timeout delay was just too short
 
-38. Proxmox VM shutdown failures  
+26. Proxmox VM shutdown failures  
 Also no virtual console login for vm is a symptom  
 Kill process of vm  
 ps aux | grep <VMID>  
 kill processnumber  
 Caused by /etc/rc.local not having & on end of script
 
-39. Proxmox SSH login failures  
+27. Proxmox SSH login failures  
 permitrootlogin option in SSH config had somehow been changed  
 Now changed back and it works fine
 
-40. Multi WAN script potential failures - Unsolved  
+28. Multi WAN script potential failures - Unsolved  
 Detected on media and virtualization server  
 The Internet connection fallback section of the script did not trigger
 
-41. sftp failures  
+29. sftp failures  
 when bashrc is customized sftp can say received message too long  
 Add this to bashrc:  
 case $- in  
@@ -1080,7 +1000,7 @@ case $- in
       *) return;;  
 esac
 
-42. OpenSSH DNS disable not working  
+30. OpenSSH DNS disable failures  
 Very frequent and unnecessary DNS connections are made during local SSH sessions  
 Dropbear DNS disable only seems to be an option in source code  
 lsh login not working with lsh client or OpenSSH client  
@@ -1216,8 +1136,8 @@ Map document showing host IP and hostname
 WAN info document showing details such as static IP and netmask  
 Credentials document showing service login details  
 Gateways document that lists internet connections with different info fields  
-HAIKU_FIXUP - miscellaneous script deals with Haiku OS as network monitor  
-HAIKU_REMOTE - handles one line SSH login  
+HAIKU_FIXUP (LEGACY) - miscellaneous script deals with Haiku OS as network monitor  
+HAIKU_REMOTE (LEGACY) - handles one line SSH login  
 bashrc - workaround screen sizing issue on virtualization server  
 tmux.conf - dotfile for customizing tmux status bar  
 TMUX_STATUS_HAIKU_BATTERY - script for battery on tmux status bar  
@@ -1247,10 +1167,12 @@ rc.local.BACKUPINTERNETSERVER - auto start multi wan and redundancy and status
 rc.local.INTERNETSERVER - auto start multi wan  
 rc.local.RAS - auto start simple multi wan and container  
 rc.local.REENCODER - auto start Streamlauncher  
+rc.local.MONITOR3 - start cctv recorder and inline firewall  
 SMS.py - sends administrative alerts through VOIP.ms to an SMS number  
 config.txt.STATIC - low level system configuration for Pi 2  
 config.txt.CGNAT - low level system configuration for Pi 2  
 ports.conf - configure primary Internet server for administration on port 8080  
+SFS_INLINE_FIREWALL - implement transparent firewall for extra security  
 3. Streaming  
 The result of an effort to obtain a modernized website with multimedia features.
 Data and power usage from a modest streaming system does not have to be excessive.
