@@ -1116,6 +1116,16 @@ This directory is referenced at docker startup and is at /home/docker/guacamole
 This contains among other things the postgresql database.  
 This would need to be erased or renamed to reset passwords.
 
+15. An effort to replace all commercial computers  
+Commercial computers can be expensive and a liability.  
+Custom computers are more flexible with ultimately wider parts availability.  
+Administration tablet will be the 6th after router.  
+Monitor 2 will be the 5th after administration tablet.  
+This leaves 4 commercial computers.  
+2 companions are bad candidates because of how much space they save already.  
+Media could be replaced by fast USB 3 SBC as AIO or laptop but with high cost.  
+Monitor 3 could be replaced by a custom laptop.
+
 **Instructions for Incantations**  
 The amount of scripts needed to enable the required functionality was a
 suprise.  In a certain way these scripts are replacing typical enterprise
