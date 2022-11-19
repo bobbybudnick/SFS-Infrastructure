@@ -600,9 +600,13 @@ Similar to Centurion could check for connections on obscure ports.
 Similar to Centurion could check for connections on common but unused ports.  
 Could also use custom ping size as trigger.
 
-8. SSH lockouts  
+8. iptables blocking  
+iptables can be set to block IP addresses after a set number of attempts.  
+These addresses can also be logged.  
+Good idea to implement this on each public SSH server at least.  
+Need to have a way to disable this for administrative purposes.  
 Both main Internet server and cellular static gateway have Internet facing SSH.  
-These both are configured with iptables based ssh lockout mechanisms.  
+These both are configured with iptables based SSH lockout mechanisms.  
 3 logins at max over a one day period are enabled.  
 From local login the cellular gateway will need to be reset manually if tripped.  
 From local login the internet server can be accessed on secondary if tripped.  
@@ -801,13 +805,7 @@ Combines switching/bridging with no configuration of routes because not gateway.
 Provides an extra layer of defense easily.  
 Allows for manual bypass switch in case of firewall failure.
 
-22. iptables blocking  
-iptables can be set to block IP addresses after a set number of attempts.  
-These addresses can also be logged.  
-Good idea to implement this on each public SSH server at least.  
-Need to have a way to disable this for administrative purposes.
-
-23. Internet artillery order of battle  
+22. Internet artillery order of battle  
 Emperor of violence  
 Chaos sentinel  
 Dread cyberia
