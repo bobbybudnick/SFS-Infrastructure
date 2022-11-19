@@ -727,6 +727,91 @@ Quote US computer fraud laws.
 Quote US prison conditions.  
 Quote US extradition agreements.
 
+14. Basic types of network monitoring  
+3 examples of monitoring internally.  
+Monitor through switch port mirroring - monitor 1.  
+Monitor through virtualization server hypervisor - monitor 2.  
+Monitor through inline firewall - monitor 3.  
+2 examples of monitoring at the edge.  
+PFSense pftop at cable edge gateway.  
+Linux iftop at cellular edge gateway.
+
+15. Basic types of firewalls  
+Endpoint firewalls - filter in and out - acts as gateway.  
+Internal router firewalls - filter in and out - acts as gateway.  
+Transparent firewall (like SFS) - filter in and out - does not act as gateway.  
+Proxy/DNS firewalls - filter out - does not act as gateway.
+
+16. Inline firewall  
+Part of a multi layered defense.  
+Attacker could take over cellular gateway and be close to critical resources.  
+Current - cellular gateway > main switch > core switch > admin switch > storage.  
+Proposed - gateway > firewall > main switch > core switch > admin switch > storage.  
+To do this would require using brctrl bridging functions in the firewall.  
+Ethernet 1 on firewall - subsidiary switch.  
+Ethernet 2 on firewall - uplink to main switch.  
+Use is for 2 reasons.  
+Reason 1 - monitoring of all traffic through firewall hopefully at layer 2 and 3.  
+Reason 2 - iptables blocking of cellular gateway connections back inside network.  
+This blocking strategy will allow for automatic containment of a hacked gateway.
+
+17. Inline firewall redundancy vs speed  
+Having the 10/100 switchbox connected to uplink means entire cc is speed limited.  
+The alternative would be to connect uplink to gigabit connector on monitor.  
+The problem with this is it would not allow for the switchbox.  
+Battery will die on monitor before cellular gateway so this can not work well.
+
+18. Inline firewall power concerns  
+Manual override switch will allow gateway a direct connection to switch.  
+Override important during extended power failure due to firewall laptop battery.  
+The gateway battery is setup to last much longer.  
+Because of this gateway is an integral part of network during power contingency.  
+Because it will likely be needed right away as cable fails when power is out.  
+Does represent a tradeoff in loss of unattended power reliability for security.  
+Does also represent a tradeoff in transfer speed for security.  
+Seems worth the tradeoff as it is strange to have a monitor that does not monitor.  
+In otherwords this will allow monitor 3 to realize true potential.  
+Also a small commercial UPS would run the firewall laptop for several hours.
+
+19. The mysteries of bridging  
+Previously working bridge used scheme where bridge-noIP WAN-IP LAN-IP.  
+This bridge does not work when configured that way.  
+To troubleshoot set error during ping adapter ip address to 0.0.0.0  
+Also to troubleshoot just try the directly connected adapter without bridge.  
+Ultimately this setup needed having bridge with ip and both adapters with none.  
+Thus the bridge IP becomes what was eth5 IP of 192.168.1.6 in this case.  
+Any iptables troubleshooting is a red herring as that is layered on top of this.  
+Firewall is not and should not be setup to use cellular gateway.
+
+20. Firewall blocking conundrum  
+First off br_netfilter module needs to be loaded to pass layer 2 data to layer 3.  
+Initially it was thought better to block connections originating from gateway.  
+But this complex solution would involve ebtables and iptables packet marking.  
+Just using iptables does not work with this method because interfaces not seen.  
+The interfaces are not seen due to complex interaction with br_netfilter.  
+Not clear if blocking gateway originating connections would block normal routing.  
+Could try the iptables portion of complex method with --state NEW if very paranoid.  
+This would also require a way to disable when logging in remotely.  
+Blocking ports wholesale will not work because gateway is a critical redundancy.  
+One simple way is to just block port 22 because there is no good reason for that.  
+The simple way would block any external connections to sensitive internal SSH.
+
+21. Novelty of transparent firewall  
+Combines switching/bridging with no configuration of routes because not gateway.  
+Provides an extra layer of defense easily.  
+Allows for manual bypass switch in case of firewall failure.
+
+22. iptables blocking  
+iptables can be set to block IP addresses after a set number of attempts.  
+These addresses can also be logged.  
+Good idea to implement this on each public SSH server at least.  
+Need to have a way to disable this for administrative purposes.
+
+23. Internet artillery order of battle  
+Emperor of violence  
+Chaos sentinel  
+Dread cyberia
+
 **Troubles in the Tapestry**  
 This is a catalog of glitches encountered during development.  Some with
 networking equipment and some with hosts.  By far the longest time was spent
@@ -1116,7 +1201,20 @@ This directory is referenced at docker startup and is at /home/docker/guacamole
 This contains among other things the postgresql database.  
 This would need to be erased or renamed to reset passwords.
 
-15. An effort to replace all commercial computers  
+15. The end of Haiku OS  
+Does not boot at all with any options with PC stick.  
+Was very unstable with Asus gaming laptop.  
+Was fairly unstable with Gateway laptop.  
+So is not going to work moving forward as monitor 3.  
+Unable to be used in a professional setting until changes are made.
+
+16. Monitor 2 visualizations  
+Terminal with iftop  
+Virtualization server web page  
+News stream from HDHomerun  
+Status HTML page
+
+17. An effort to replace all commercial computers  
 Commercial computers can be expensive and a liability.  
 Custom computers are more flexible with ultimately wider parts availability.  
 Administration tablet will be the 6th after router.  
