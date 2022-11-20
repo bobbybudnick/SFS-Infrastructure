@@ -1212,13 +1212,7 @@ Was fairly unstable with Gateway laptop.
 So is not going to work moving forward as monitor 3.  
 Unable to be used in a professional setting until changes are made.
 
-16. Monitor 2 visualizations  
-Terminal with iftop  
-Virtualization server web page  
-News stream from HDHomerun  
-Status HTML page
-
-17. An effort to replace all commercial computers  
+16. An effort to replace all commercial computers  
 Commercial computers can be expensive and a liability.  
 Custom computers are more flexible with ultimately wider parts availability.  
 Administration tablet will be the 6th after router.  
@@ -1441,6 +1435,7 @@ Runs business email
 Hosts phone  
 Assists with development  
 Does backend 3d models work  
+Now directly monitors the CC as a transparent firewall  
 The following describes operations but also shows how to use stunnel  
 Runs CCTV stream - install stunnel 4 - move key to /etc/stunnel - create stunnel.conf  
 Generate key - openssl req -new -x509 -nodes -out ~/STUNNEL.pem -keyout ~/STUNNEL.pem  
@@ -1479,9 +1474,12 @@ Is physically and logically separated from main storage server
 2 Lattepanda original died during production of this device  
 Important to boost incoming 5v to around 5.25v for stability with heavy USB load
 
-7. Windows tablet switch administration device 1 - installed  
+7. FreeBSD tablet switch admnistration device - installed  
+Available for real time switch administration with monitoring/stats/QOS/VLAN  
+Udoo x86 Ultra SBC with 8GB RAM and internal gigabit ethernet  
 Attached to different subnet that is the same as switch  
-Available for real time switch administration with monitoring/stats/QOS/VLAN
+Has 7" touch screen but is currently limited to landscape orientation  
+Windows tablet switch administration device 1 - retired
 
 8. Devuan media laptop - installed  
 Attached to Fire Stick with HDMI capture and VLAN  
@@ -1676,7 +1674,15 @@ Now the old kernel boots on new Devuan on Pi 2 but no kernel modules available
 Not working on pi 3 which makes sense because there is no kernel support at that time  
 Pi 3 router replaced with Pi 2 router
 
-22. Haiku OS laptop network monitor 2 - installed  
+22. FreeBSD AIO network monitor 2 - installed  
+Acts as status board or "master systems display"  
+Terryza PC Stick Z8350 4GB RAM USB 3 gigabit ethernet 32" 1080p display  
+Monitor 2 visualizations as follows:  
+Terminal with iftop  
+Virtualization server web page  
+News stream from HDHomerun  
+Status HTML page  
+Haiku OS laptop network monitor 2 - retired  
 Runs Proxmox web interface - console login through web does not work - use SSH  
 Falkon is available but is worse than the system default Webpositive browser  
 Proxmox console can be minimized and interface set for 3 columns for better view  
@@ -1701,6 +1707,10 @@ Could in theory be used as a wireless access point also
 
 24. Pfsense cable router  
 The cable gateway and main Internet connection  
+Custom luggable laptop with no battery but still has a basic UPS  
+As noted below an extensive UPS is not needed for hardline connections  
+Hardline connections can and will fail when the power goes out  
+Samsung laptop - retired  
 Set for relatively short battery life due to unreliability of hard lines in outages
 
 25. MID  
