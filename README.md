@@ -1093,6 +1093,12 @@ One solution might be to use regular telnet/telnet with stunnel/telnet-ssl
 Blocking port 53 seems to be the better solution  
 sudo iptables -A OUTPUT -p udp --destination-port 53 -j DROP
 
+31. Zram failures  
+Some anti-user garbage malware named zram is installed now on Devuan  
+Does not configure itself in the standard location of /etc/fstab  
+Additionally any new swapping functionality is nonsensical in the modern era  
+Move zram.ko out of the kernel folder or delete this trash to disable
+
 **The Seer's Knowledge**  
 This is networking information organized in a cheat sheet fashion.  For
 deploying ever more advanced installations.  It can be added to and probably
