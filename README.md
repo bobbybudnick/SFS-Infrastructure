@@ -1474,7 +1474,7 @@ Is physically and logically separated from main storage server
 2 Lattepanda original died during production of this device  
 Important to boost incoming 5v to around 5.25v for stability with heavy USB load
 
-7. FreeBSD tablet switch admnistration device - installed  
+7. FreeBSD tablet switch administration device - installed  
 Available for real time switch administration with monitoring/stats/QOS/VLAN  
 Udoo x86 Ultra SBC with 8GB RAM and internal gigabit ethernet  
 Attached to different subnet that is the same as switch  
@@ -1705,7 +1705,7 @@ There are still issues with memory leaks in the Webpositive browser however
 Has gigabit switch integrated  
 Could in theory be used as a wireless access point also
 
-24. Pfsense cable router  
+24. Pfsense cable router - installed  
 The cable gateway and main Internet connection  
 Custom luggable laptop with no battery but still has a basic UPS  
 As noted below an extensive UPS is not needed for hardline connections  
