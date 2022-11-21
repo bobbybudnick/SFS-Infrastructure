@@ -1732,13 +1732,13 @@ Also works pretty well interfacing with VLC
 This has been working well for over a decade  
 Has only needed a toner replacement one time and was not expensive
 
-NOC Freedom
+NOC Freedom - Updated
 
-![](https://github.com/bobbybudnick/SFS-Infrastructure/blob/main/IMG_20220922_1552395.jpg)
+![](https://github.com/bobbybudnick/SFS-Infrastructure/blob/main/IMG_20221121_1235361.jpg)
 
-CC Liberty
+CC Liberty - Updated
 
-![](https://github.com/bobbybudnick/SFS-Infrastructure/blob/main/IMG_20220922_1555419.jpg)
+![](https://github.com/bobbybudnick/SFS-Infrastructure/blob/main/IMG_20221121_1240499.jpg)
 
 CC Independence
 
