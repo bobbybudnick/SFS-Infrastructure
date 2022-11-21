@@ -1360,6 +1360,7 @@ can be quickly achieved during an adverse power event.  Enables remote mains
 voltage monitoring and could be tailored for battery voltage monitoring.  Other
 future applications include IOT electric switch control/POE control/WOL control.  
 CENTRAL_POWER_ADMINISTRATION - server script running in workstation background  
+CENTRAL_POWER_ADMINISTRATION_HELPER - heavy lifting of logging in and shutdown  
 LISTENER - example client  
 11. Network AI  
 Star Trek has inspired the creation of this currently passive "AI".  It only
