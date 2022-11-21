@@ -1,3 +1,5 @@
+![](https://github.com/bobbybudnick/SFS-Infrastructure/blob/main/NETWORK_2POINT2.jpg)
+
 # SFS-Infrastructure
 The Software Freedom Solutions Internet facing server infrastructure
 
