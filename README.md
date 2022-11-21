@@ -1236,8 +1236,8 @@ researching information.  You do not want to be hauling heavy batteries up
 several flights of stairs during tornado conditions with emergency lighting only.
 You do not want to be wondering if your last 2 computers will keep running when
 most of your power sources have failed and there is a twister outside.  
-Architecture document showing overview of hosts/remote admin/website/redundancy  
-Switch layout document showing ports and roles  
+Datacenter layout document showing overview of hosts/remote admin/website/redundancy  
+Switch index document showing ports and roles  
 Map document showing host IP and hostname  
 WAN info document showing details such as static IP and netmask  
 Credentials document showing service login details  
