@@ -1380,7 +1380,7 @@ or anything running client side.  Has the ability to detect bypassing.  Should
 be used as part of a multi-tiered security strategy.  Requires a gateway or
 firewalling device to read the blocklist it generates to be useful.  
 CAPTCHA - CGI script at the core of the initiative  
-CAPTCHA_AGENT - run the cgi script at internals in case it is not run otherwise  
+CAPTCHA_AGENT - run the CGI script at intervals in case it is not run otherwise  
 index.html - example page  
 WHITELIST - necessary list for comparison  
 BLACKLIST_2 - the list for reading by blocking devices
