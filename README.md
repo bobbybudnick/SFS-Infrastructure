@@ -1439,6 +1439,7 @@ Hosts phone
 Assists with development  
 Does backend 3d models work  
 Now directly monitors the CC as a transparent firewall  
+/proc/sys/net/bridge/bridge-nf-call-iptables should be 1 for layer 2 to 3 for firewall  
 The following describes operations but also shows how to use stunnel  
 Runs CCTV stream - install stunnel 4 - move key to /etc/stunnel - create stunnel.conf  
 Generate key - openssl req -new -x509 -nodes -out ~/STUNNEL.pem -keyout ~/STUNNEL.pem  
