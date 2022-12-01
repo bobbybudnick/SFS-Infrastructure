@@ -1,0 +1,59 @@
+#sleep 15
+
+#assumes that re0 now igb0 has been setup beforehand with rc.conf
+#net.add_addr_allfibs=0 - not sure of the ramifications or whether it would work with 1
+#sysctl net.fibs="4"
+#set fibs in /boot/loader.conf and set allfibs in /etc/sysctl.conf
+#sometimes the ethernet should be unplugged and the ip set then plugged back
+
+#now setup for asrock b450 fatality motherboard instead of udoo x86 ultra
+
+#this is not working when started with /etc/rc.local
+#the ip address for ue0 never gets set
+#start manually in a screen session or use nohup and disown
+
+#setup re0 - now igb0
+#sudo ifconfig re0 192.168.1.2/24
+sudo ifconfig igb0 192.168.1.2/24
+
+#setup ue0
+sudo ifconfig ue0 192.168.5.4/24
+
+#better wait to avoid even more bugs
+sleep 10
+
+#may be less trouble to not reset ip addresses every time to avoid some bugs
+while true
+do
+
+#add default gateway to implied fib 0
+sudo route add default 192.168.1.100
+
+#add static route and gateway for fib 1
+sudo setfib 1 route add 192.168.5.0/24 -iface ue0
+sudo setfib 1 route add default 192.168.5.1
+
+#prefer the cgnat unmetered connection - would be opposite for servers
+#add gateway and static route for fib 2
+#sudo setfib 2 route add 192.168.1.0/24 -iface re0
+sudo setfib 2 route add 192.168.1.0/24 -iface igb0
+sudo setfib 2 route add default 192.168.1.18
+
+#use the static metered connection last
+#add gateway and static route for fib 3
+#sudo setfib 3 route add 192.168.1.0/24 -iface re0
+sudo setfib 3 route add 192.168.1.0/24 -iface igb0
+sudo setfib 3 route add default 192.168.1.19
+
+sleep 3600
+
+done
+
+#ping gateways
+#setfib 0 ping 192.168.1.1
+#setfib 1 ping 192.168.5.1
+#setfib 2 ping 192.168.1.19
+#setfib 3 ping 192.168.1.18
+
+#to ping hosts on any network do not use fibs and just ping
+

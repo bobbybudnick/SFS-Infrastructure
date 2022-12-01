@@ -1,0 +1,11 @@
+while true
+do
+
+kdialog --msgbox "Dismiss AI Notifications" --geometry 200x200-45+855
+
+echo 0 > /home/pi/PERSISTENT_NOTIFICATIONS
+
+sleep 1
+
+done
+

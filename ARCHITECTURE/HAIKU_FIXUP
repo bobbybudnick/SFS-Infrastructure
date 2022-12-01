@@ -1,0 +1,27 @@
+sleep 15
+
+#initial browser start
+WebPositive&
+
+#wait until browser starts to overlay shell on top
+#sleep 10
+
+#start haiku terminal and log into remote shell
+#Terminal plink root@192.168.1.10 -pw passcodehere
+#start haiku terminal and log into remote shell and run a program and quit
+#Terminal plink root@192.168.1.10 -pw passcodehere nameofprogram
+#start haiku terminal and log into remote shell and run a program continuous
+#Terminal echo 'iftop -i enx00051bd27fc5' | plink root@192.168.1.10 -pw passcodehere
+#run a script instead because it is getting complicated
+#Terminal bash /boot/home/HAIKU_REMOTE&
+#just run the script directly because it is even more complicated now
+#/boot/home/HAIKU_REMOTE&
+#now just run the command directly instead
+#this is how to launch a script in an automated way with tmux
+tmux new-session -d -s "TESTSESSION" /boot/home/HAIKU_REMOTE
+
+sleep 15
+
+#now connect to the detached session - seems to work like screen
+Terminal tmux attach-session
+

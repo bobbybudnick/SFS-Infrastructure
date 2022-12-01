@@ -1,0 +1,75 @@
+os survey of sfs network - 27 hosts - 2 Android phones and 2 VM not counted
+2 Windows hosts running with 7 spares
+6 BSD hosts running
+16 Linux hosts running including 1 DD WRT device and 2 MID
+3 IOT hosts running - HDHomerun/Firestick/Printer
+
+remote administration of sfs network - passive nonpublic cctv stream also available
+ssl cable/ssh cellular administration of router on changed port
+ssh administration of virtualized web server on changed port
+rdp/vnc administration of multiple computers through guacamole on changed port
+
+website
+index - upload script
+channels page - a mini youtube with chat script
+wway hurricane mirror - availability: august and september - reencoder
+3d printer webcam - availability: when printer is in operation - reeencoder
+workspace webcam - availability: during project development - reencoder
+wintendo stream - availability: when a game is running - remote access server
+video chooser with educational and miscellaneous - availability: always - server native
+
+redundancy
+vip hosts have 2 adapters and 2 switches and 3 gateways and 3 wan connections at ready
+internet server has emergency backup server
+some hosts including main workstation have triple redundant power
+spares available
+cellular gateways from differing providers available on backup
+
+noc - freedom
+0 windows/3 bsd/3 linux
+gateways - 1+1+1 - 1st core gateway - 2nd core gateway - hybrid monitor1/phone1
+main managed switch
+luggable - pfsense cable gateway
+workstation - does core switch management - high battery life
+gaming laptop - does cable router management
+hybrid - main switch management
+
+cc - liberty
+0 windows/2 bsd/5 linux
+gateways - 1 - hybrid cgnat/phone 2
+subsidiary managed switch
+sbc - staging server
+laptop - storage server
+sbc - remote access server
+luggable - virtualization server - high battery life
+aio - monitor 2
+mid 2
+
+cc - independence
+0 windows/1 bsd/6 linux
+gateways - 1 - hybrid static cellular - high battery life
+sbc - camera server 1
+sbc - camera server 2
+hybrid - backup storage server
+hybrid - backup internet server - high battery life
+modified commercial - monitor 3
+mid 1
+
+ii - alpha
+1 windows/0 bsd/1 linux
+gateways - 0 - no switch - can use mid as emergency cellular connection
+commercial - media - running direct to main switch - high battery life
+commercial - media companion - running direct to main switch
+
+ii - bravo
+1 windows/0 bsd/1 linux
+gateways - 0 - no switch - can use mid as emergency cellular connection
+desktop - gaming - running direct to main switch
+commercial - gaming companion - running direct to main switch
+
+terms
+dc - datacenter - spans whole facility
+noc - network operations center - command and control
+cc - computer core - physical logic segment
+ii - independent installation - media focused hub
+

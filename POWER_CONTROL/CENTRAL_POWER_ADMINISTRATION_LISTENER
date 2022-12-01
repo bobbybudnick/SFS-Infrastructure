@@ -1,0 +1,11 @@
+#note that there can be different behavior between nc versions
+#also different behavior between operating systems
+
+LISTENER=$(nc -l -p 7777)
+if the correct signal was not sent then keep listening
+if ! [ "$LISTENER" = "passcodehere" ]
+then
+LISTENER=$(nc -l -p 7777)
+fi
+otherwise do this
+

@@ -1,0 +1,24 @@
+#does not fix the crash problems on wrt54gl with old buggy firmware but does make it better
+#best to update firmware or buy a modern one
+#the newer router works much better than this one
+#hopefully this serves as a starting point for those struggling with these old routers
+sleep 15
+#fix loss of gateway bug
+route add default gw 192.168.4.2
+#block 192.168.5.0 lan/network/subnet/switch from 192.168.1.0 lan/network/subnet/switch
+iptables -I FORWARD -i vlan2 -o br0 -j DROP
+while true
+do
+sleep 3600
+#fix loss of services and redo initial tasks - every hour
+route add default gw 192.168.4.2
+iptables -I FORWARD -i vlan2 -o br0 -j DROP
+stopservice httpd
+#stopservice telnetd
+#stopservice dnsmasq
+#do not restart httpd but it seems it may autostart anyway
+#startservice httpd
+startservice telnetd
+#startservice dnsmasq
+done
+

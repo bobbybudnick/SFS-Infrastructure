@@ -1,0 +1,76 @@
+#!/usr/bin/perl
+
+#this sfs server redundancy component goes on the virtualization server
+
+#virtualization makes this carp replacement possible
+#the virtualization server giving time for the transition is crucial
+
+# Exmple hook script for PVE guests (hookscript config option)
+# You can set this via pct/qm with
+# pct set <vmid> -hookscript <volume-id>
+# qm set <vmid> -hookscript <volume-id>
+# where <volume-id> has to be an executable file in the snippets folder
+# of any storage with directories e.g.:
+# qm set 100 -hookscript local:snippets/hookscript.pl
+
+use strict;
+use warnings;
+
+print "GUEST HOOK: " . join(' ', @ARGV). "\n";
+
+# First argument is the vmid
+
+my $vmid = shift;
+
+# Second argument is the phase
+
+my $phase = shift;
+
+if ($phase eq 'pre-start') {
+
+    # First phase 'pre-start' will be executed before the guest
+    # ist started. Exiting with a code != 0 will abort the start
+
+    print "$vmid is starting.\n";
+    #the vmid here appears to just be an optional variable passed to bash script
+    print "SFS Redundancy - Pre Start - Pre Script";
+    #apparently this system call needs semicolon at the end even though examples do not
+    system("/bin/bash /var/lib/vz/snippets/SFS_SERVER_REDUNDANCY_2 $vmid");
+    print "SFS Redundancy - Pre Start - Post Script";
+
+    # print "preparations failed, aborting."
+    # exit(1);
+
+} elsif ($phase eq 'post-start') {
+
+    # Second phase 'post-start' will be executed after the guest
+    # successfully started.
+    print "$vmid started, executing network script.\n";
+    print "SFS Redundancy - Post Start - Pre Script";
+    system("/bin/bash /var/lib/vz/snippets/SFS_SERVER_REDUNDANCY_PERSISTENT $vmid");   
+    print "SFS Redundancy - Post Start - Post Script";   
+    # I believe that the output should be captured and tested
+    # to return the correct exit code.
+    #system("/bin/bash /root/network/config/hv2_net_vps.sh $vmid")
+
+} elsif ($phase eq 'pre-stop') {
+
+    # Third phase 'pre-stop' will be executed before stopping the guest
+    # via the API. Will not be executed if the guest is stopped from
+    # within e.g., with a 'poweroff'
+
+    print "$vmid will be stopped.\n";
+
+} elsif ($phase eq 'post-stop') {
+
+    # Last phase 'post-stop' will be executed after the guest stopped.
+    # This should even be executed in case the guest crashes or stopped
+    # unexpectedly.
+
+    print "$vmid stopped. Doing cleanup.\n";
+
+} else {
+    die "got unknown phase '$phase'\n";
+}
+
+exit(0);

@@ -1,0 +1,33 @@
+<VirtualHost *:9999>
+        ServerName domainhere.com
+        #Header always unset X-Frame-Options
+        #ErrorLog ${APACHE_LOG_DIR}/vm_error.log
+        #CustomLog ${APACHE_LOG_DIR}/vm_access.log combined
+
+        <Location />
+          Order allow,deny
+          Allow from all
+          #Require all granted
+          #ProxyPass http://localhost:8080/guacamole/ flushpackets=on
+          #ProxyPassReverse http://localhost:8080/guacamole/
+	  ProxyPass http://localhost:8080/ flushpackets=on
+          ProxyPassReverse http://localhost:8080/
+        </Location>
+
+        <Location /websocket-tunnel>
+          Order allow,deny
+          Allow from all
+          #Require all granted
+          #ProxyPass ws://localhost:8080/guacamole/websocket-tunnel
+          #ProxyPassReverse ws://localhost:8080/guacamole/websocket-tunnel
+	  #ProxyPass ws://localhost:8080/#/websocket-tunnel
+          #ProxyPassReverse ws://localhost:8080/#/websocket-tunnel
+        </Location>
+
+        SSLEngine On
+        #SSLCertificateFile /home/pi/fullchain.pem
+        #SSLCertificateKeyFile /home/pi/privkey.pem
+	SSLCertificateFile /home/pi/guacamole-selfsigned.crt
+        SSLCertificateKeyFile /home/pi/guacamole-selfsigned.key
+</VirtualHost>
+

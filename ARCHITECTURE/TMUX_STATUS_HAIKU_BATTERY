@@ -1,0 +1,3 @@
+BATTERY_MAH=$(cat /dev/power/acpi_battery/0 | grep Capacity | cut -d" " -f8 | head -n1 | cut -d"," -f1)
+echo "Battery MAH: $BATTERY_MAH"
+

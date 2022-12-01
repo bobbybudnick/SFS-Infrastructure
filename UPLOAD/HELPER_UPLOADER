@@ -1,0 +1,76 @@
+#!/bin/bash
+
+#this uploader helper script is used because file operations are easier in bash
+
+#it is important that this script run in parallel with the python parent with popen
+
+#it is important this file not start with uploader in the file name
+#because lsof -c looks for the characters specified and chooses the first one it finds
+#this means it finds this script instead of the UPLOADER.py script
+#so it was name changed from uploader helper to helper uploader
+
+#will show as defunct in ps if something went wrong after python launches
+
+#make sure the MISC folder has 777 permissions
+
+#rm /tmp/BYTES_TRANSFERED
+#rm /tmp/MEGABYTES_TRANSFERED
+#rm /tmp/COUNTER
+rm /var/www/html/MISC/MEGABYTES_TRANSFERED
+
+TIMEOUT_COUNTER=0
+
+while true
+
+do
+
+#bytes transfered
+#needs lsof setuid root
+#kernel seems to mask files as deleted while copying before moving them to final place
+#this way the copy cannot be interrupted by filesystem operations
+#also this way more data can be downloaded than available system memory
+#every so often the kernel flushes so called dirty pages to disk
+#you can see dirty pages in /proc/meminfo and see they are flushed so often
+TRANSFER_BYTES=$(lsof -c UPLOADER.py | grep deleted | cut -d' ' -f15) 2>/dev/null
+#echo $TRANSFER_BYTES > /tmp/BYTES_TRANSFERED 2>/dev/null
+
+#megabytes transfered
+#this checks if this is a valid number
+#try to avoid divide by zero which hangs everything up
+if [ "$TRANSFER_BYTES" -eq "$TRANSFER_BYTES" ]
+then
+#TRANSFER_BYTES=10000
+TRANSFER_MEGABYTES=$(($TRANSFER_BYTES / 1000000)) 2>/dev/null
+#echo $TRANSFER_MEGABYTES > /tmp/MEGABYTES_TRANSFERED 2>/dev/null
+echo $TRANSFER_MEGABYTES > /var/www/html/MISC/MEGABYTES_TRANSFERED 2>/dev/null
+fi
+
+#increment counter
+TIMEOUT_COUNTER=$(($TIMEOUT_COUNTER+1))
+#echo $TIMEOUT_COUNTER > /tmp/COUNTER
+
+#run for one hour only
+#after that there is no more upload counter but the upload will continue if needed
+if [ "$TIMEOUT_COUNTER" -gt 720 ]
+then
+echo "Timeout exit"
+#echo "Signal 0" > /tmp/MEGABYTES_TRANSFERED
+echo "Signal 0" > /var/www/html/MISC/MEGABYTES_TRANSFERED
+exit
+fi
+
+#shutdown if parent script signals it
+#UPLOAD_STATUS=$(cat /tmp/UPLOAD_STATUS)
+UPLOAD_STATUS=$(cat /var/www/html/MISC/UPLOAD_STATUS)
+if [ $UPLOAD_STATUS -eq "0" ]
+then
+echo "Shutdown exit"
+#echo "Signal 1" > /tmp/MEGABYTES_TRANSFERED
+echo "Signal 1" > /var/www/html/MISC/MEGABYTES_TRANSFERED
+exit
+fi
+
+sleep 5
+
+done
+

@@ -1,0 +1,32 @@
+#an automated way for the server itself to execute the captcha script
+
+#this is meant to be run as root from rc.local
+#probably cgi-bin runs as root by default anyway according to apache documentation
+
+#needed because bots could be hitting the server and never activate the form
+#if the form is not activated no defensive action is taken without this script
+
+while true 
+
+do
+
+#sleep 20 hours then run   
+#that way at server restart it is not immediately run
+#not important to run immediately just generally every day
+#pfsense is only updating the blacklists once per day anyway
+sleep 72000
+
+#important to not run in parallel or at least give enough time to run
+#not sure how long it will take with a large log so run inline instead
+/usr/lib/cgi-bin/CAPTCHA
+
+#fix apache log permissions
+chmod -R 777 /var/log/apache2/
+
+#handle log rotation
+#this is important because if the log gets too large captcha will take too long
+cp /var/log/apache2/access.log /var/log/apache2/access.log.old
+truncate -s 0 /var/log/apache2/access.log
+
+done
+

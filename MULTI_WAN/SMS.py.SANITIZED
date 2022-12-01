@@ -1,0 +1,44 @@
+import requests
+
+class VoipMS:
+    def __init__(self, username: str, password: str):
+        self.params: dict[str, str] = {
+            "api_username": username,
+            "api_password": password
+        }
+        self.url = "https://voip.ms/api/v1/rest.php"
+
+    def send_sms(self, did: str, destination: str, message: str) -> requests.Response:
+        """Send an sms.
+
+        Parameters
+        ----------
+        did : str
+            Your SMS enabled VoipMS DID.
+
+        destination : str
+            The number you want to send an SMS to.
+
+        message : str
+            The body of your SMS message (max chars: 160)
+        
+        """
+        _params: dict[str, str] = {
+            "method": "sendSMS",
+            "did": did,
+            "dst": destination,
+            "message": message
+        }
+        self.params.update(_params)
+        return requests.get(self.url, params=self.params)
+
+
+def main(voipms: VoipMS):
+    message = "Just a test message from the server"
+    response = voipms.send_sms(did="didnumberhere", destination="destinationnumberhere", message=message)
+    print(response.json())
+
+
+if __name__ == "__main__":
+    main(VoipMS("accountemailhere", "apipasswordhere"))
+

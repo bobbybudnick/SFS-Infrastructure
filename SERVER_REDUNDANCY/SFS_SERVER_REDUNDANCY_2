@@ -1,0 +1,46 @@
+#!/bin/bash
+
+#this sfs server redundancy component goes on the virtualization server
+
+#needs to run before the virtual machine starts or there will be a nasty ip conflict
+#add snippets for local in storage in datacenter view
+
+#at least on solaris and hopefully here on bsd too default netcat timeout is infinite
+#use 8000 port range for signaling as 7000 port range is for outgoing streams
+#this hangs because the first is not available
+#echo "11001001" | nc 192.168.1.9 8001 | nc 192.168.1.55 8001
+#this sends properly but hangs because the first is not available
+#need a way to cause the script to continue so the vm will boot
+#echo "11001001" | nc 192.168.1.9 8001 || echo "11001001" |  nc 192.168.1.55 8001
+
+#this will not work as it would seem to require 2 way communication
+#echo 0 > /root/MESSAGE_REPLY
+#start shutdown signal workers
+/var/lib/vz/snippets/WORKER_1&
+#/var/lib/vz/snippets/WORKER_2&
+
+#this will not work as it would seem to require 2 way communication
+#while true
+#do
+#MESSAGE_REPLY_CAPSULE=$(cat /root/MESSAGE_REPLY)
+#if [ "$MESSAGE_REPLY_CAPSULE" -eq 1 ]
+#then
+#is exit 1 or 0 relevant here???
+#hopefully exit will exit the loop and not just the scope
+#exit
+#fi
+#sleep 3
+#done
+
+#give the workers time to do their thing and send the shutdown signal
+sleep 30
+#definitely do not want to killall stuff that sounds like the script that is running
+#in other words this kills this script and that messes up the return codes for proxmox
+#killall SFS_SERVER_REDUNDANCY_WORKER_1
+#killall SFS_SERVER_REDUNDANCY_WORKER_2
+killall WORKER_1
+killall WORKER_2
+#somehow there is a need to kill netcat separately once it has made a connection
+killall nc
+#at this point hopefully the main server vm will start
+

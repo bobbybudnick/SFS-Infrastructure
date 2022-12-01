@@ -1,0 +1,100 @@
+#!/bin/bash
+
+#for sfs hot spare
+#particularly for zte mf861
+#there is cgnat here so no need to open ports
+
+#for sfs cold spare
+#particularly for blackberry Keyone and LG K8 Android Smartphones with USB tethering
+#there is cgnat here so no need to open ports
+
+#DEPENDENCIES: dnsmasq/iftop/iptables
+
+#run the main thread to use as mid
+#run this router to use as router
+#one role or the other not both
+
+#turn off predicatable device names in grub
+#net.ifnames=0 biosdevname=0
+
+#clean up children
+sudo killall /bin/sh
+
+#determine WAN port
+WAN=ppp0
+WAN_CHECK_1=$(sudo ifconfig -a | grep wwan0 | wc -l)
+if [ $WAN_CHECK_1 -gt 0 ]
+then
+WAN=wwan0
+fi
+WAN_CHECK_2=$(sudo ifconfig -a | grep usb0 | wc -l)
+if [ $WAN_CHECK_2 -gt 0 ]
+then
+WAN=usb0
+fi
+#this gives errors on a console only setup
+#if ! kdialog --title "Router" --warningcontinuecancel "Press continue to run the router app"
+#if ! zenity --question --text "Press Continue to run the router app"
+if [ $WAN_CHECK_1 -lt 1 ] && [ $WAN_CHECK_2 -lt 1 ]
+then
+echo "No Usable Network Adapters Found"
+exit
+fi
+
+#read -p "Press y to continue" -n 1 -r
+#if [[ $REPLY =~ ^[Yy]$ ]]
+#then
+
+#start helper to ensure connection reliability
+sudo /home/pi/ROUTER_CGNAT_HELPER&
+
+#set ethernet ip manually
+sudo ifconfig eth0 up
+sudo ifconfig eth0 192.168.1.18
+
+#start cellular connection
+sudo dhclient $WAN
+#sudo ifconfig $WAN 192.168.1.2
+#sudo ifconfig $WAN 192.168.1.163
+#sudo route add default gw 192.168.1.1
+#sudo sh -c "echo -e 'nameserver 209.18.47.61\nnameserver 209.18.47.62' > /etc/resolv.conf"
+#sudo sh -c "echo 'nameserver 208.67.222.222\nnameserver 208.67.220.220' > /etc/resolv.conf"
+
+#pass traffic from subnet to subnet
+sudo sh -c "echo '1' >> /proc/sys/net/ipv4/ip_forward"
+
+#don't block any traffic to or from the lan specifically
+#an inverse rule does not make sense here
+#because things go to and from ppp0 freely because it is router
+#no it is supposed to block all on wan until a rule is made
+#redundant - accepted by default
+#sudo iptables -A FORWARD -i eth0 -j ACCEPT
+#sudo iptables -A FORWARD -o eth0 -j ACCEPT
+
+#all traffic is translated going out of ppp0
+sudo iptables -t nat -A POSTROUTING -o $WAN -j MASQUERADE
+#try this too for newer systems just in case
+sudo iptables-legacy -t nat -A POSTROUTING -o $WAN -j MASQUERADE
+
+#traffic forwarding which specifically unblocks also?
+#sudo iptables -t nat -A PREROUTING -i ppp0 -p tcp --dport 80 -J DNAT--to 192.168.1.10:80
+
+echo "Starting Router"
+sleep 3
+
+#sudo iftop -p -i $WAN
+#port display on
+sudo iftop -P -p -i $WAN
+
+echo "Shutting Down Router"
+#sudo ifconfig eth0 0.0.0.0
+#sudo ifconfig eth0 down
+sudo ifconfig $WAN down
+#ways to kill a known application
+#STREAM_1_PID=$(ps aux | grep vlc | grep 5001 | cut -d" " -f9) then kill $STREAM_1_PID - requires knowing unique details of application to target
+#killall NAMEOFLAUNCHEDSCRIPT - this may not work - using anyway because easier
+#use $! or something as the pid variable after script launches
+#sudo killall ROUTER_CGNAT_HELPER
+
+#fi #read
+

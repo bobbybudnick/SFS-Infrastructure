@@ -1,0 +1,8 @@
+#send shutdown signal to backup server when backup server is using primary interface
+echo "passcodehere" | nc 192.168.1.8 8001
+
+#if netcat is successful it will continue to this point and the signal is recorded
+#otherwise netcat should hang until this script is killed and the vm starts to boot
+#this will not work as it would seem to require 2 way communication
+#echo 1 > /root/MESSAGE_REPLY
+

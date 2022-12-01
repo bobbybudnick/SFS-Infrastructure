@@ -1,0 +1,3 @@
+GATEWAY=$(cat /home/pi/GATEWAY)
+echo "GATEWAY-$GATEWAY"
+

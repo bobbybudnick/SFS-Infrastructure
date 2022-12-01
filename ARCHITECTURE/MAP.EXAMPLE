@@ -1,0 +1,27 @@
+organized logically
+
+192.168.10.1 - low level switch 1
+192.168.10.2 - switch administration
+
+192.168.10.1 - low level switch 2
+
+192.168.5.1 - core switch - hostnamehere
+192.168.5.2 - my workstation - hostnamehere
+192.168.5.3 - my storage server - hostnamehere
+192.168.5.4 - bob's old dusty server - hostnamehere
+
+192.168.6.1 - core switch - hostnamehere
+192.168.6.2 - my workstation - hostnamehere
+192.168.6.3 - my internet server - hostnamehere
+192.168.6.4 - bob's laptop - hostnamehere
+192.168.6.5 - bob's smart tv - hostnamehere
+192.168.6.6 - my streaming stick - hostnamehere
+
+192.168.7.1 - core switch - hostnamehere
+192.168.7.2 - my cable gateway - hostnamehere
+
+ports
+80 - web
+2222 - ssh
+8080 - bob's nas
+

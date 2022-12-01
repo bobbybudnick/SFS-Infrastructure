@@ -1,0 +1,112 @@
+sleep 15
+
+RESTART_COUNTER=0
+
+#clean up
+killall vlc
+killall cvlc
+echo "Stream 1" > /home/pi/CAPTION_1
+echo "Stream 2" > /home/pi/CAPTION_2
+echo "Stream 3" > /home/pi/CAPTION_3
+echo "Stream 4" > /home/pi/CAPTION_4
+
+STREAM_1_STATUS=$(cat /home/pi/STATUS_1)
+if [ "$STREAM_1_STATUS" -eq 1 ]
+then
+#wway hurricane mirror slave - take h264 hd input ota from hdhomerun and reencode
+cvlc -R http://192.168.1.251:5004/auto/v3.1 --http-reconnect :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=360,height=240,acodec=opus,fps=15,threads=1,soverlay,sfilter=marq{file="/home/pi/CAPTION_1",color=16777215,position=8}}:duplicate{dst=http{mux=webm,dst=:5001/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep&
+fi
+
+STREAM_2_STATUS=$(cat /home/pi/STATUS_2)
+if [ "$STREAM_2_STATUS" -eq 1 ]
+then
+#3d printer webcam slave - take mp4v mpeg ts input from 3d printer camera and reencode
+cvlc -R http://root:passcodehere@192.168.1.9:8080 --http-reconnect :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=360,height=240,acodec=none,fps=15,threads=1,soverlay,sfilter=marq{file="/home/pi/CAPTION_2",color=16777215,position=8}}:duplicate{dst=http{mux=webm,dst=:5002/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep&
+fi
+
+STREAM_3_STATUS=$(cat /home/pi/STATUS_3)
+if [ "$STREAM_3_STATUS" -eq 1 ]
+then
+#workspace webcam slave - take mp4v mpeg ts input from workspace camera and reencode
+cvlc -R http://root:passcodehere@192.168.1.12:8080 --http-reconnect :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=360,height=240,acodec=none,fps=15,threads=1,soverlay,sfilter=marq{file="/home/pi/CAPTION_3",color=16777215,position=8}}:duplicate{dst=http{mux=webm,dst=:5003/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep&
+fi
+
+STREAM_4_STATUS=$(cat /home/pi/STATUS_4)
+if [ "$STREAM_4_STATUS" -eq 1 ]
+then
+#current gaming slave - take h264 mp4 transport input from gaming desktop and reencode
+#with sound???
+#cvlc -R http://192.168.1.11:8080 --http-reconnect :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=360,height=240,acodec=opus,fps=15,threads=1,soverlay,sfilter=marq{file="/home/pi/CAPTION_4",color=16777215,position=8}}:duplicate{dst=http{mux=webm,dst=:5004/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep&
+#without sound
+cvlc -R http://192.168.1.11:8080 --http-reconnect :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=360,height=240,acodec=none,fps=15,threads=1,soverlay,sfilter=marq{file="/home/pi/CAPTION_4",color=16777215,position=8}}:duplicate{dst=http{mux=webm,dst=:5004/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep&
+fi
+
+while true
+do
+
+#memory usage routine
+#just for stream 1
+#should not be strictly required
+#cut for the first part is not working right or consistently
+#use awk instead
+#MEMORY_USE=$(ps aux | grep -m 2 etherape | awk '{print $4}' | cut -d"." -f1 | tail -n>
+#MEMORY_USE_1=-100
+#MEMORY_USE_2=-100
+#MEMORY_USE_1=$(ps aux | grep vlc | grep 5001 | grep Rl+ | awk '{print $4}' | cut -d"." -f1)
+#MEMORY_USE_2=$(ps aux | grep vlc | grep 5001 | grep Sl+ | awk '{print $4}' | cut -d"." -f1)
+#if [ $MEMORY_USE_1 -gt -1 ]
+#then
+#MEMORY_USE=$MEMORY_USE_1
+#fi
+#if [ $MEMORY_USE_2 -gt -1 ]
+#then
+#MEMORY_USE=$MEMORY_USE_2
+#fi
+#echo "Memory Use: $MEMORY_USE"
+#if [ $MEMORY_USE -gt 50 ]
+#then
+#try to fix bugged restart sequence
+#give the program time to close
+#even though the killall should not return until the program is closed anyway
+#echo "Shutdown time"
+#STREAM_1_PID=$(ps aux | grep vlc | grep 5001 | cut -d" " -f9)
+#kill $STREAM_1_PID
+#better try with f8 also because sometimes the number after the pid is found
+#STREAM_1_PID=$(ps aux | grep vlc | grep 5001 | cut -d" " -f8)
+#kill $STREAM_1_PID
+#sleep 30
+#cvlc -R http://192.168.1.251:5004/auto/v3.1 --http-reconnect :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=360,height=240,acodec=opus,fps=15,threads=1,soverlay,sfilter=marq{file="/home/pi/CAPTION_1",color=16777215,position=8}}:duplicate{dst=http{mux=webm,dst=:5001/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep & disown
+#give the program time to become established
+#sleep 30
+#fi
+
+#restart routine
+#just for stream 1
+#deal with the streams glitching out after a while
+#every 4 hours
+#4 hours is too much - trying 2 hours
+if [ "$RESTART_COUNTER" -gt 240 ]
+then
+RESTART_COUNTER=0
+STREAM_1_STATUS=$(cat /home/pi/STATUS_1)
+if [ "$STREAM_1_STATUS" -ne 0 ]
+then
+#STREAM_1_PID=$(ps aux | grep vlc | grep 5001 | cut -d" " -f9)
+#kill $STREAM_1_PID
+#better try with f8 also because sometimes the number after the pid is found
+#STREAM_1_PID=$(ps aux | grep vlc | grep 5001 | cut -d" " -f8)
+#kill $STREAM_1_PID
+#new and improved
+STREAM_1_PID=$(ps aux | grep vlc | grep 5001 | awk {'print $2'} | head -n1)
+kill $STREAM_1_PID
+sleep 3
+cvlc -R http://192.168.1.251:5004/auto/v3.1 --http-reconnect :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=360,height=240,acodec=opus,fps=15,threads=1,soverlay,sfilter=marq{file="/home/pi/CAPTION_1",color=16777215,position=8}}:duplicate{dst=http{mux=webm,dst=:5001/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep & disown
+fi
+fi
+
+RESTART_COUNTER=$(($RESTART_COUNTER+1))
+
+sleep 30
+
+done
+

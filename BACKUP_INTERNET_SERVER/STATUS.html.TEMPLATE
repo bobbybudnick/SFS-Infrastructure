@@ -1,0 +1,48 @@
+<head>
+<style>
+
+div.content_section_text {
+    padding: 4px 8px 4px 8px;
+
+    color: #000000;
+    font-size: 100%;
+  }
+
+div.content_section_text pre {
+    margin: 8px 0px 8px 0px;
+    padding: 8px 8px 8px 8px;
+
+    border-width: 1px;
+    border-style: dotted;
+    border-color: #000000;
+
+    background-color: #F5F6F7;
+  }
+
+</style>
+</head>
+
+<html>
+<body>
+
+<!--<div class="content_section_text">-->
+<!--<pre>-->
+TEMPLATE
+<br>
+TEMPLATE
+<br>
+TEMPLATE
+<br>
+TEMPLATE
+<br>
+TEMPLATE
+<br>
+TEMPLATE
+<br>
+TEMPLATE
+<!--</pre>-->
+<!--</div>-->
+
+</body>
+</html>
+

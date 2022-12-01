@@ -1,0 +1,47 @@
+#this sfs server redundancy component goes on the emergency backup server
+
+#the feature of sharing an ip address with another server as a carp alternative
+#this script just handles setting the ip address
+#the multi wan script handles setting the gateways
+#less confusion that way and there are blocking routines in this one like the listener
+
+echo none > /sys/devices/platform/leds/leds/led1/trigger
+ifconfig eth0 192.168.1.125
+
+while true
+do
+
+#check for main server existence - primary adapter
+SERVER_CHECK_PRE=$(timeout 2 ping 192.168.1.8)
+SERVER_CHECK=$(echo "$SERVER_CHECK_PRE" | grep bytes | wc -l)
+#if main server does not exist then assume role
+if [ $SERVER_CHECK -lt 1 ]
+then
+echo "Assuming Server Role on Primary"
+echo heartbeat > /sys/devices/platform/leds/leds/led1/trigger
+echo 255 > /sys/devices/platform/leds/leds/led1/brightness
+ifconfig eth0 192.168.1.8
+route add default gw 192.168.1.1
+#listen for shutdown signal
+#for bsd the p command causes errors while listening
+LISTENER=$(nc -l -p 8001)
+#if the correct signal was not sent then keep listening
+if ! [ "$LISTENER" = "passcodehere" ]
+then
+LISTENER=$(nc -l -p 8001)
+fi
+echo "Relinquishing Server Role"
+fi
+
+#set parking ip
+#always needs to be this address because logic at beginning of loop expects it
+#this should be the address it stays on almost all the time
+#also the network status page address
+echo none > /sys/devices/platform/leds/leds/led1/trigger
+ifconfig eth0 192.168.1.125
+
+#sleep 30
+sleep 300
+
+done
+

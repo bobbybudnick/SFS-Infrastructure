@@ -1,0 +1,239 @@
+#limit fps and increase threads to 3 to increase reliability and performance
+#for old android 7 devices use vp80 codec and webm transport
+#rotate image 90 degrees due to camera physical position and reverse resolution
+#audio has not been addressed
+#latency is still a problem
+#stream recording feature untested - will the time limit work??? will the logic work???
+
+while true
+do
+
+#make it work more like an ncurses program
+clear
+#do some nice formatting
+echo "Welcome to Streamconfig!"
+echo ""
+
+#show running processes
+ALL_STREAMS=$(ps aux | grep vlc)
+echo "Current Streams:"
+#this just jumbles the return up
+#echo $ALL_STREAMS
+#this formats the return with new lines
+echo "$ALL_STREAMS"
+echo ""
+
+#show number of connections
+CONNECTIONS=$(timeout 3 netstat | grep tcp | wc -l)
+echo "Number of TCP connections: $CONNECTIONS"
+echo ""
+
+#show last few lines of chat
+CHAT_LOG=$(timeout 3 curl -s http://192.168.1.8:/CHAT.txt | tail -n 5)
+echo "Chat Log:"
+echo "$CHAT_LOG"
+echo ""
+
+#the menu formatting
+echo "Main Menu:"
+echo "Option 0 - Turn Stream 1 (Hurricane Mirror) Off"
+echo "Option 1 - Turn Stream 1 (Hurricane Mirror) On"
+echo "Option 2 - Turn Stream 2 (Printer Camera) Off"
+echo "Option 3 - Turn Stream 2 (Printer Camera) On"
+echo "Option 4 - Turn Stream 3 (Workspace Camera) Off"
+echo "Option 5 - Turn Stream 3 (Workspace Camera) On"
+echo "Option 6 - Turn Stream 4 (Gaming Desktop) Off"
+echo "Option 7 - Turn Stream 4 (Gaming Desktop) On"
+echo "Option 8 - Label Stream"
+echo "Option 9 - Exit"
+echo "Please Enter Your Selection"
+
+#the action section
+#timeout does not work well with read - use read built in timeout instead
+#timeout 30s read RESPONSE
+read -t 30 RESPONSE
+if [ "$RESPONSE" -eq 0 ] 2>/dev/null
+then
+echo "Option 0"
+echo 0 > /home/pi/STATUS_1
+#search for the port number as the unique identifier - could also use ip instead
+STREAM_1_PID=$(ps aux | grep vlc | grep 5001 | cut -d" " -f9)
+kill $STREAM_1_PID
+#better try with f8 also because sometimes the number after the pid is found
+STREAM_1_PID=$(ps aux | grep vlc | grep 5001 | cut -d" " -f8)
+kill $STREAM_1_PID
+fi
+if [ "$RESPONSE" -eq 1 ] 2>/dev/null
+then
+STREAM_1_STATUS=$(cat /home/pi/STATUS_1)
+if [ "$STREAM_1_STATUS" -eq 0 ]
+then
+echo "Option 1"
+echo 1 > /home/pi/STATUS_1
+#wway hurricane mirror slave - take h264 hd input ota from hdhomerun and reencode
+#does not need a record feature
+#use opus audio instead of vorbis for best speed as these are the only choices
+cvlc -R http://192.168.1.251:5004/auto/v3.1 --http-reconnect :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=360,height=240,acodec=opus,fps=15,threads=1,soverlay,sfilter=marq{file="/home/pi/CAPTION_1",color=16777215,position=8}}:duplicate{dst=http{mux=webm,dst=:5001/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep & disown
+#cvlc -R http://192.168.1.251:5004/auto/v3.1 --http-reconnect :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=mp4v,vb=800,width=360,height=240,acodec=none,fps=15,threads=1,soverlay,sfilter=marq{file="/home/pi/CAPTION_1",color=16777215,position=8}}:duplicate{dst=http{mux=mp4,dst=:5001/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep & disown
+#cvlc -R http://192.168.1.251:5004/auto/v3.1 --http-reconnect :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=theo,vb=800,width=360,height=240,acodec=none,fps=15,threads=1,soverlay,sfilter=marq{file="/home/pi/CAPTION_1",color=16777215,position=8}}:duplicate{dst=http{mux=ogg,dst=:5001/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep & disown
+fi
+if [ "$STREAM_1_STATUS" -ne 0 ]
+then
+echo "Error"
+fi
+fi
+if [ "$RESPONSE" -eq 2 ] 2>/dev/null
+then
+echo "Option 2"
+echo 0 > /home/pi/STATUS_2
+#search for the port number as the unique identifier - could also use ip instead
+STREAM_2_PID=$(ps aux | grep vlc | grep 5002 | cut -d" " -f9)
+kill $STREAM_2_PID
+#better try with f8 also because sometimes the number after the pid is found
+STREAM_2_PID=$(ps aux | grep vlc | grep 5002 | cut -d" " -f8)
+kill $STREAM_2_PID
+fi
+if [ "$RESPONSE" -eq 3 ] 2>/dev/null
+then
+STREAM_2_STATUS=$(cat /home/pi/STATUS_2)
+if [ "$STREAM_2_STATUS" -eq 0 ]
+then
+echo "Option 3"
+echo 1 > /home/pi/STATUS_2
+#3d printer webcam slave - take mp4v mpeg ts input from 3d printer camera and reencode
+#does not need a record feature
+cvlc -R http://root:passcodehere@192.168.1.9:8080 --http-reconnect :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=360,height=240,acodec=none,fps=15,threads=1,soverlay,sfilter=marq{file="/home/pi/CAPTION_2",color=16777215,position=8}}:duplicate{dst=http{mux=webm,dst=:5002/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep & disown
+fi
+if [ "$STREAM_2_STATUS" -ne 0 ]
+then
+echo "Error"
+fi
+fi
+if [ "$RESPONSE" -eq 4 ] 2>/dev/null
+then
+echo "Option 4"
+echo 0 > /home/pi/STATUS_3
+#search for the port number as the unique identifier - could also use ip instead
+STREAM_3_PID=$(ps aux | grep vlc | grep 5003 | cut -d" " -f9)
+kill $STREAM_3_PID
+#better try with f8 also because sometimes the number after the pid is found
+STREAM_3_PID=$(ps aux | grep vlc | grep 5003 | cut -d" " -f8)
+kill $STREAM_3_PID
+fi
+if [ "$RESPONSE" -eq 5 ] 2>/dev/null
+then
+STREAM_3_STATUS=$(cat /home/pi/STATUS_3)
+if [ "$STREAM_3_STATUS" -eq 0 ]
+then
+echo "Option 5"
+#workspace webcam slave - take mp4v mpeg ts input from workspace camera and reencode
+echo "Should I Record? (1 Hour Length) Press y/n"
+read SUBRESPONSE
+echo 1 > /home/pi/STATUS_3
+#if [ "$SUBRESPONSE" -eq y ]
+if [ "$SUBRESPONSE" = "y" ]
+then
+cvlc -R http://root:passcodehere@192.168.1.12:8080 --http-reconnect :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=360,height=240,acodec=none,fps=15,threads=1,soverlay,sfilter=marq{file="/home/pi/CAPTION_3",color=16777215,position=8}}:duplicate{dst=file{mux=ts,dst=stream},dst=http{mux=webm,dst=:5003/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep --run-time 3600 & disown
+fi
+#if [ "$SUBRESPONSE" -ne y ]
+if ! [ "$SUBRESPONSE" = "y" ]
+then
+cvlc -R http://root:passcodehere@192.168.1.12:8080 --http-reconnect :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=360,height=240,acodec=none,fps=15,threads=1,soverlay,sfilter=marq{file="/home/pi/CAPTION_3",color=16777215,position=8}}:duplicate{dst=http{mux=webm,dst=:5003/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep & disown
+fi
+fi
+if [ "$STREAM_3_STATUS" -ne 0 ]
+then
+echo "Error"
+fi
+fi
+if [ "$RESPONSE" -eq 6 ] 2>/dev/null
+then
+echo "Option 6"
+echo 0 > /home/pi/STATUS_4
+#got to be very specific with this one because stream 1 also has a 5004 in it
+#search for the port number as the unique identifier - could also use ip instead
+STREAM_4_PID=$(ps aux | grep vlc | grep =:5004 | cut -d" " -f9)
+kill $STREAM_4_PID
+#better try with f8 also because sometimes the number after the pid is found
+STREAM_4_PID=$(ps aux | grep vlc | grep =:5004 | cut -d" " -f8)
+kill $STREAM_4_PID
+fi
+if [ "$RESPONSE" -eq 7 ] 2>/dev/null
+then
+STREAM_4_STATUS=$(cat /home/pi/STATUS_4)
+if [ "$STREAM_4_STATUS" -eq 0 ]
+then
+echo "Option 7"
+#current gaming slave - take h264 mp4 transport input from gaming desktop and reencode
+echo "Should I Record? (1 Hour Length) Press y/n"
+read SUBRESPONSE
+echo 1 > /home/pi/STATUS_4
+#if [ "$SUBRESPONSE" -eq y ]
+if [ "$SUBRESPONSE" = "y" ]
+then
+#with sound???
+#cvlc -R http://192.168.1.11:8080 --http-reconnect :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=360,height=240,acodec=opus,fps=15,threads=1,soverlay,sfilter=marq{file="/home/pi/CAPTION_4",color=16777215,position=8}}:duplicate{dst=file{mux=ts,dst=stream},dst=http{mux=webm,dst=:5004/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep --run-time 3600 & disown
+#without sound
+cvlc -R http://192.168.1.11:8080 --http-reconnect :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=360,height=240,acodec=none,fps=15,threads=1,soverlay,sfilter=marq{file="/home/pi/CAPTION_4",color=16777215,position=8}}:duplicate{dst=file{mux=ts,dst=stream},dst=http{mux=webm,dst=:5004/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep --run-time 3600 & disown
+fi
+#if [ "$SUBRESPONSE" -ne y ]
+if ! [ "$SUBRESPONSE" = "y" ]
+then
+#with sound???
+#cvlc -R http://192.168.1.11:8080 --http-reconnect :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=360,height=240,acodec=opus,fps=15,threads=1,soverlay,sfilter=marq{file="/home/pi/CAPTION_4",color=16777215,position=8}}:duplicate{dst=http{mux=webm,dst=:5004/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep & disown
+#without sound
+cvlc -R http://192.168.1.11:8080 --http-reconnect :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=360,height=240,acodec=none,fps=15,threads=1,soverlay,sfilter=marq{file="/home/pi/CAPTION_4",color=16777215,position=8}}:duplicate{dst=http{mux=webm,dst=:5004/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep & disown
+fi
+fi
+if [ "$STREAM_4_STATUS" -ne 0 ]
+then
+echo "Error"
+fi
+fi
+if [ "$RESPONSE" -eq 8 ] 2>/dev/null
+then
+echo "Option 8"
+#submenu asking which stream goes here
+#echo to CAPTION_1 and so on
+echo "Please Choose a Stream to Caption (3 or 4)"
+read SUBRESPONSE2
+if [ "$SUBRESPONSE2" -eq 3 ]
+then
+echo "Please Enter a Caption"
+read SUBSUBRESPONSE2_1
+echo $SUBSUBRESPONSE2_1 > /home/pi/CAPTION_3
+fi
+if [ "$SUBRESPONSE2" -eq 4 ]
+then
+echo "Please Enter a Caption"
+read SUBSUBRESPONSE2_2
+echo $SUBSUBRESPONSE2_2 > /home/pi/CAPTION_4
+fi
+fi
+if [ "$RESPONSE" -eq 9 ] 2>/dev/null
+then
+#echo "Option 9 - Unused"
+#echo "That Information is Unavailable"
+#it is important that this is used for an exit because ctrl-c makes the disown not work
+echo "Option 9 - Exit"
+sleep 1
+exit
+fi
+
+sleep 1
+
+done
+
+#these all did not show a marquee
+#cvlc v4l2:///dev/video0 --transform-type=90 :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=240,height=320,acodec=none,vfilter=transform,fps=15,threads=3}:duplicate{dst=http{mux=webm,dst=:7777/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep --sub-source=marq --marq-marquee="TEST" 2>/dev/null&
+#cvlc v4l2:///dev/video0 --transform-type=90 :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=240,height=320,acodec=none,vfilter=transform,fps=15,threads=3,soverlay,sub-source=marq{marquee="TEST",position=0,color=0xFFFF00,size=20}}:duplicate{dst=http{mux=webm,dst=:7777/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep
+#cvlc v4l2:///dev/video0 --transform-type=90 :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=240,height=320,acodec=none,vfilter=transform,fps=15,threads=3}:duplicate{dst=http{mux=webm,dst=:7777/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep --sub-source="marq{marquee=Ch. 002 VOD Barker from Local Content Server 01}"
+#cvlc --sub-source="marq{marquee=Ch. 002 VOD Barker from Local Content Server 01}" v4l2:///dev/video0 --transform-type=90 :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=240,height=320,acodec=none,vfilter=transform,fps=15,threads=3}:duplicate{dst=http{mux=webm,dst=:7777/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep
+
+#this static marquee works but will not accept a variable
+#cvlc v4l2:///dev/video0 --transform-type=90 :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=240,height=320,acodec=none,vfilter=transform,fps=15,threads=3,soverlay,sfilter=marq{marquee="$ANSWER",color=16777215,position=8}}:duplicate{dst=http{mux=webm,dst=:7777/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep
+
+#accept a file which can be transformed instead of static text
+#notice how error output is redirected to not interfere with iftop - turn off for debug
+#cvlc v4l2:///dev/video0 --transform-type=90 :v4l2-standard=0 :file-caching=300 --sout='#transcode{vcodec=VP80,vb=800,width=240,height=320,acodec=none,vfilter=transform,fps=15,threads=3,soverlay,sfilter=marq{file="/home/pi/RESPONSE_FILE",color=16777215,position=8,size=10}}:duplicate{dst=http{mux=webm,dst=:7777/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep 2>/dev/null&
+

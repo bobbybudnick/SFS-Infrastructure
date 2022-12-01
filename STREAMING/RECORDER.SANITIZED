@@ -1,0 +1,22 @@
+#clean up
+killall vlc
+
+#work around bugs
+#the sudo needs to be here even when run as setuid root otherwise there is pcilib error
+#for pi 4 only
+#sudo setpci -s 01:00.0 0xD4.B=0x41
+
+#workspace - VGA USB Camera - first - currently video0 - generic 1
+#3d printer - UVC Camera - first - currently video2 - logitech
+#security - Stereo Vision 1: HD USB Camera - first - currently video4 - generic 2
+
+#find out the correct device to use
+TABLE_CAMERA=$(v4l2-ctl --list-devices | grep -A 1 VGA | grep /dev/video | cut -c12-16)
+PRINTER_CAMERA=$(v4l2-ctl --list-devices | grep -A 1 UVC | grep /dev/video | cut -c12-16)
+CCTV_CAMERA=$(v4l2-ctl --list-devices | grep -A 1 HD | grep /dev/video | cut -c12-16)
+
+#start the feeds
+sudo -u pi cvlc v4l2:///dev/video${TABLE_CAMERA} :input-slave=alsa:// :v4l2-standard=0 :file-caching=300 --sout-http-user=root --sout-http-pwd=passcodehere --sout='#transcode{vcodec=mp4v,vb=800,width=320,height=240,acodec=none}:duplicate{dst=http{mux=ts,dst=:8080/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep&
+sudo -u pi cvlc v4l2:///dev/video${PRINTER_CAMERA} :input-slave=alsa:// :v4l2-standard=0 :file-caching=300 --sout-http-user=root --sout-http-pwd=passcodehere --sout='#transcode{vcodec=mp4v,vb=800,width=320,height=240,acodec=none}:duplicate{dst=http{mux=ts,dst=:8081/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep&
+sudo -u pi cvlc v4l2:///dev/video${CCTV_CAMERA} :input-slave=alsa:// :v4l2-standard=0 :file-caching=300 --sout-http-user=root --sout-http-pwd=passcodehere --sout='#transcode{vcodec=mp4v,vb=800,width=320,height=240,acodec=none}:duplicate{dst=http{mux=ts,dst=:8082/}}' :no-sout-rtp-sap :no-sout-standard-sap :sout-keep
+

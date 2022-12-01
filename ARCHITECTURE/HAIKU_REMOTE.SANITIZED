@@ -1,0 +1,10 @@
+#standard
+#echo 'iftop -i enx00051bd27fc5' | plink root@192.168.1.10 -pw passcodehere
+
+#port display on
+#echo 'iftop -P -i enx00051bd27fc5' | plink root@192.168.1.10 -pw passcodehere
+
+#no automatic launching of iftop with wall
+#launch with bashrc instead
+plink root@192.168.1.10 -pw passcodehere
+

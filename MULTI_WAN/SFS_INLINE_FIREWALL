@@ -1,0 +1,23 @@
+#sfs transparent layer 3 switching firewall
+
+#run iftop on the firewall like this
+#options are no dns/port display/promiscuous/adapter name
+#sudo iftop -n -P -p -i br0
+
+#pass layer 2 to 3 for iptables filtering
+modprobe br_netfilter
+#setup bridge
+brctrl addbr br0
+brctl addif br0 enxe000000f6c31 eth5
+ifconfig enxe000000f6c31 0.0.0.0
+ifconfig eth5 0.0.0.0
+ifconfig br0 192.168.1.6
+ifconfig eth5 up
+ifconfig enxe000000f6c31 up
+ifconfig br0 up
+route add default gw 192.168.1.100
+#try to increase security by further isolating internal ssh from external attack
+#does not block connections to ssh on firewall itself
+#can be used to modify from remote login if needed
+iptables -I FORWARD -p tcp --dport 22 -j DROP
+

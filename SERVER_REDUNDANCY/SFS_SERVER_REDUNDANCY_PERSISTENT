@@ -1,0 +1,38 @@
+#this sfs server redundancy component goes on the virtualization server
+
+#this one runs during guest runtime
+#it is important to loop here
+#because the backup server script will not continue until connection is closed
+
+#looping makes the ui hang up control of the vm so better not do that
+#so no longer really persistent
+#but is in the sense that it tries to make sure it has taken over
+#while true
+#do
+
+#start shutdown signal workers
+/var/lib/vz/snippets/WORKER_1&
+#/var/lib/vz/snippets/WORKER_2&
+
+#give the workers time to do their thing and send the shutdown signal
+sleep 30
+killall WORKER_1
+killall WORKER_2
+killall nc
+
+#do it once more but at some point we are sending signals to vm instead of backup
+
+#start shutdown signal workers
+/var/lib/vz/snippets/WORKER_1&
+#/var/lib/vz/snippets/WORKER_2&
+ 
+#give the workers time to do their thing and send the shutdown signal
+sleep 30
+killall WORKER_1
+killall WORKER_2
+killall nc
+
+#just have to hope that we have signaled correctly by now
+
+#done
+

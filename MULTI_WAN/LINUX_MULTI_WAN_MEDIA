@@ -1,0 +1,230 @@
+#clean up
+sudo route del default
+sudo route del default
+sudo route del default
+sudo route del default
+sudo route del default
+sudo route del default
+sudo route del default
+sudo route del default
+
+#bring up redundant interface
+sudo ifconfig enx00051bd1b6ac up
+sudo ifconfig enx00051bd1b6ac 192.168.5.5
+
+#setup routing first attempt
+#does not work as expected because when metric 0 goes down everything hangs
+#using anyway to combine with logic below
+#routes are predictable and keeps cellular from being used unless necessary
+sudo route add default gw 192.168.1.100 dev eth0 metric 0
+sudo route add default gw 192.168.5.1 dev enx00051bd1b6ac metric 1
+sudo route add default gw 192.168.1.18 dev eth0 metric 2
+sudo route add default gw 192.168.1.19 dev eth0 metric 3
+
+#setup routing second attempt
+#seems to work better as when eth0 gets unplugged cellular at 192.168.5.7 used
+#this is not good either because the main connection has no predictable gateway
+#sudo route add default gw 192.168.1.1 dev eth0
+#sudo route add default gw 192.168.5.1 dev enx00051bd1b6ac
+#sudo route add default gw 192.168.5.7 dev enx00051bd1b6ac
+
+#setup routing third attempt
+#will this allow favoring 192.168.5.1 when eth0 unplugged???
+#yes it lost 4 packets in the beginning then began favoring 192.168.5.1
+#will this allow using cellular when eth0 and 192.168.5.1 unplugged???
+#no this is same as first attempt where it hangs when lower metric goes down
+#this is not good either because the main connection has no predictable gateway
+#sudo route add default gw 192.168.1.1 dev eth0 metric 0
+#sudo route add default gw 192.168.5.1 dev enx00051bd1b6ac metric 0
+#sudo route add default gw 192.168.5.7 dev enx00051bd1b6ac metric 1
+
+#there are 2 main options
+#option 1 is to use equal metrics and let linux take care of the rest
+#the downside is that cellular is favored over the second cable gateway
+#another downside is the lack of a predictable cable gateway
+#option 2 is better which is the scripted approach
+
+#ip route show never has a delay so does not need a timeout
+#only shows status of a hard connection on the interface that gets to gateway
+
+#ping has a delay when there is a problem so is on a timeout
+#obviously shows true status of connectivity
+
+while true
+do
+
+#always add routes first before the loop starts
+
+#Gateway 1 routine
+#check for switch/cable failure
+LINK_1_CONNECTED=0
+GATEWAY_CHECK_1_1=$(ip route show to 192.168.1.100/24 | grep linkdown | wc -l)
+if [ $GATEWAY_CHECK_1_1 -gt 0 ]
+then
+echo "MULTI WAN - Removing Route 1 - Switch/Cable Failure"
+sudo route del default gw 192.168.1.100
+fi
+if [ $GATEWAY_CHECK_1_1 -lt 1 ]
+then
+LINK_1_CONNECTED=1
+fi
+#check for gateway failure - can happen when switch up but gateway down
+if [ $LINK_1_CONNECTED -gt 0 ]
+then
+#GATEWAY_CHECK_PRE=$(timeout 15 ping 192.168.1.100)
+GATEWAY_CHECK_PRE=$(timeout 20 ping -c 2 192.168.1.100)
+GATEWAY_CHECK_1_2=$(echo "$GATEWAY_CHECK_PRE" | grep bytes | wc -l)
+if [ $GATEWAY_CHECK_1_2 -lt 1 ]
+then
+echo "MULTI WAN - Removing Route 1 - Gateway Failure"
+sudo route del default gw 192.168.1.100
+fi
+if [ $GATEWAY_CHECK_1_2 -gt 0 ]
+then
+echo "MULTI WAN - Adding Route 1"
+sudo route add default gw 192.168.1.100 dev eth0 metric 0
+fi
+fi
+
+#Gateway 2 routine
+#check for switch/cable failure
+LINK_2_CONNECTED=0
+GATEWAY_CHECK_2_1=$(ip route show to 192.168.5.1/24 | grep linkdown | wc -l)
+if [ $GATEWAY_CHECK_2_1 -gt 0 ]
+then
+echo "MULTI WAN - Removing Route 2 - Switch/Cable Failure"
+sudo route del default gw 192.168.5.1
+fi
+if [ $GATEWAY_CHECK_2_1 -lt 1 ]
+then
+LINK_2_CONNECTED=1
+fi
+#check for gateway failure - can happen when switch up but gateway down
+if [ $LINK_2_CONNECTED -gt 0 ]
+then
+#GATEWAY_CHECK_PRE=$(timeout 15 ping 192.168.5.1)
+GATEWAY_CHECK_PRE=$(timeout 20 ping -c 2 192.168.5.1)
+GATEWAY_CHECK_2_2=$(echo "$GATEWAY_CHECK_PRE" | grep bytes | wc -l)
+if [ $GATEWAY_CHECK_2_2 -lt 1 ]
+then
+echo "MULTI WAN - Removing Route 2 - Gateway Failure"
+sudo route del default gw 192.168.5.1
+fi
+if [ $GATEWAY_CHECK_2_2 -gt 0 ]
+then
+echo "MULTI WAN - Adding Route 2"
+sudo route add default gw 192.168.5.1 dev enx00051bd1b6ac metric 1
+fi
+fi
+
+#Gateway 3 routine
+#check for switch/cable failure
+LINK_3_CONNECTED=0
+GATEWAY_CHECK_3_1=$(ip route show to 192.168.1.18/24 | grep linkdown | wc -l)
+if [ $GATEWAY_CHECK_3_1 -gt 0 ]
+then
+echo "MULTI WAN - Removing Route 3 - Switch/Cable Failure"
+sudo route del default gw 192.168.1.18
+fi
+if [ $GATEWAY_CHECK_3_1 -lt 1 ]
+then
+LINK_3_CONNECTED=1
+fi
+#check for gateway failure - can happen when switch up but gateway down
+if [ $LINK_3_CONNECTED -gt 0 ]
+then
+#GATEWAY_CHECK_PRE=$(timeout 15 ping 192.168.1.18)
+GATEWAY_CHECK_PRE=$(timeout 20 ping -c 2 192.168.1.18)
+GATEWAY_CHECK_3_2=$(echo "$GATEWAY_CHECK_PRE" | grep bytes | wc -l)
+if [ $GATEWAY_CHECK_3_2 -lt 1 ]
+then
+echo "MULTI WAN - Removing Route 3 - Gateway Failure"
+sudo route del default gw 192.168.1.18
+fi
+if [ $GATEWAY_CHECK_3_2 -gt 0 ]
+then
+echo "MULTI WAN - Adding Route 3"
+sudo route add default gw 192.168.1.18 dev eth0 metric 2
+fi
+fi
+
+#Gateway 4 routine
+#check for switch/cable failure
+LINK_4_CONNECTED=0
+GATEWAY_CHECK_4_1=$(ip route show to 192.168.1.19/24 | grep linkdown | wc -l)
+if [ $GATEWAY_CHECK_4_1 -gt 0 ]
+then
+echo "MULTI WAN - Removing Route 4 - Switch/Cable Failure"
+sudo route del default gw 192.168.1.19
+fi
+if [ $GATEWAY_CHECK_4_1 -lt 1 ]
+then
+LINK_4_CONNECTED=1
+fi
+#check for gateway failure - can happen when switch up but gateway down
+if [ $LINK_4_CONNECTED -gt 0 ]
+then
+#GATEWAY_CHECK_PRE=$(timeout 15 ping 192.168.1.19)
+GATEWAY_CHECK_PRE=$(timeout 20 ping -c 2 192.168.1.19)
+GATEWAY_CHECK_4_2=$(echo "$GATEWAY_CHECK_PRE" | grep bytes | wc -l)
+if [ $GATEWAY_CHECK_4_2 -lt 1 ]
+then
+echo "MULTI WAN - Removing Route 4 - Gateway Failure"
+sudo route del default gw 192.168.1.19
+fi
+if [ $GATEWAY_CHECK_4_2 -gt 0 ]
+then
+echo "MULTI WAN - Adding Route 4"
+sudo route add default gw 192.168.1.19 dev eth0 metric 3
+fi
+fi
+
+#check for internet failures - can happen when gateway up but internet down
+#finally this should eliminate gateways with faulty internet connections
+#change the master server here to any high availability server
+#INTERNET_CHECK_PRE=$(timeout 15 ping 8.8.8.8)
+INTERNET_CHECK_PRE=$(timeout 20 ping -c 2 8.8.8.8)
+INTERNET_CHECK=$(echo "$INTERNET_CHECK_PRE" | grep bytes | wc -l)
+if [ $INTERNET_CHECK -lt 1 ]
+then
+echo "Multi WAN - Removing Lowest Metric Route - Internet Failure"
+kdialog --passivepopup "Multi WAN - Removing Lowest Metric Route - Internet Failure" 1
+sudo route del default
+sleep 2
+#INTERNET_CHECK_PRE=$(timeout 15 ping 8.8.8.8)
+INTERNET_CHECK_PRE=$(timeout 20 ping -c 2 8.8.8.8)
+INTERNET_CHECK=$(echo "$INTERNET_CHECK_PRE" | grep bytes | wc -l)
+if [ $INTERNET_CHECK -lt 1 ]
+then
+echo "Multi WAN - Removing Lowest Metric Route - Internet Failure"
+kdialog --passivepopup "Multi WAN - Removing Lowest Metric Route - Internet Failure" 1
+sudo route del default
+sleep 2
+#INTERNET_CHECK_PRE=$(timeout 15 ping 8.8.8.8)
+INTERNET_CHECK_PRE=$(timeout 20 ping -c 2 8.8.8.8)
+INTERNET_CHECK=$(echo "$INTERNET_CHECK_PRE" | grep bytes | wc -l)
+if [ $INTERNET_CHECK -lt 1 ]
+then
+echo "Multi WAN - Removing Lowest Metric Route - Internet Failure"
+kdialog --passivepopup "Multi WAN - Removing Lowest Metric Route - Internet Failure" 1
+sudo route del default
+sleep 2
+#INTERNET_CHECK_PRE=$(timeout 15 ping 8.8.8.8)
+INTERNET_CHECK_PRE=$(timeout 20 ping -c 2 8.8.8.8)
+INTERNET_CHECK=$(echo "$INTERNET_CHECK_PRE" | grep bytes | wc -l)
+if [ $INTERNET_CHECK -lt 1 ]
+then
+echo "Multi WAN - all connection redundancy has failed - lp0 on fire?"
+kdialog --passivepopup "Multi WAN - all connection redundancy has failed - lp0 on fire?" 1
+sudo route del default
+fi
+fi
+fi
+fi
+
+echo "Multi WAN - sleepy time"
+sleep 600
+#sleep 30
+
+done
+

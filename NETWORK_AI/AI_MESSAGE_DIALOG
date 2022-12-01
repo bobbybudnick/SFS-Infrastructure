@@ -1,0 +1,7 @@
+#this code stould stay still until the message ok is clicked
+#the $1 here is the reference to the argument to this script
+kdialog --msgbox "Message - $1" --geometry 200x200+0+0
+
+#after ok is clicked then notifications are dismissed
+echo 0 > /home/pi/PERSISTENT_NOTIFICATIONS
+

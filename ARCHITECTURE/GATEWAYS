@@ -1,0 +1,19 @@
+cable - modem - spectrum - static - ethernet
+acts as gateway 1
+
+cellular - usb stick - protectli - static - usb
+acts as gateway 2 or 3
+
+cellular - phone 1 - tmobile prepaid - cgnat - bluetooth pan
+hardware setup for routing
+software routing disabled by default at bluetooth pan host
+
+cellular - phone 2 - tmobile prepaid - cgnat - usb
+acts as gateway 2 or 3
+
+cellular - mid 1 - att - cgnat - ethernet
+no hardware setup for routing typically
+
+cellular - mid 2 - att prepaid - cgnat - ethernet
+no hardware setup for routing typically
+

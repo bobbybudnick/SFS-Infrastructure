@@ -1,0 +1,28 @@
+#this is not working only under tmux
+#so set fixed adapter reference instead
+WAN=usb0
+#determine WAN port
+#WAN=ppp0
+#WAN_CHECK_1=$(sudo ifconfig -a | grep wwan0 | wc -l)
+#if [ $WAN_CHECK_1 -gt 0 ]
+#then
+#WAN=wwan0
+#fi
+#WAN_CHECK_2=$(sudo ifconfig -a | grep usb0 | wc -l)
+#if [ $WAN_CHECK_2 -gt 0 ]
+#then
+#WAN=usb0
+#fi
+
+#determine total data for the month
+#true monthly total???
+TOTAL_DATA=$(vnstat -i usb0 --oneline | cut -d';' -f11 | cut -d' ' -f1)
+#TOTAL_DATA=$(vnstat --oneline b -i $WAN | cut -d';' -f15)
+#echo $TOTAL_DATA
+#this is division
+#DATA_SORTED=$(($TOTAL_DATA / 1024000))
+#echo $DATA_SORTED
+#echo "TESTING"
+#echo "Data MB-$(($TOTAL_DATA / 1024000))"
+echo "Data MB-$TOTAL_DATA"
+

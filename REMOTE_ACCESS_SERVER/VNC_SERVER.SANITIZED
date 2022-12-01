@@ -1,0 +1,3 @@
+xinput set-prop 'WaveShare WaveShare Touchscreen' 154 0
+x11vnc -passwd passcodehere -forever
+

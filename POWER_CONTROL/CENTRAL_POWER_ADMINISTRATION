@@ -1,0 +1,47 @@
+sleep 15
+
+CONTINGENCY_TIMER=0
+
+while true
+do
+
+#send voltage information to backup internet server
+#LINE_VOLTAGE=$(apcaccess | grep LINEV | cut -c11-16)
+LINE_VOLTAGE=$(apcaccess | grep LINEV | cut -c11-14)
+echo $LINE_VOLTAGE | nc 192.168.1.8 7777 -w 3
+echo $LINE_VOLTAGE | nc 192.168.1.125 7777 -w 3
+
+#track power failures and prepare to shutdown custom laptops
+#commercial laptops can shut themselves down
+#cable network devices and gaming computer will run until ups is depleted
+#smaller devices will need to fend for themselves for various reasons
+#devices on large custom ups system will require manual intervention
+LINE_STATUS=$(apcaccess | grep STATUS | cut -c12-30)
+if [ "$LINE_STATUS" = "ONBATT" ] || [ "$LINE_STATUS" = "LOWBATT" ]
+then
+CONTINGENCY_TIMER=$(($CONTINGENCY_TIMER+1))
+fi
+if [ "$LINE_STATUS" = "ONLINE" ] || [ "$LINE_STATUS" = "REPLACEBATT" ]
+then
+CONTINGENCY_TIMER=0
+fi
+#about 10 minutes battery run time
+if [ $CONTINGENCY_TIMER -gt 17 ]
+then
+#shutdown time
+echo "Central Power Administration - Sending Shutdown and Halting Execution"
+#requires shutdown to be setuid and owned by root and copied to home folder
+#this workstation will not shutdown as it is intended to have extensive ups power
+#this is a helper script so the helper can be run independently
+#running independently may be better if it is obvious power will not return
+/home/jason/CENTRAL_POWER_ADMINISTRATION_HELPER&
+exit
+fi
+
+#echo "REPEAT"
+#reliable but still filling the ids with noise
+#sleep 20
+sleep 35
+
+done
+

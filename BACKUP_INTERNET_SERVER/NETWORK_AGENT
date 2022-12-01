@@ -1,0 +1,121 @@
+sleep 45
+
+#this works to add a line but not replace 
+#sudo sed -i '29i<pre>HOOT HOOT HOOT</pre>' /var/www/html/STATUS.html
+
+#this uses a wildcard to replace the whole line
+#not sure why the dot is required
+#sudo sed -i '29s/.*/HOOT/' /var/www/html/STATUS.html
+
+#this does not work with html though
+#because the sed s subcommand has a field separator which is also /
+#sudo sed -i '29s/.*/<pre>HOOT HOOT HOOT</pre>/' /var/www/html/STATUS.html
+
+#but luckily the field separator can also be a comma
+#this works
+#sudo sed -i '29s,.*,<pre>HOOT HOOT HOOT</pre>,' /var/www/html/STATUS.html
+
+#probably best to replace the html file with a fresh one after working on it
+#sudo cp /var/www/html/STATUS.html.TEMPLATE /var/www/html/STATUS.html
+
+while true
+do
+
+NETWORK_CHECK_1=$(date | cut -c1-19)
+
+#NETWORK_CHECK_2=$(sudo ifconfig | grep -A 1 eth0 | grep inet | cut -c 9-26)
+NETWORK_CHECK_2=$(sudo ifconfig | grep -A 1 eth0 | grep inet | cut -c 14-26)
+
+#192.168.5.1 address on core switch used because it can be pinged by both networks
+NETWORK_CHECK_3="Ambiguous"
+NETWORK_CHECK_3_PRE=$(timeout 2 ping 192.168.5.1 | grep bytes | wc -l)
+if [ $NETWORK_CHECK_3_PRE -lt 1 ]
+then
+NETWORK_CHECK_3="Bad"
+fi
+if [ $NETWORK_CHECK_3_PRE -gt 0 ]
+then
+NETWORK_CHECK_3="Good"
+fi
+
+NETWORK_CHECK_4="Ambiguous"
+NETWORK_CHECK_4_PRE_1=$(timeout 2 ping 192.168.1.100 | grep bytes | wc -l)
+NETWORK_CHECK_4_PRE_2=$(timeout 2 ping 192.168.1.2 | grep bytes | wc -l)
+if [ $NETWORK_CHECK_4_PRE_1 -gt 0 ] || [ $NETWORK_CHECK_4_PRE_2 -gt 0 ]
+then
+NETWORK_CHECK_4="Good"
+fi
+if [ $NETWORK_CHECK_4_PRE_1 -lt 1 ] && [ $NETWORK_CHECK_4_PRE_2 -lt 1 ]
+then
+NETWORK_CHECK_4="Bad"
+fi
+
+NETWORK_CHECK_5="Ambiguous"
+NETWORK_CHECK_5_PRE_1=$(sudo route | grep default -m 1 | awk '{print $2}' | grep 100 | wc -l)
+NETWORK_CHECK_5_PRE_2=$(sudo route | grep default -m 1 | awk '{print $2}' | grep .19 | wc -l)
+if [ $NETWORK_CHECK_5_PRE_1 -gt 0 ]
+then
+NETWORK_CHECK_5="Cable"
+fi
+if [ $NETWORK_CHECK_5_PRE_2 -gt 0 ]
+then
+NETWORK_CHECK_5="Cellular"
+fi
+
+#NETWORK_CHECK_6=$(sudo apcaccess | grep LINEV | cut -c11-16)
+#netcat is meant to timeout here after a while
+#sometimes this does not work depending on netcat version
+#NETWORK_CHECK_6=$(nc -l -p 7777 -w 5)
+NETWORK_CHECK_6=$(timeout 60 nc -l -p 7777)
+
+if [ $NETWORK_CHECK_2 = "192.168.1.8" ]
+then
+NETWORK_CHECK_7="Primary Replacement"
+fi
+if [ $NETWORK_CHECK_2 = "192.168.5.8" ]
+then
+NETWORK_CHECK_7="Secondary Replacement"
+fi
+if [ $NETWORK_CHECK_2 = "192.168.1.125" ]
+then
+NETWORK_CHECK_7="Primary Parking"
+fi
+if [ $NETWORK_CHECK_2 = "192.168.5.125" ]
+then
+NETWORK_CHECK_7="Secondary Parking"
+fi
+if ! [ $NETWORK_CHECK_2 = "192.168.1.8" ] && ! [ $NETWORK_CHECK_2 = "192.168.5.8" ] && ! [ $NETWORK_CHECK_2 = "192.168.5.125" ] && ! [ $NETWORK_CHECK_2 = "192.168.1.125" ]
+then
+NETWORK_CHECK_7="Major Failure"
+fi
+
+#with pre before and after instead of on the same line
+#no variable expansion
+#sudo sed -i '30s,.*,$NETWORK_CHECK,' /var/www/html/STATUS.html
+#unknown option to s
+#sudo sed -i "30s,.*,$NETWORK_CHECK," /var/www/html/STATUS.html
+#all unterminated s command
+#sudo sed -i "30s/.*/$NETWORK_CHECK/" /var/www/html/STATUS.html
+
+#working but the problem is not this command it is the variable
+#can not expect to add text with multiple lines to a single line - ***VERY IMPORTANT***
+#the wall is the delimiter for the commands and can be different things
+#the first part is sed insert subcommand
+#the second part is the line number
+#the third part is the s subsubcommand??? for sed
+#the fourth part is the part to search for but is now set to a wildcard
+#the fifth part is the part to replace with
+#the last wall finishes the command up
+#the quotes are there so the variable gets expanded/evaluated
+sudo sed -i "30s|.*|Timestamp: $NETWORK_CHECK_1|" /var/www/html/STATUS.html
+sudo sed -i "32s|.*|Address: $NETWORK_CHECK_2|" /var/www/html/STATUS.html
+sudo sed -i "34s|.*|Core Switch Connection: $NETWORK_CHECK_3|" /var/www/html/STATUS.html
+sudo sed -i "36s|.*|Main Switch Connection: $NETWORK_CHECK_4|" /var/www/html/STATUS.html
+sudo sed -i "38s|.*|Route: $NETWORK_CHECK_5|" /var/www/html/STATUS.html
+sudo sed -i "40s|.*|Mains Voltage: $NETWORK_CHECK_6|" /var/www/html/STATUS.html
+sudo sed -i "42s|.*|Role: $NETWORK_CHECK_7|" /var/www/html/STATUS.html
+
+sleep 60
+
+done
+

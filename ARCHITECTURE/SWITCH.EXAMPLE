@@ -1,0 +1,17 @@
+organized physically
+
+----- main switch in kitchen
+1 - core switch
+2 - workstation - guest on server vlan 1
+3 - printer
+4 - bob's switch
+5 - streaming stick
+6 - nas
+7 - internet server - server vlan 1
+8 - guest
+----- bob's switch in his bedroom
+1 - core switch
+2 - bob's laptop
+3 - bob's smart tv
+4 - bob's old dusty server
+

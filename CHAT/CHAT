@@ -1,0 +1,81 @@
+#!/bin/bash
+
+#should be executable and owned by root
+
+#try to prevent abuse
+#check the timestamp
+OLD_SECONDS=$(cat /var/www/html/ABUSE_TIMESTAMP)
+EPOCH_SECONDS=$(date +%s)
+#this is critically the only way to do this math
+if [ $OLD_SECONDS -gt $(expr $EPOCH_SECONDS - 5) ]
+then
+echo "Content-type: text/html"
+echo ""
+echo "<html><head><title>Demo</title></head><body>"
+echo "Busy - try again later <br>"
+echo "</body></html>"
+exit
+fi
+#record the timestamp
+date +%s > /var/www/html/ABUSE_TIMESTAMP
+
+#check the message log for excessive length
+#should take an abuser at least 500000 seconds to generate enough spam to reset
+LOG_LENGTH=$(cat /var/www/html/CHAT.txt | wc -l)
+if [ $LOG_LENGTH -gt 100000 ]
+then
+truncate -s 0 /var/www/html/CHAT.txt
+fi
+
+#monthly reset - optional
+#record another timestamp
+#MONTHLY_SECONDS=$(cat /var/www/html/RESET_TIMESTAMP)
+#EPOCH_SECONDS_2=$(date +%s)
+#the amount of seconds in a month
+#if [ $MONTHLY_SECONDS -lt $(expr $EPOCH_SECONDS_2 - 2592000) ]
+#then
+#truncate -s 0 /var/www/html/CHAT.txt
+#date +%s > /var/www/html/RESET_TIMESTAMP
+#fi
+
+#format the user name and message
+#echo $QUERY_STRING > /var/www/html/TEST
+FORMATTED_HANDLE=$(echo $QUERY_STRING | cut -d"&" -f1 | cut -d"=" -f2)
+#FORMATTED_CONTENT=$(echo $QUERY_STRING | cut -d"&" -f2 | cut -d"=" -f2)
+FORMATTED_CONTENT=$(echo $QUERY_STRING | cut -d"&" -f2 | cut -d"=" -f2 | tr + ' ')
+echo "$FORMATTED_HANDLE says: $FORMATTED_CONTENT" >> /var/www/html/CHAT.txt
+
+#the html return part that is shown to the client after form submission
+#NAME=BOBBY
+echo "Content-type: text/html"
+echo ""
+echo "<html><head><title>Demo</title></head><body>"
+#this works ok
+#echo "My name is $NAME <br>"
+echo "$FORMATTED_HANDLE says: $FORMATTED_CONTENT <br>"
+echo "Looks like your message went through.  You may return by pressing back.<br>"
+#pretty interesting stuff for testing
+#ultimately this helped troubleshooting
+#lead to changing http post to http get
+#with http post QUERY_STRING is not populated
+#echo SERVER_SOFTWARE = $SERVER_SOFTWARE
+#echo SERVER_NAME = $SERVER_NAME
+#echo GATEWAY_INTERFACE = $GATEWAY_INTERFACE
+#echo SERVER_PROTOCOL = $SERVER_PROTOCOL
+#echo SERVER_PORT = $SERVER_PORT
+#echo SERVER_PROTOCOL = $SERVER_PROTOCOL
+#echo SERVER_PORT = $SERVER_PORT
+#echo REQUEST_METHOD = $REQUEST_METHOD
+#echo HTTP_ACCEPT = "$HTTP_ACCEPT"
+#echo PATH_INFO = "$PATH_INFO"
+#echo PATH_TRANSLATED = "$PATH_TRANSLATED"
+#echo SCRIPT_NAME = "$SCRIPT_NAME"
+#echo QUERY_STRING = "$QUERY_STRING"
+#echo REMOTE_HOST = $REMOTE_HOST
+#echo REMOTE_ADDR = $REMOTE_ADDR
+#echo REMOTE_USER = $REMOTE_USER
+#echo AUTH_TYPE = $AUTH_TYPE
+#echo CONTENT_TYPE = $CONTENT_TYPE
+#echo CONTENT_LENGTH = $CONTENT_LENGTH
+echo "</body></html>"
+

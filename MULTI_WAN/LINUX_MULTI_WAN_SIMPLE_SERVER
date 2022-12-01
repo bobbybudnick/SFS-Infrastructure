@@ -1,0 +1,64 @@
+#!/bin/bash
+
+#this is for servers with a single ip address and single network adapter
+#the other scripts are much more complex but this just chooses the best gateway
+
+sudo route del default
+sudo route del default
+sudo route del default
+
+sudo route add default gw 192.168.1.100
+PRIMARY=1
+
+while true
+do
+
+#this is not working well because can be in state when cellular is used but cable is up
+#it is simple though and can be used with 2 equal internet connections
+#INTERNET_CHECK_PRE=$(timeout 3 ping 8.8.8.8)
+#INTERNET_CHECK=$(echo "$INTERNET_CHECK_PRE" | grep bytes | wc -l)
+#if [ $INTERNET_CHECK -lt 1 ]
+#then
+#sudo route del default
+#if [ $PRIMARY -gt 0 ]
+#then
+#PRIMARY=0
+#sudo route add default gw 192.168.1.19
+#fi
+#if [ $PRIMARY -lt 1 ]
+#then
+#PRIMARY=1
+#sudo route add default gw 192.168.1.100
+#fi
+#fi
+
+#check the cable gateway and switch to cellular gateway if it is down from outside
+#switch back to cable gateway if we are on cellular and cable is back up
+#change the ip here to your primary cable external ip
+PRIMARY_GATEWAY_CHECK_PRE=$(timeout 3 ping 24.106.212.254)
+PRIMARY_GATEWAY_CHECK=$(echo "$PRIMARY_GATEWAY_CHECK_PRE" | grep bytes | wc -l)
+if [ $PRIMARY_GATEWAY_CHECK -lt 1 ]
+then
+if [ $PRIMARY -gt 0 ]
+then
+PRIMARY=0
+sudo route del default
+sudo route add default gw 192.168.1.19
+fi
+fi
+if [ $PRIMARY_GATEWAY_CHECK -gt 0 ]
+then
+if [ $PRIMARY -lt 1 ]
+then
+PRIMARY=1
+sudo route del default
+sudo route add default gw 192.168.1.19
+fi
+fi
+
+#this will require pinging our own but not require pinging another master address
+
+sleep 600
+
+done
+

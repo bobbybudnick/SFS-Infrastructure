@@ -1,0 +1,37 @@
+disaster response plan
+organizational response to adverse events
+
+power outage overview
+typically main/media/internet server/phones are kept running
+tv draws too much power so switch laptop to primary with xinitrc
+other devices can stream from backup internet or watch local tv at 192.168.1.251
+current plan is to shutdown 1 mid and not keep the other running at all
+
+power outage procedures
+gaming desktop and cable network devices run until battery is depleted in ups
+large battery hosts stay running until manual intervention
+commercial laptops on utility power can shutdown themselves - monitor 2/monitor 3
+headless not practical because they stay powered - staging/camera 1/camera 2/ras
+cpa shuts down custom laptops after 10 minutes - gaming/storage/backup storage
+
+network outage - old - now automated - can speed up with script restart
+use physical network switch to switch to backup router mode
+lattepanda alpha/delta mid can attach directly to media tv or to backup router position
+pc stick based mid goes to backup router position
+
+hack attack
+use cloudflare under attack mode - proxy does not work so it is too late for this
+evaluate
+potentially disconnect network
+potentially reinstall
+potentially restore backups
+
+power sources - in order of practicality
+vehicle mounted 25w solar panel - can not really use/already in use
+100w solar panel partially shaded
+vehicle mounted 200w solar panel??? - add wires to tie downs/load to vehicle battery
+small 900w generator - dependent on available fuel
+backup battery bank 100ahx2 - charge with various sources and use spare inverter
+large ebike 200ah - one time use/solar recharge not practical in emergency
+vehicle mounted inverter - dependent on available fuel/dangerous to run car unattended
+

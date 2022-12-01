@@ -1,0 +1,430 @@
+#sfs ai second generation
+#network variant
+#no voice input only voice output
+
+#this does not restart very clean
+#sometimes pkill -9 bash is needed and sometimes that does not work
+#sometimes the ai processes and then kdialog should be killed and sometimes not
+
+#this and the child scripts are meant to be run as root
+#asoundrc should be setup in /root
+
+#manual clean up
+#sudo killall /bin/sh
+#sudo killall kdialog
+
+#clean up
+#rm /home/pi/TALLY
+killall etherape
+#killall kdialog
+truncate -s 0 /dev/shm/TALLY
+
+#launch
+#this works ok
+#sudo etherape -i eth0 -m tcp -f 'ip and ((not src net 192.168.1.2) and (not dst net 192.168.1.2))' | grep '192.168.1.8\|:80'
+#with no filter
+#NOOK=$(sudo stdbuf -i0 -o0 -e0 etherape -i eth0 -m tcp | grep '192.168.1.8\|:80')&
+#TESTING=$(sudo stdbuf -i0 -o0 -e0 etherape -i eth0 -m tcp | grep '192.168.1.8\|:80' > /home/pi/TALLY)&
+#sudo stdbuf -i0 -o0 -e0 etherape -i eth0 -m tcp | grep '192.168.1.8\|:80' > /home/pi/TALLY&
+#sudo stdbuf -i0 -o0 -e0 etherape -i eth0 -m tcp > /home/pi/TALLY&
+#/home/pi/AI_PERSISTENCE_DIALOG&
+#/home/pi/AI_CONNECTION_DIALOG&
+stdbuf -i0 -o0 -e0 etherape -i eth0 -m tcp > /dev/shm/TALLY&
+#NAG_COUNTER=0
+CHAT_COUNTER=0
+NOTIFICATIONS_COUNTER=0
+RECONNECT_COUNTER=1000
+CHAT_LINES_STORED=$(timeout 3 curl -s http://192.168.1.8:8080/CHAT.txt | wc -l)
+
+while true
+do
+
+#auto reconnect with phone
+#every 20 minutes when disconnected
+if [ $RECONNECT_COUNTER -gt 400 ]
+then
+RECONNECT_COUNTER=0
+#use this timer to do housekeeping on this problematic file
+truncate -s 0 /home/pi/.xsession-errors
+#back to the regularly scheduled artificial intelligence
+INTERFACE_CHECK=$(ifconfig | grep 'bnep0' | wc -l)
+if [ $INTERFACE_CHECK -lt 1 ]
+then
+#espeak-ng -ven-us+f3 --stdout -k5 -g5 "Reconnecting" | aplay
+dbus-send --system --type=method_call --dest=org.bluez /org/bluez/hci0/dev_D4_28_D5_73_CD_02 org.bluez.Network1.Connect string:'nap'
+sleep 15
+dhclient bnep0
+INTERFACE_CHECK=$(ifconfig | grep 'bnep0' | wc -l)
+#if [ $INTERFACE_CHECK -lt 1 ]
+#then
+#espeak-ng -ven-us+f3 --stdout -k5 -g5 "Connection failed" | aplay
+#fi
+if [ $INTERFACE_CHECK -ge 1 ]
+then
+echo 0 > /home/pi/PERSISTENT_NOTIFICATIONS
+#espeak-ng -ven-us+f3 --stdout -k5 -g5 "Connection success" | aplay
+#TIME=$(date | cut -d" " -f4)
+TIME=$(date | awk '{print $4}')
+espeak-ng -ven-us+f3 --stdout -k5 -g5 "Hello Jason, the time is $TIME" | aplay
+fi
+fi
+fi
+
+#memory usage routine
+#cut for the first part is not working right or consistently
+#use awk instead
+#MEMORY_USE=$(ps aux | grep -m 2 etherape | awk '{print $4}' | cut -d"." -f1 | tail -n>
+MEMORY_USE_1=-100
+MEMORY_USE_2=-100
+MEMORY_USE_1=$(ps aux | grep etherape | grep Rl+ | awk '{print $4}' | cut -d"." -f1)
+MEMORY_USE_2=$(ps aux | grep etherape | grep Sl+ | awk '{print $4}' | cut -d"." -f1)
+#if [ $MEMORY_USE_1 -gt $MEMORY_USE_2 ]
+if [ $MEMORY_USE_1 -gt -1 ]
+then
+MEMORY_USE=$MEMORY_USE_1
+fi
+#if [ $MEMORY_USE_2 -gt $MEMORY_USE_1 ]
+if [ $MEMORY_USE_2 -gt -1 ]
+then
+MEMORY_USE=$MEMORY_USE_2
+fi
+echo "Memory Use: $MEMORY_USE"
+if [ $MEMORY_USE -gt 50 ]
+then
+#try to fix bugged restart sequence
+#give the program time to close
+#even though the killall should not return until the program is closed anyway
+echo "Shutdown time"
+killall etherape
+sleep 30
+killall -9 etherape
+stdbuf -i0 -o0 -e0 etherape -i eth0 -m tcp > /dev/shm/TALLY&
+#give the program time to become established
+sleep 30
+fi
+
+#network voice routine setup
+#all are set to filter out fire stick in the whitelist because it talks so much
+#changed to just grep once instead below
+#NOOK=$(cat /dev/shm/TALLY | grep -a ':80\|:443\|:4001\|192.168.1.13\|192.168.1.250\|192.168.1.8\|192.168.1.3\|192.168.1.125')
+NOOK=$(cat /dev/shm/TALLY)
+#echo "NOOK DEBUG: $NOOK"
+
+#network voice routine 1
+#return is always at least 1
+#also the problem is the return is 1 line with or without a correct return
+#one way to handle this would be to make the return 0 lines if it has nothing  
+#this was not obvious how to do
+#another way would be to recheck the return for what we are looking for
+#this would bloat the code kind of like these comments and cause more processing
+#we ended up just moving forward only if the return is more than 1 byte
+#NOOK_CHECK_1=$(echo $NOOK | grep ":80\b")
+#this is the correct way to keep the return from being one long line
+NOOK_CHECK_1=$(echo "$NOOK" | grep ":80\b")
+NOOK_CHECK_1_BYTE_COUNT=$(echo $NOOK_CHECK_1 | wc -c)
+#echo "NOOK CHECK 1 BYTE COUNT: $NOOK_CHECK_1_BYTE_COUNT"
+if [ $NOOK_CHECK_1_BYTE_COUNT -gt 1 ]
+then
+#NOOK_CHECK_1=$(echo "$NOOK")
+#NOOK_CHECK_1=$(echo $NOOK)
+#NOOK_CHECK_1=$(cat /dev/shm/TALLY)
+#echo "NOOK CHECK 1 DEBUG: $NOOK_CHECK_1"
+#NOOK_CHECK_1_COUNT=$(echo $NOOK_CHECK_1 | wc -l)
+#NOOK_CHECK_1_COUNT=$(echo $NOOK | grep ":80\b" | wc -l)
+#NOOK_CHECK_1_COUNT=$(echo "$NOOK_CHECK_1" | wc -l)
+#if [ $NOOK_CHECK_1_COUNT -gt 0 ]
+#then
+DELETE_SKIP_1_COUNT=$(echo $NOOK_CHECK_1 | grep "delete" | wc -l)
+if [ $DELETE_SKIP_1_COUNT -lt 1 ]
+then
+WHITELIST_1=$(echo $NOOK | grep "192.168.1.250" | wc -l)
+if [ $WHITELIST_1 -lt 1 ]
+then
+echo "Web Activity Notification: $NOOK"
+espeak-ng -ven-us+f3 --stdout -k5 -g5 "Web" | aplay
+#rm /home/pi/TALLY
+#truncate -s 0 /dev/shm/TALLY
+fi
+fi
+#fi
+fi
+
+#network voice routine 2
+NOOK_CHECK_2=$(echo "$NOOK" | grep ":443\b")
+NOOK_CHECK_2_BYTE_COUNT=$(echo $NOOK_CHECK_2 | wc -c)
+if [ $NOOK_CHECK_2_BYTE_COUNT -gt 1 ]
+then  
+#NOOK_CHECK_2_COUNT=$(echo "$NOOK_CHECK_2" | wc -l)
+#if [ $NOOK_CHECK_2_COUNT -gt 0 ]
+#then  
+DELETE_SKIP_2_COUNT=$(echo $NOOK_CHECK_2 | grep "delete" | wc -l)
+if [ $DELETE_SKIP_2_COUNT -lt 1 ]
+then
+WHITELIST_2=$(echo $NOOK | grep "192.168.1.250" | wc -l)
+if [ $WHITELIST_2 -lt 1 ]
+then
+echo "Secure Web Activity Notification: $NOOK"
+espeak-ng -ven-us+f3 --stdout -k5 -g5 "Web" | aplay
+fi
+fi
+#fi
+fi
+
+#network voice routine 3
+NOOK_CHECK_3=$(echo "$NOOK" | grep "192.168.1.8")
+NOOK_CHECK_3_BYTE_COUNT=$(echo $NOOK_CHECK_3 | wc -c)
+if [ $NOOK_CHECK_3_BYTE_COUNT -gt 1 ]
+then  
+#NOOK_CHECK_3_COUNT=$(echo "$NOOK_CHECK_3" | wc -l)
+#if [ $NOOK_CHECK_3_COUNT -gt 0 ]
+#then  
+DELETE_SKIP_3_COUNT=$(echo $NOOK_CHECK_3 | grep "delete" | wc -l)
+if [ $DELETE_SKIP_3_COUNT -lt 1 ]
+then
+#filter out control messages between main and backup internet servers also
+#filter out chat retrieval messages between this program and server also
+WHITELIST_3=$(echo $NOOK | grep "192.168.1.250\|:7777\|:8080" | wc -l)
+if [ $WHITELIST_3 -lt 1 ]
+then
+echo "Server 1 Activity Notification: $NOOK"
+espeak-ng -ven-us+f3 --stdout -k5 -g5 "Server 1" | aplay
+fi
+fi
+#fi
+fi
+
+#network voice routine 4
+NOOK_CHECK_4=$(echo "$NOOK" | grep "192.168.1.13")
+NOOK_CHECK_4_BYTE_COUNT=$(echo $NOOK_CHECK_4 | wc -c)
+if [ $NOOK_CHECK_4_BYTE_COUNT -gt 1 ] 
+then  
+#NOOK_CHECK_4_COUNT=$(echo "$NOOK_CHECK_4" | wc -l)
+#if [ $NOOK_CHECK_4_COUNT -gt 0 ]
+#then  
+DELETE_SKIP_4_COUNT=$(echo $NOOK_CHECK_4 | grep "delete" | wc -l)
+if [ $DELETE_SKIP_4_COUNT -lt 1 ]
+then
+WHITELIST_4=$(echo $NOOK | grep "192.168.1.250" | wc -l)
+if [ $WHITELIST_4 -lt 1 ]
+then
+echo "Server 2 Activity Notification: $NOOK"
+espeak-ng -ven-us+f3 --stdout -k5 -g5 "Server 2" | aplay
+fi
+fi
+#fi
+fi
+
+#network voice routine 5
+NOOK_CHECK_5=$(echo "$NOOK" | grep "192.168.1.3")
+NOOK_CHECK_5_BYTE_COUNT=$(echo $NOOK_CHECK_5 | wc -c)
+if [ $NOOK_CHECK_5_BYTE_COUNT -gt 1 ] 
+then  
+#NOOK_CHECK_5_COUNT=$(echo "$NOOK_CHECK_5" | wc -l)
+#if [ $NOOK_CHECK_5_COUNT -gt 0 ]
+#then  
+DELETE_SKIP_5_COUNT=$(echo $NOOK_CHECK_5 | grep "delete" | wc -l)
+if [ $DELETE_SKIP_5_COUNT -lt 1 ]
+then
+WHITELIST_5=$(echo $NOOK | grep "192.168.1.250" | wc -l)
+if [ $WHITELIST_5 -lt 1 ]
+then
+echo "Server 3 Activity Notification: $NOOK"
+espeak-ng -ven-us+f3 --stdout -k5 -g5 "Server 3" | aplay
+fi
+fi
+#fi
+fi
+
+#network voice routine 6
+#really the cctv server ip does not need to be used only the port
+#otherwise ordering a pizza or talking on the phone would set it off
+NOOK_CHECK_6=$(echo "$NOOK" | grep ":4001\b")
+NOOK_CHECK_6_BYTE_COUNT=$(echo $NOOK_CHECK_6 | wc -c)
+if [ $NOOK_CHECK_6_BYTE_COUNT -gt 1 ] 
+then  
+#NOOK_CHECK_6_COUNT=$(echo "$NOOK_CHECK_6" | wc -l)
+#if [ $NOOK_CHECK_6_COUNT -gt 0 ]
+#then  
+DELETE_SKIP_6_COUNT=$(echo $NOOK_CHECK_6 | grep "delete" | wc -l)
+if [ $DELETE_SKIP_6_COUNT -lt 1 ]
+then
+WHITELIST_6=$(echo $NOOK | grep "192.168.1.250" | wc -l)
+if [ $WHITELIST_6 -lt 1 ]
+then
+echo "Server 4 Activity Notification: $NOOK"
+espeak-ng -ven-us+f3 --stdout -k5 -g5 "Server 4" | aplay
+fi
+fi
+#fi
+fi
+
+#network voice routine 7
+NOOK_CHECK_7=$(echo "$NOOK" | grep "192.168.1.125")
+NOOK_CHECK_7_BYTE_COUNT=$(echo $NOOK_CHECK_7 | wc -c)
+if [ $NOOK_CHECK_7_BYTE_COUNT -gt 1 ] 
+then  
+#NOOK_CHECK_7_COUNT=$(echo "$NOOK_CHECK_7" | wc -l)
+#if [ $NOOK_CHECK_7_COUNT -gt 0 ]
+#then  
+DELETE_SKIP_7_COUNT=$(echo $NOOK_CHECK_7 | grep "delete" | wc -l)
+if [ $DELETE_SKIP_7_COUNT -lt 1 ]
+then
+#filter out control messages between main and backup internet servers also
+#WHITELIST_7=$(echo $NOOK | grep "192.168.1.250\|:7777" | wc -l)
+#now filter out monitor 2 status board connections
+WHITELIST_7=$(echo $NOOK | grep "192.168.1.250\|:7777\|192.168.1.17" | wc -l)
+if [ $WHITELIST_7 -lt 1 ]
+then
+echo "Server 5 Activity Notification: $NOOK"
+espeak-ng -ven-us+f3 --stdout -k5 -g5 "Server 5" | aplay
+fi
+fi
+#fi
+fi
+
+#network voice routine 8
+#ssh is not caught with the server checks above for some reason
+#"22:somenumber" seems to be a problem for false ssh announcements
+#":22.somenumber" is also a problem
+#\b searches for strings on the end of a word only but apparently "22:" counts
+#because really the result should be ":22." or ":22 "
+#\b not really needed at all and also \B was a red herring
+#2 separate searches with a space and a dot were all that was needed
+#this should stay in here to keep simple the false announcements deletion check
+NOOK_CHECK_8=$(echo "$NOOK" | grep ":22\b")
+#NOOK_CHECK_8_1=$(echo "$NOOK" | grep ":22 \b")
+NOOK_CHECK_8_1=$(echo "$NOOK" | grep ":22 ")
+NOOK_CHECK_8_1_BYTE_COUNT=$(echo $NOOK_CHECK_8_1 | wc -c)
+#NOOK_CHECK_8_2=$(echo "$NOOK" | grep ":22.\b")
+NOOK_CHECK_8_2=$(echo "$NOOK" | grep ":22. ")
+NOOK_CHECK_8_2_BYTE_COUNT=$(echo $NOOK_CHECK_8_2 | wc -c)
+#if we find :22 with a space or a dot behind it then fire
+if [ $NOOK_CHECK_8_1_BYTE_COUNT -gt 1 ] || [ $NOOK_CHECK_8_2_BYTE_COUNT -gt 1 ]
+then
+#NOOK_CHECK_8_COUNT=$(echo "$NOOK_CHECK_8" | wc -l)
+#if [ $NOOK_CHECK_8_COUNT -gt 0 ]
+#then
+DELETE_SKIP_8_COUNT=$(echo $NOOK_CHECK_8 | grep "delete" | wc -l)
+if [ $DELETE_SKIP_8_COUNT -lt 1 ]
+then
+WHITELIST_8=$(echo $NOOK | grep "192.168.1.250" | wc -l)
+if [ $WHITELIST_8 -lt 1 ]
+then
+echo "SSH Activity Notification: $NOOK"
+#the word shell is not clear and not much better with the fix
+#espeak-ng -ven-us+f3 --stdout -k5 -g5 "Secure Shell" | aplay
+espeak-ng -ven-us+f2 --stdout -k5 -g5 -s200 "Secure Shell" | aplay
+fi
+fi
+#fi
+fi
+
+#network voice routine 9
+#ssh is not caught with the server checks above for some reason
+NOOK_CHECK_9=$(echo "$NOOK" | grep ":2001\b")
+NOOK_CHECK_9_BYTE_COUNT=$(echo $NOOK_CHECK_9 | wc -c)
+if [ $NOOK_CHECK_9_BYTE_COUNT -gt 1 ]
+then
+#NOOK_CHECK_9_COUNT=$(echo "$NOOK_CHECK_9" | wc -l)
+#if [ $NOOK_CHECK_9_COUNT -gt 0 ]
+#then
+DELETE_SKIP_9_COUNT=$(echo $NOOK_CHECK_9 | grep "delete" | wc -l)
+if [ $DELETE_SKIP_9_COUNT -lt 1 ]
+then
+WHITELIST_9=$(echo $NOOK | grep "192.168.1.250" | wc -l)
+if [ $WHITELIST_9 -lt 1 ]
+then
+echo "Server 1 SSH Activity Notification: $NOOK"  
+espeak-ng -ven-us+f3 --stdout -k5 -g5 "Restricted Shell" | aplay
+fi
+fi
+#fi
+fi
+
+#network voice routine closeout
+#final truncation
+truncate -s 0 /dev/shm/TALLY
+
+#phone voice routine
+NOOK_THE_SECOND=$(cat /home/pi/NOTIFICATION_LOG)
+#look for missed call - does this look for incoming call???
+NOOK_THE_SECOND_CHECK_1=$(echo $NOOK_THE_SECOND | grep -a '+1' | wc -l)
+if [ $NOOK_THE_SECOND_CHECK_1 -gt 0 ]
+then
+echo "Incoming or missed call: $NOOK_THE_SECOND"
+espeak-ng -ven-us+f3 --stdout -k5 -g5 "Call" | aplay
+fi
+#look for sms - cannot know who sent the sms only the message
+NOOK_THE_SECOND_CHECK_2=$(echo $NOOK_THE_SECOND | grep -a 'KNotify' | wc -l)
+if [ $NOOK_THE_SECOND_CHECK_2 -gt 0 ]
+then
+if [ $NOOK_THE_SECOND_CHECK_1 -lt 1 ]
+then
+#look for the weird KNotify messages that appear from time to time and ignore
+#kind of a blacklist now
+NOOK_THE_SECOND_CHECK_3=$(echo $NOOK_THE_SECOND | grep -a 'Default system\|Call ended\|settings applied\|Metro' | wc -l)
+if [ $NOOK_THE_SECOND_CHECK_3 -lt 1 ]
+then
+NOOK_SMS_FORMATTED=$(echo $NOOK_THE_SECOND | cut -d":" -f4)
+echo 1 > /home/pi/PERSISTENT_NOTIFICATIONS
+echo "SMS: $NOOK_SMS_FORMATTED"
+#run a script instead so the script can auto dismiss persistent notifications
+#kdialog --msgbox "Message - $NOOK_SMS_FORMATTED" --geometry 200x200+0+0&
+/home/pi/AI_MESSAGE_DIALOG "$NOOK_SMS_FORMATTED"&
+espeak-ng -ven-us+f3 --stdout -k5 -g5 "SMS: $NOOK_SMS_FORMATTED" | aplay
+fi
+fi
+fi
+#persistent notifications
+#every 30 minutes
+if [ $NOTIFICATIONS_COUNTER -gt 600 ]
+#if [ $NOTIFICATIONS_COUNTER -gt 1 ]
+then
+#turn persistent notifications off after 3 notifications
+#now the nag counter is not necessary because notifications stop when ok clicked
+#if [ $NAG_COUNTER -gt 2 ]
+#then
+#NAG_COUNTER=0
+#echo 0 > /home/pi/PERSISTENT_NOTIFICATIONS
+#fi
+NOTIFICATIONS_COUNTER=0
+NOTIFICATIONS=$(cat /home/pi/PERSISTENT_NOTIFICATIONS)
+if [ $NOTIFICATIONS -gt 0 ]
+then
+#NAG_COUNTER=$(($NAG_COUNTER+1))
+echo "Notification"
+espeak-ng -ven-us+f3 --stdout -k5 -g5 "Notification" | aplay
+fi
+fi
+truncate -s 0 /home/pi/NOTIFICATION_LOG
+
+#ai chat monitor
+#check every 2 minutes for number of lines in chat http return
+#if number is different then stored then store number and announce chat
+if [ $CHAT_COUNTER -gt 40 ]
+then
+CHAT_COUNTER=0
+#show last few lines of chat
+CHAT_LINES=$(timeout 3 curl -s http://192.168.1.8:8080/CHAT.txt | wc -l)
+if [ $CHAT_LINES -ne $CHAT_LINES_STORED ]
+then
+CHAT_LINES_STORED=$CHAT_LINES
+echo 1 > /home/pi/PERSISTENT_NOTIFICATIONS
+echo "Chat"
+/home/pi/AI_MESSAGE_DIALOG "New Chat Message"&
+espeak-ng -ven-us+f3 --stdout -k5 -g5 "Chat" | aplay
+fi
+fi
+
+#echo "REPEAT"
+
+CHAT_COUNTER=$(($CHAT_COUNTER+1))
+NOTIFICATIONS_COUNTER=$(($NOTIFICATIONS_COUNTER+1))
+RECONNECT_COUNTER=$(($RECONNECT_COUNTER+1))
+
+#sleep 30
+sleep 3
+done
+
+killall etherape
+

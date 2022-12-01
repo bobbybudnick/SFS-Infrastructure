@@ -1,0 +1,12 @@
+while true
+do
+
+gnome-weather&
+
+#every 2 hours
+sleep 7200
+
+killall gnome-weather
+
+done
+

@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+/root/LINUX_MULTI_WAN_VIRTUALIZATION_SERVER&
+
+exit 0
+

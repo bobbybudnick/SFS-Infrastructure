@@ -1,0 +1,14 @@
+while true
+do
+kdialog --msgbox "Debug" --geometry 200x200+0+855
+#INTERFACE_CHECK=$(ifconfig | grep 'bnep0' | wc -l)
+#if [ $INTERFACE_CHECK -lt 1 ]
+#then
+#echo "Reconnecting"
+#dbus-send --system --type=method_call --dest=org.bluez /org/bluez/hci0/dev_D4_28_D5_73_CD_02 org.bluez.Network1.Connect string:'nap'
+#sleep 15
+#dhclient bnep0
+#fi
+sleep 1
+done
+

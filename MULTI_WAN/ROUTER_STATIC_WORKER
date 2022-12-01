@@ -1,0 +1,68 @@
+#!/bin/bash
+
+sleep 15
+
+#determine WAN port
+WAN=ppp0
+WAN_CHECK_1=$(sudo ifconfig -a | grep wwan0 | wc -l)
+if [ $WAN_CHECK_1 -gt 0 ]
+then
+WAN=wwan0
+fi
+WAN_CHECK_2=$(sudo ifconfig -a | grep usb0 | wc -l)
+if [ $WAN_CHECK_2 -gt 0 ]
+then
+WAN=usb0
+fi
+
+while true
+do
+
+#determine network status
+#do this by looking at the status/backup internet server in the same cluster/core
+#this decides if this is the temporary main gateway or not
+#if this is main gateway a contigency event has occured and we need to open ports
+#otherwise ports are closed which keeps anything from reaching internal network
+#if ports open but gateway on servers is cable at least a one way link can be made
+#this one way link trips monitoring systems and is not enough security layers
+#so to avoid any network administration bad practices this solution was developed
+STATUS_SERVER_GATEWAY=$(timeout 3 curl -s http://192.168.1.125:/STATUS.html | grep Route | cut -d' ' -f2)
+#echo "GATEWAY-$STATUS_SERVER_GATEWAY"
+echo $STATUS_SERVER_GATEWAY > /home/pi/GATEWAY
+if ! [ "$STATUS_SERVER_GATEWAY" = "Cable" ] && ! [ "$STATUS_SERVER_GATEWAY" = "Cellular" ]
+then
+echo "OH NOES SOME-TINGS WONG...BAD RESPONSE FROM STATUS SERVER"
+fi
+
+if [ "$STATUS_SERVER_GATEWAY" = "Cable" ]
+then
+#remove DNAT rules
+sudo iptables -F -t nat
+#this gets readded because we really only wanted to disable port forwards
+#this way the gateway is completely usable for client testing at all times
+#this only affects server availability
+sudo iptables -t nat -A POSTROUTING -o $WAN -j MASQUERADE
+fi
+
+if [ "$STATUS_SERVER_GATEWAY" = "Cellular" ]
+then
+#traffic forwarding which specifically unblocks also?
+#it is extremely important that the forwarded device here use this device as gateway
+#in other words DO NOT use the cellular device at 192.168.1.1 as gateway
+#DO NOT use whatever address the DMZ is for gateway either
+#just destination nat which changes destination so datagrams go to correct server
+#the onboard ssh server on port 1001 does not need to be port forwarded to work
+#this is the example case
+#sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination 192.168.1.3:80
+#the web server
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination 192.168.1.8:80
+#the ras server
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination 192.168.1.3:3001
+#the ssh server
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination 192.168.1.8:2001
+fi
+
+sleep 300
+
+done
+
