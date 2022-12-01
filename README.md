@@ -745,7 +745,7 @@ Linux iftop at cellular edge gateway.
 15. Basic types of firewalls  
 Endpoint firewalls - filter in and out - acts as gateway.  
 Internal router firewalls - filter in and out - acts as gateway.  
-Inline/Transparent firewall (like SFS) - filter in/out - does not act as gateway.  
+Inline/transparent firewall (like SFS) - filter in/out - does not act as gateway.  
 Proxy/DNS firewalls - filter out - does not act as gateway.
 
 16. Inline/transparent firewall  
