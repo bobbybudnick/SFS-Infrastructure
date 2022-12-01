@@ -1418,8 +1418,8 @@ These are marked as SECRET.
 13.Network map - PROPRIETARY  
 14.Cable IP document - PROPRIETARY  
 15.Numbers and passwords - PROPRIETARY  
-16.PFSense configuration XML - PROPRIETARY   
-17.Unused hostname ideas - PROPRIETARY  
+16.PFSense configuration XML - SECRET  
+17.Unused hostname ideas - SECRET  
 18.Captcha CGI script - SECRET
 
 **Fruits of the Quiltmaker**  
