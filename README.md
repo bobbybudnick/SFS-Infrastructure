@@ -737,7 +737,7 @@ Quote US extradition agreements.
 3 examples of monitoring internally.  
 Monitor through switch port mirroring - monitor 1.  
 Monitor through virtualization server hypervisor - monitor 2.  
-Monitor through inline firewall - monitor 3.  
+Monitor through inline/transparent firewall - monitor 3.  
 2 examples of monitoring at the edge.  
 PFSense pftop at cable edge gateway.  
 Linux iftop at cellular edge gateway.
@@ -802,7 +802,7 @@ Blocking ports wholesale will not work because gateway is a critical redundancy.
 One simple way is to just block port 22 because there is no good reason for that.  
 The simple way would block any external connections to sensitive internal SSH.
 
-21. Novelty of transparent firewall  
+21. Novelty of inline/transparent firewall  
 Combines switching/bridging with no configuration of routes because not gateway.  
 Provides an extra layer of defense easily.  
 Allows for manual bypass switch in case of firewall failure.
@@ -1275,7 +1275,7 @@ rc.local.BACKUPINTERNETSERVER - auto start multi wan and redundancy and status
 rc.local.INTERNETSERVER - auto start multi wan  
 rc.local.RAS - auto start simple multi wan and container  
 rc.local.REENCODER - auto start Streamlauncher  
-rc.local.MONITOR3 - start cctv recorder and inline firewall  
+rc.local.MONITOR3 - start cctv recorder and inline/transparent firewall  
 SMS.py - sends administrative alerts through VOIP.ms to an SMS number  
 config.txt.STATIC - low level system configuration for Pi 2  
 config.txt.CGNAT - low level system configuration for Pi 2  
