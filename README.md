@@ -1409,8 +1409,8 @@ These are marked as SECRET.
 4.Streamconfig - RESTRICTED  
 5.Streamlauncher - RESTRICTED  
 6.VNC server - RESTRICTED  
-7.Worker 1 - RESTRICTED  
-8.Uploader python script - RESTRICTED  
+7.Server redundancy worker 1 - RESTRICTED  
+8.Uploader CGI script - RESTRICTED  
 9.Haiku remote SSH login script - RESTRICTED  
 10.RAS SSL configuration - RESTRICTED  
 11.RAS ports configuration - RESTRICTED  
@@ -1418,10 +1418,9 @@ These are marked as SECRET.
 13.Network map - PROPRIETARY  
 14.Cable IP document - PROPRIETARY  
 15.Numbers and passwords - PROPRIETARY  
-16.PFSense configuration without packages - PROPRIETARY  
-17.PFSense configuration with packages - PROPRIETARY  
-18.Unused hostname ideas - PROPRIETARY  
-19.Captcha CGI script - SECRET
+16.PFSense configuration XML - PROPRIETARY   
+17.Unused hostname ideas - PROPRIETARY  
+18.Captcha CGI script - SECRET
 
 **Fruits of the Quiltmaker**  
 This is a list of hosts showing what can be expected with a typical end result.  A product of the 
