@@ -1412,14 +1412,16 @@ These are marked as SECRET.
 7.Worker 1 - RESTRICTED  
 8.Uploader python script - RESTRICTED  
 9.Haiku remote SSH login script - RESTRICTED  
-10.Switch index - PROPRIETARY  
-11.Network map - PROPRIETARY  
-12.Cable IP document - PROPRIETARY  
-13.Numbers and passwords - PROPRIETARY  
-14.PFSense configuration without packages - PROPRIETARY  
-15.PFSense configuration with packages - PROPRIETARY  
-16.Unused hostname ideas - PROPRIETARY  
-17.Captcha CGI script - SECRET
+10.RAS SSL configuration - RESTRICTED  
+11.RAS ports configuration - RESTRICTED  
+12.Switch index - PROPRIETARY  
+13.Network map - PROPRIETARY  
+14.Cable IP document - PROPRIETARY  
+15.Numbers and passwords - PROPRIETARY  
+16.PFSense configuration without packages - PROPRIETARY  
+17.PFSense configuration with packages - PROPRIETARY  
+18.Unused hostname ideas - PROPRIETARY  
+19.Captcha CGI script - SECRET
 
 **Fruits of the Quiltmaker**  
 This is a list of hosts showing what can be expected with a typical end result.  A product of the 
