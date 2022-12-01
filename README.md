@@ -745,10 +745,10 @@ Linux iftop at cellular edge gateway.
 15. Basic types of firewalls  
 Endpoint firewalls - filter in and out - acts as gateway.  
 Internal router firewalls - filter in and out - acts as gateway.  
-Transparent firewall (like SFS) - filter in and out - does not act as gateway.  
+Inline/Transparent firewall (like SFS) - filter in/out - does not act as gateway.  
 Proxy/DNS firewalls - filter out - does not act as gateway.
 
-16. Inline firewall  
+16. Inline/transparent firewall  
 Part of a multi layered defense.  
 Attacker could take over cellular gateway and be close to critical resources.  
 Current - cellular gateway > main switch > core switch > admin switch > storage.  
@@ -761,13 +761,13 @@ Reason 1 - monitoring of all traffic through firewall hopefully at layer 2 and 3
 Reason 2 - iptables blocking of cellular gateway connections back inside network.  
 This blocking strategy will allow for automatic containment of a hacked gateway.
 
-17. Inline firewall redundancy vs speed  
+17. Inline/transparent firewall redundancy vs speed  
 Having the 10/100 switchbox connected to uplink means entire cc is speed limited.  
 The alternative would be to connect uplink to gigabit connector on monitor.  
 The problem with this is it would not allow for the switchbox.  
 Battery will die on monitor before cellular gateway so this can not work well.
 
-18. Inline firewall power concerns  
+18. Inline/transparent firewall power concerns  
 Manual override switch will allow gateway a direct connection to switch.  
 Override important during extended power failure due to firewall laptop battery.  
 The gateway battery is setup to last much longer.  
@@ -1438,7 +1438,7 @@ Runs business email
 Hosts phone  
 Assists with development  
 Does backend 3d models work  
-Now directly monitors the CC as a transparent firewall  
+Now directly monitors the CC as an inline/transparent firewall  
 /proc/sys/net/bridge/bridge-nf-call-iptables should be 1 for layer 2 to 3 for firewall  
 The following describes operations but also shows how to use stunnel  
 Runs CCTV stream - install stunnel 4 - move key to /etc/stunnel - create stunnel.conf  
