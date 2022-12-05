@@ -20,6 +20,10 @@ sleep 72000
 #not sure how long it will take with a large log so run inline instead
 /usr/lib/cgi-bin/CAPTCHA
 
+#remove duplicate lines
+#not sure if this removes spaces
+sort -o /var/www/html/BLACKLIST_2.txt -u /var/www/html/BLACKLIST_2.txt 
+
 #fix apache log permissions
 chmod -R 777 /var/log/apache2/
 
