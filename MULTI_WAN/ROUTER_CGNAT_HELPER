@@ -30,11 +30,13 @@ INTERNET_CHECK_PRE=$(timeout 20 ping -c 2 8.8.8.8)
 INTERNET_CHECK=$(echo "$INTERNET_CHECK_PRE" | grep bytes | wc -l)
 if [ $INTERNET_CHECK -gt 0 ]
 then
+clear
 echo " Connection Pass"
 fi
 if [ $INTERNET_CHECK -lt 1 ]
 then
 
+clear
 echo " Connection Failure: Attempting to Fix"
 
 #set light to emergency signal
@@ -54,6 +56,7 @@ if [ $INTERNET_CHECK -gt 0 ]
 then
 #TIME=$(date | cut -d" " -f4)
 TIME=$(date | awk '{print $4}')
+clear
 echo " Connection Repaired: Time - $TIME"
 #reset light
 #sudo sh -c "echo 'default-on' >> /sys/devices/platform/leds/leds/led1/trigger"
