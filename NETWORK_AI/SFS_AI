@@ -89,7 +89,8 @@ then
 MEMORY_USE=$MEMORY_USE_2
 fi
 echo "Memory Use: $MEMORY_USE"
-if [ $MEMORY_USE -gt 50 ]
+#if [ $MEMORY_USE -gt 50 ]
+if [ $MEMORY_USE -gt 45 ]
 then
 #try to fix bugged restart sequence
 #give the program time to close
