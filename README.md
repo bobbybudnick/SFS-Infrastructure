@@ -8,7 +8,7 @@ https://github.com/bobbybudnick/SFS-Infrastructure/blob/main/SFS_NETWORK_WHITEPA
 
 The time had come to put some lessons learned in the major new expansion to the test.  Manageability, performance and blocking had become major concerns.  In terms of management there was a discordant arrangement of roles leading to some nodes being overloaded at their respective jobs.  Wiring had become a moderate issue and aesthetics and power draw were still in need of improvement.  Due to some legacy systems still in use and several nodes overloaded with jobs performance had taken a hit on the network overall.  Systems such as classic single board computers have been relegated to largely single task backup networking roles.  Blocking routines across the network were in need of a cleanup and being more aggressive at their task.  A blocklist unification was necessary along with identifying the need to block more problem areas.
 
-# Design rules and major features and improvements and hallmarks  
+**Design rules and major features and improvements and hallmarks**  
 multiple switch connections for high availability/redundancy/resiliency nodes  
 multiple wan connections for high availability/redundancy/resiliency nodes  
 all nodes employ a screen except for iot and layer 2 switches  
