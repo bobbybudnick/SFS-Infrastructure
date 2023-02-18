@@ -32,7 +32,7 @@ small custom ups systems drive 2 small systems and are dc to dc
 large custom ups systems drive 1 large system and use an inverter  
 multi wan and server connectivity improvements
 
-types of power - current - future relevant devices only  
+**Types of power - current - future relevant devices only**  
 usb from larger computer - monitor 1/cgnat cellular router/staging  
 commercial ac connection - companion 1 and 2  
 internal battery and custom ups - virtualization/workstation/media  
@@ -42,7 +42,7 @@ custom ups only - backup internet/static cellular router
 commercial ups only - gaming desktop/cable router/monitor 2  
 commercial ups and custom ups - core
 
-types of power - newest proposal  
+**Types of power - newest proposal**  
 classed as follows  
 1-internal battery/custom ups(inverter) - work/media  
 2-custom ups only(dc to dc) - virt/backup/static/cgnat  
@@ -50,13 +50,13 @@ classed as follows
 4-commercial ups only - gaming desktop/cable router/monitor2/core/monitor1  
 *uses a digital charger for now so is attached to ups to survive flickers
 
-windows lack of viability  
+**Windows lack of viability**  
 companion 1 was going to be used for cctv  
 however getting stunnel to work is going to be too much  
 also companion 1 has a slow old hard drive  
 also this is an opportunity to eliminate all commercial systems
 
-ksysguard network monitoring failures  
+**Ksysguard network monitoring failures**  
 5.24.6/5.95.0 is freebsd version and 5.20.5/5.78.0 is linux version  
 after cycling the ksysguard menu with ctrl-m on freebsd the window shrinks more  
 on linux the window does not shrink further  
@@ -64,7 +64,7 @@ possibly a problem with the version numbering
 thus the network monitoring applet must be larger and the bottom off screen  
 may have something to do with long network adapter names
 
-next gen blocking system  
+**Next gen blocking system**  
 bruce banner  
 important because blacklist 2 does not handle port scans or partial connections  
 this will heavily throw off those hacker search engines  
@@ -73,14 +73,14 @@ was going to run on monitor but may be better to run on core switch
 backup trigger for deactivation will be disabling the rule in the webgui remotely  
 green - no blocking/yellow - all but server 1 and 2/red - all servers
                                 
-recorder nightmares  
+**Recorder nightmares**  
 when vlc shows the error no space left on device it means usb is overwhelmed  
 unbelievably changing one of the webcams from the usb 3 to usb 2 ports worked  
 this is because the usb 2 and usb 3 controllers of some computers are separate  
 2 usb 3 ports will not work because they are not running at 3.0 bandwidth  
 a virtual usb 2 interface is shared among all usb 3 ports on same controller
 
-dc to dc problems  
+**DC to DC problems**  
 internal battery only makes sense on inverter powered systems with ac adapters  
 ac adapters do not allow for internal battery discharge alongside ups battery  
 charging the battery all the time would mean it discharges with ups battery  
@@ -90,7 +90,7 @@ dual battery advantage lost if power cut during transfer so should use one batte
 in extended outage or when doing system maintenance custom ups power can be lost  
 would be best to have a reliable battery transfer switch that does not lose power
 
-proxmox backup concept  
+**Proxmox backup concept**  
 mount ext4 usb drive manually  
 add mountpoint as storage folder in datacenter view  
 specify backups as option for this folder in datacenter view  
@@ -99,7 +99,7 @@ now the storage can be chosen as a backup location
 use stop as the most reliable mode for backup  
 there will be some delay before the backup as network scripts are run
 
-extra notes on server redundancy  
+**Extra notes on server redundancy**  
 scripts live in /var/lib/vz/snippets and are not backed up with vm  
 bind script - qm set 100 -hookscript local:snippets/SFS_SERVER_REDUNDANCY_1  
 script 1 is the scheduler for script 2 and persistency script  
@@ -108,7 +108,7 @@ persistency script also runs in parallel with the worker
 persistency script could be more accurately called the try again script  
 script 3 is the one for backup and listens for comms and pings
 
-konsole crash in swrast.dri.so on monitor 1  
+**Konsole crash in swrast.dri.so on monitor 1**  
 try opengl 2.0 - fail  
 try compositor on - fail  
 try opengl 3.1 - fail  
@@ -116,7 +116,7 @@ try xrender - fail
 use alternate terminal - pass  
 possibly related to the hacks needed to run pi 4 on pi 3 image
 
-core switch mixups  
+**Core switch mixups**  
 net.ifnames on vim 3 is set to 0 so the old ethernet naming scheme applies  
 one solution for the mixed up ethernet may be to go to the new scheme  
 but it is not clear how to edit the kernel command line  
@@ -124,7 +124,7 @@ it is too dangerous to try any editing the kernel command line anyway
 however editing /etc/udev/rules.d/70-persistent-net.rules works  
 need to reboot once after a reboot ideally to lower the resolution for some reason
 
-nossh initiative  
+**Nossh initiative**  
 ssh logins are a liability if a zero day exploit is found  
 the following nodes have no real reason for an ssh server  
 media  
@@ -144,7 +144,7 @@ internet server needs ssh as it is the outside ssh server
 monitor 3 needs ssh for firewall administration  
 storage server needs ssh for transfers from workstation
 
-inline firewall switching explanation  
+**Inline firewall switching explanation**  
 monitor 3 is always connected to switch with main ethernet on port 2  
 cc independence uplink goes into manual switch first  
 uplink is switched between independence switch and monitor 3 extra ethernet  
@@ -153,11 +153,11 @@ when manual switch is set to setting 2 then the uplink flows to monitor 3
 thus all traffic is forced to use monitor 3 for an uplink on setting 2  
 the manual switch does limit physically separated group interconnects to 100M
 
-proxmox required packages  
+**Proxmox required packages**  
 net-tools  
 iftop
 
-etherape responsiveness initial  
+**Etherape responsiveness initial**  
 this program was never meant to be pressed into being an ids  
 it only highlights new connections made after a certain time  
 with a busy network it often does not respond to test connections on server 1  
@@ -167,14 +167,14 @@ one fix is to reduce the timings in the etherape preferences timing section
 changing them all to 5 seconds is not bad  
 however the display is very busy
 
-etherape responsiveness conclusion  
+**Etherape responsiveness conclusion**  
 may be best to be more specific with grep searches for 192.168.1.8  
 that way no whitelist is needed  
 also the timing could be set to default or higher this way  
 a higher timing would make the display more readable  
 will be more responsive because whitelist will not be canceling some notices
 
-blocking overview  
+**Blocking overview**  
 BLACKLIST 1 - internet curated list - internet server  
 BLACKLIST 2 - SFS list - core switch  
 WHITELIST - SFS list - internet server  
@@ -185,7 +185,7 @@ trigger for BADFOLKS - any access during alert levels
 trigger for GREYFOLKS - any access without being on WHITELIST  
 trigger for WEBFOLKS - any access without being on WHITELIST
 
-restricted shell security upgrade program  
+**Restricted shell security upgrade program**  
 add ip to whitelist on successful login on internet server  
 log all attempts and compare to whitelist on internet server - no need  
 add restricted shell addresses to GREYFOLKS on core switch  
@@ -196,20 +196,20 @@ this method has the advantage of nabbing even portscans to ssh
 run even on condition green because connections to ssh are most egregious  
 this modifies the existing core switch scripts and does not require new scripts
 
-linphone quirks part deux  
+**Linphone quirks part deux**  
 be sure to set the "realm" or just called the server address below the login field  
 tls did not login successfully  
 tcp logged in successfuly but could not complete a call  
 udp works perfectly  
 missed call notifications in the program itself are dismissed with previously tab
 
-12v x86 sbc roundup  
+**12v x86 sbc roundup**  
 udoo x86 ultra  
 lattepanda delta 2/3/alpha  
 odroid h3/h3+  
 zima board
 
-webfolks implementation  
+**Webfolks implementation**  
 send port 80 SRC connections to iptables WEBFOLKS with logging only no blocking  
 check against whitelist after a time and add WEBFOLKS without a match to blacklist  
 disable blacklist on internet server because this is redundant now  
@@ -217,7 +217,7 @@ this has the advantage of grabbing even port scans to port 80
 similar disadvantage to existing in that it could run before captcha answered  
 run even during condition green due to traffic volume and need to differentiate  
 
-software changes  
+**Software changes**  
 customize amazon video to linux for media  
 setup stunnel for cctv on media (test client/server)  
 setup cctv script on media  
@@ -240,11 +240,11 @@ modify captcha agent for restricted shell security upgrade program
 modify captcha for restricted shell security upgrade program  
 added ssh helper for restricted shell security upgrade program
 
-security by obscurity  
+**Security by obscurity**  
 switch agent action  
 captcha
 
-sanitized  
+**Sanitized**  
 sms.py  
 worker 1  
 uploader.py  
@@ -255,7 +255,7 @@ central power administration
 central power administration listener  
 central power administration listener bsd
 
-to do - completed  
+**To do - completed**  
 break down former switch administration tablet  
 temporarily decomission ras and staging servers  
 decomission backup storage server  
