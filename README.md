@@ -277,7 +277,7 @@ remove commercial ups from desk 2
 move former gaming laptop in place of monitor 3  
 remove redundant connection from backup internet server  
 disable multi wan script on backup internet server  
-add audio device/hub/step down fan on companion 1  
+add audio device/hub/fan on companion 1  
 copy old ras 8gb drive to new ras-staging 256gb drive  
 move ras-staging in place and install desktop software  
 disable kwallet and calibrate touchscreen on ras-staging  
