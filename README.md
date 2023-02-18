@@ -203,7 +203,7 @@ tcp logged in successfuly but could not complete a call
 udp works perfectly  
 missed call notifications in the program itself are dismissed with previously tab
 
-**12v x86 sbc roundup**  
+**12v x86 SBC roundup**  
 udoo x86 ultra  
 lattepanda delta 2/3/alpha  
 odroid h3/h3+  
